@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>FishStack</title>
+<link rel="stylesheet" href="Register.css">
+</head>
+<body>
+
+<div class="container">
+
+    <!-- LADO IZQUIERDO -->
+    <div class="left">
+        <h1>FishStack</h1>
+    </div>
+
+    <!-- LADO DERECHO -->
+    <div class="right">
+
+        <div class="form-box" id="card">
+
+            <!-- FRENTE (LOGIN) -->
+            <div class="face front">
+                
+
+                <h2>Sign up FishStack</h2>
+
+                <input type="email" placeholder="Email">
+                <input type="password" placeholder="Password">
+                <input type="text" placeholder="Username">
+
+                <select>
+                    <option>Argentina</option>
+                    <option>Chile</option>
+                    <option>España</option>
+                    <option>Bolivia</option>
+                </select>
+
+                <button>Create account</button>
+
+                <p onclick="flipCard()">Ya tienes Cuenta? Sign Up</p>
+            </div>
+
+            <!-- ATRÁS (REGISTRO) -->
+            <div class="face back">
+                <h2>Login</h2>
+
+                <input type="email" placeholder="Email">
+                <input type="password" placeholder="Password">
+
+                <button>Login</button>
+
+                <p onclick="flipCard()">No tienes cuenta? Resgistrate</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+function flipCard() {
+    document.getElementById("card").classList.toggle("flip");
+}
+</script>
+
+</body>
+</html>

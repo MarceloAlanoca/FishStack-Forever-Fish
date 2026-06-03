@@ -1,0 +1,24 @@
+{
+  "name": "fishstack-forever-fish",
+  "version": "1.0.0",
+  "description": "Esta sera la version Remake de FishStack, programado por el grupo DevPlay Studio",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MarceloAlanoca/FishStack-Forever-Fish.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/MarceloAlanoca/FishStack-Forever-Fish/issues"
+  },
+  "homepage": "https://github.com/MarceloAlanoca/FishStack-Forever-Fish#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
