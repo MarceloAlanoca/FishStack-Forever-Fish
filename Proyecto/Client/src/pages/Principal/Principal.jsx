@@ -43,7 +43,7 @@ function Principal() {
 
   //EL FRONT END :V
   return (
-    <>
+    <main className="principal-page">
       <video id="bgVideo" autoPlay loop muted playsInline>
         <source
           src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260622_202655_a7f5aca0-2f80-4bc9-bcb5-96ac95662003.mp4"
@@ -196,7 +196,7 @@ function Principal() {
       >
         ↑
       </button>
-    </>
+    </main>
   );
 }
 

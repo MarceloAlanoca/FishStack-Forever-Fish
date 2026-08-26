@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { Op } = require("sequelize");
 
 const User = require("../models/userModel");
 
@@ -12,25 +13,42 @@ const register = async (req, res) => {
         const {
             Nombre,
             Apellido,
+            Correo,
             Nombre_Vista,
             Contraseña
         } = req.body;
 
-        if (!Nombre || !Apellido || !Nombre_Vista || !Contraseña) {
+        if (!Nombre || !Apellido || !Correo || !Nombre_Vista || !Contraseña) {
             return res.status(400).json({
                 message: "Todos los campos son obligatorios"
             });
         }
 
+        const correoNormalizado = Correo.trim().toLowerCase();
+        const formatoCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!formatoCorreo.test(correoNormalizado)) {
+            return res.status(400).json({
+                message: "El correo electrónico no es válido"
+            });
+        }
+
         const usuarioExistente = await User.findOne({
             where: {
-                Nombre_Vista: Nombre_Vista
+                [Op.or]: [
+                    { Nombre_Vista: Nombre_Vista.trim() },
+                    { Correo: correoNormalizado }
+                ]
             }
         });
 
         if (usuarioExistente) {
+            const campoDuplicado = usuarioExistente.Correo === correoNormalizado
+                ? "El correo electrónico ya está registrado"
+                : "El nombre de usuario ya existe";
+
             return res.status(400).json({
-                message: "El nombre de usuario ya existe"
+                message: campoDuplicado
             });
         }
 
@@ -39,7 +57,8 @@ const register = async (req, res) => {
         const newUser = await User.create({
             Nombre: Nombre,
             Apellido: Apellido,
-            Nombre_Vista: Nombre_Vista,
+            Correo: correoNormalizado,
+            Nombre_Vista: Nombre_Vista.trim(),
             Contraseña: hashedPassword,
             Rol: "Usuario"
         });
@@ -49,6 +68,7 @@ const register = async (req, res) => {
             usuario: {
                 id: newUser.ID_Usuario,
                 nombre: newUser.Nombre,
+                correo: newUser.Correo,
                 nombreVista: newUser.Nombre_Vista,
                 rol: newUser.Rol
             }

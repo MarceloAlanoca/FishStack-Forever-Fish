@@ -20,6 +20,15 @@ const User = sequelize.define(
             allowNull: false
         },
 
+        Correo: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true,
+            validate: {
+                isEmail: true
+            }
+        },
+
         Nombre_Vista: {
             type: DataTypes.STRING,
             allowNull: false,

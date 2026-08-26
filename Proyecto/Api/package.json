@@ -4,7 +4,8 @@
   "description": "Esta sera la version Remake de FishStack, programado por el grupo DevPlay Studio",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js --watch"
   },
   "repository": {
     "type": "git",

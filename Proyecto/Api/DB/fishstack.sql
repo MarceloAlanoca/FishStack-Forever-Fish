@@ -73,6 +73,7 @@ CREATE TABLE `usuarios` (
   `ID_Usuario` int(11) NOT NULL,
   `Nombre` varchar(255) DEFAULT NULL,
   `Apellido` varchar(255) DEFAULT NULL,
+  `Correo` varchar(255) DEFAULT NULL,
   `Nombre_Vista` varchar(255) DEFAULT NULL,
   `Contraseña` varchar(255) DEFAULT NULL,
   `Rol` varchar(255) DEFAULT NULL
@@ -106,7 +107,8 @@ ALTER TABLE `peces`
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`ID_Usuario`);
+  ADD PRIMARY KEY (`ID_Usuario`),
+  ADD UNIQUE KEY `uq_usuarios_correo` (`Correo`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
