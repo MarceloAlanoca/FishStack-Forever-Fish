@@ -4,7 +4,7 @@ const { Op } = require("sequelize");
 
 const User = require("../models/userModel");
 
-const SECRET = "losOG";
+const SECRET = process.env.JWT_SECRET || "losOG";
 
 
 const register = async (req, res) => {

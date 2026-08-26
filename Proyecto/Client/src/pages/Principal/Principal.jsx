@@ -41,7 +41,7 @@ function Principal() {
     })
   }
 
-  //EL FRONT END :V
+  // el front end :v
   return (
     <main className="principal-page">
       <video id="bgVideo" autoPlay loop muted playsInline>

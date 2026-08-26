@@ -33,8 +33,26 @@ al nombre REAL del archivo dentro de cada carpeta.
 }
 
 @font-face {
-    font-family: "EightBitOperator";
-    src: url("/fonts/8bitoperator_jve/8bitoperator_jve.ttf") format("truetype");
+    font-family: "8bitoperator";
+    src: url("/fonts/8bitoperator_jve.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Deltarune";
+    src: url("/fonts/deltarune.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "SuperMario";
+    src: url("/fonts/SuperMario256.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Fisch";
+    src: url("/fonts/fichs.otf") format("opentype");
 }
 
 
@@ -187,9 +205,10 @@ al nombre REAL del archivo dentro de cada carpeta.
 }
 
 .integrante-info h2 {
+    color: white;
     margin: 0;
-
-    font-size: 28px;
+    -webkit-text-stroke: 2px #3498db;
+    font-size: 38px;
 }
 
 .integrante-info h3 {
@@ -520,6 +539,11 @@ al nombre REAL del archivo dentro de cada carpeta.
     margin-bottom: 12px;
 
     font-size: 30px;
+    text-shadow:
+        -1px -1px 0 var(--borde-texto, #000),
+        1px -1px 0 var(--borde-texto, #000),
+        -1px 1px 0 var(--borde-texto, #000),
+        1px 1px 0 var(--borde-texto, #000);
 }
 
 .inspiracion-texto h3:first-child {
@@ -531,6 +555,11 @@ al nombre REAL del archivo dentro de cada carpeta.
 
     font-size: 18px;
     line-height: 1.8;
+    text-shadow:
+        -1px -1px 0 var(--borde-texto, #000),
+        1px -1px 0 var(--borde-texto, #000),
+        -1px 1px 0 var(--borde-texto, #000),
+        1px 1px 0 var(--borde-texto, #000);
 }
 
 
@@ -624,14 +653,14 @@ al nombre REAL del archivo dentro de cada carpeta.
     font-family: "Accanthis", serif;
     background: linear-gradient(135deg, #090a12, #1b1740);
     color: #dcd9ff;
-    border-color: #7770ad;
+    border-color: #ac27ef;
 }
 
 .inspiracion-card.tboi {
     font-family: "Upheaval", sans-serif;
     background: linear-gradient(135deg, #3b281f, #19100d);
-    color: #e5c7aa;
-    border-color: #6e4937;
+    color: #ff5050;
+    border-color: #d00101;
 }
 
 .inspiracion-card.grace {
@@ -649,10 +678,36 @@ al nombre REAL del archivo dentro de cada carpeta.
 }
 
 .inspiracion-card.undertale {
-    font-family: "EightBitOperator", monospace;
+    font-family: "8bitoperator", monospace;
     background: #000;
     color: #fff;
     border-color: #fff;
+}
+
+.inspiracion-card.undertale * {
+    font-family: "8bitoperator", monospace;
+}
+
+.inspiracion-card.deltarune {
+    font-family: "Deltarune", "8bitoperator", monospace;
+    background: linear-gradient(135deg, #08d7e8, #0877d1 58%, #10133d);
+    color: #ffffff;
+    border-color: #52d9ff;
+}
+
+.inspiracion-card.marioworld {
+    font-family: "SuperMario", "Upheaval", sans-serif;
+    background: linear-gradient(135deg, #fff31a, #59b83f 32%, #fb2512);
+    color: #ffffff;
+    border-color: #eaff2b;
+    --borde-texto: rgba(0, 0, 0, 0.85);
+}
+
+.inspiracion-card.fisch {
+    font-family: "Fisch", "FrontPage", serif;
+    background: linear-gradient(135deg, #172f3b, #386778 55%, #8eaa8d);
+    color: #f7f3a2;
+    border-color: #d9e46e;
 }
 
 

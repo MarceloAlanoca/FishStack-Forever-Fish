@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../../config/api";
 
 function Home() {
 
@@ -18,7 +19,7 @@ function Home() {
             try {
 
                 const respuesta = await fetch(
-                    "http://localhost:3000/api/auth/perfil",
+                    `${API_URL}/api/auth/perfil`,
                     {
                         method: "GET",
 

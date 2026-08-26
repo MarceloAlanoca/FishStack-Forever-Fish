@@ -70,8 +70,8 @@ function Credits() {
             video: "/videos/nullscape-gameplay.mp4",
             segundoInicio: 35,
             link: "https://www.roblox.com/es/games/129279692364812/Nullscape",
-            descripcion: "Nullscape es un juego de Roblox que utiliza escenarios surrealistas...",
-            inspiracion: "Nos inspiró principalmente para trabajar los fondos dinámicos..."
+            descripcion: "Nullscape es un juego de Roblox que es un RogueLike donde recoges regalos y asciendes niveles en un mundo vacio y subrealista",
+            inspiracion: "Nos inspiró principalmente para trabajar los fondos dinámicos y practicamente todo el modo forever fish."
         },
         {
             nombre: "The Binding of Isaac",
@@ -80,8 +80,8 @@ function Credits() {
             video: "/videos/tboi-gameplay.mp4",
             segundoInicio: 5,
             link: "https://store.steampowered.com/app/113200/The_Binding_of_Isaac/?l=spanish",
-            descripcion: "The Binding of Isaac es un roguelike centrado en explorar habitaciones, obtener objetos y crear combinaciones entre diferentes efectos.",
-            inspiracion: "Fue una referencia para pensar sistemas de objetos, amuletos, estadísticas y combinaciones que puedan modificar la forma de jugar."
+            descripcion: "The Binding of Isaac es un roguelike centrado en explorar habitaciones, obtener objetos y crear combinaciones entre diferentes items y activables.",
+            inspiracion: "Fue una referencia para pensar sistemas de objetos, amuletos, estadísticas y combinaciones que puedan modificar la forma de jugar. tambien algunas mejoras y maldiciones se inspiran de algunos existentes de TBOI"
         },
         {
             nombre: "GRACE",
@@ -90,8 +90,8 @@ function Credits() {
             video: "/videos/grace-gameplay.mp4",
             segundoInicio: 17,
             link: "https://www.roblox.com/es/games/138837502355157/Grace",
-            descripcion: "GRACE destaca por su identidad visual, ambientación y presentación de sus escenarios.",
-            inspiracion: "Nos sirvió como referencia para buscar una estética reconocible y una presentación más cuidada de los diferentes lugares del juego."
+            descripcion: "GRACE es una experiencia de Roblox, destaca por su identidad visual, ambientación y presentación de sus escenarios. Similar a Doors pero con una representacion biblica",
+            inspiracion: "Nos ayudo a hacer un par de enemigos, efectos y estilos de perks unicos dentro del modo forever fish"
         },
         {
             nombre: "Dredge",
@@ -101,7 +101,7 @@ function Credits() {
             segundoInicio: 0,
             link: "https://store.steampowered.com/app/1562430/DREDGE/?l=spanish",
             descripcion: "Dredge es un juego de pesca y exploración con una ambientación misteriosa y diferentes criaturas marinas.",
-            inspiracion: "Es una de las principales referencias para la temática de pesca, la variedad de peces, la exploración marítima y la ambientación."
+            inspiracion: "Es una de las principales referencias para la temática de pesca, la variedad de peces, la exploración marítima y la ambientación dentro del modo historia."
         },
         {
             nombre: "Undertale",
@@ -112,7 +112,39 @@ function Credits() {
             link: "https://store.steampowered.com/app/391540/Undertale/?l=spanish",
             descripcion: "Undertale es un RPG conocido por su pixel art, sus personajes y su forma de conectar distintas zonas mediante pequeños escenarios.",
             inspiracion: "Nos inspiró especialmente en la exploración 2D, la división del mundo en zonas y el estilo de interacción con personajes y escenarios."
+        },
+        {
+            nombre: "Deltarune",
+            clase: "deltarune",
+            portada: "/images/inspiraciones/deltarune-portada.jpg",
+            video: "/videos/deltarune-gameplay.mp4",
+            segundoInicio: 2,
+            link: "https://store.steampowered.com/app/1671210/DELTARUNE/",
+            descripcion: "Deltarune es un videojuego de rol (RPG) creado por el desarrollador independiente Toby Fox, ambientado en un mundo paralelo al de su popular obra anterior, Undertale",
+            inspiracion: "Nos inspiro para el sistema de vidas y uso de items dentro del modo historia (y practiacmente lo mismo como el apartado de undertale)",
+        },
+        {
+            nombre: "Mario World",
+            clase: "marioworld",
+            portada: "/images/inspiraciones/marioworld-portada.jpg",
+            video: "/videos/marioworld-gameplay.mp4",
+            segundoInicio: 5,
+            link: "https://www.nintendo.com/es-es/Juegos/Super-Nintendo/Super-Mario-World-752133.html?srsltid=AfmBOormaOWKvR0zaDnCD_-PA223i60qP8oTH1L_z2c-cv9WM8SpewlG",
+            descripcion: "Super Mario World es un clásico videojuego de plataformas en dos dimensiones donde Mario y su nuevo compañero, el dinosaurio Yoshi, deben rescatar a la Princesa Peach de las garras de Bowser",
+            inspiracion: "Nos inspiro mayormente para el formato de seleccion de mundos dentro del modo historia, y algunos peces y consumibles de su mundo tambien.",
+        },
+        {
+            nombre: "Fisch",
+            clase: "fisch",
+            portada: "/images/inspiraciones/fisch-portada.jpg",
+            video: "/videos/fisch-gameplay.mp4",
+            segundoInicio: 0,
+            link: "",
+            descripcion: "Fisch en Roblox es una experiencia de aventura y exploración de mundo abierto, cuyo objetivo principal es pescar para obtener ganancias, completar misiones y llenar un bestiario.",
+            inspiracion: "Practicamente la inspiracion del primer juego y de este ahora aun tambien, sus multiples items como cañas, barcos y cebos nos inspiro a hacer el modo historia. Tambien algunos peces extravagantes y graciosos que tenian nos ayudaron en el apartado artistico",
         }
+
+        // plantilla de inspiración: { nombre, clase, portada, video, segundoInicio, link, descripcion, inspiracion }
     ]
 
     const [inspiracionActual, setInspiracionActual] = useState(0)
@@ -176,10 +208,6 @@ function Credits() {
     return (
         <main className="credits">
 
-            {/* ========================= */}
-            {/* INTEGRANTES */}
-            {/* ========================= */}
-
             <section className="integrantes">
 
                 <div className="titulo-seccion">
@@ -221,7 +249,7 @@ function Credits() {
                                         variant="outlined"
                                         onClick={() => abrirModal(integrante)}
                                     >
-                                        Ver más
+                                        Detalle
                                     </Button>
                                 </div>
                             </div>
@@ -287,9 +315,7 @@ function Credits() {
             </section>
 
 
-            {/* ========================= */}
-            {/* INSPIRACIONES */}
-            {/* ========================= */}
+            {/* inspiraciones */}
 
             <section className="inspiraciones">
 
@@ -311,7 +337,7 @@ function Credits() {
                     className={`inspiracion-card ${inspiracion.clase}`}
                 >
 
-                    {/* FLECHA IZQUIERDA */}
+                    {/* flecha izquierda */}
 
                     <button
                         className="flecha flecha-izquierda"
@@ -322,9 +348,7 @@ function Credits() {
                     </button>
 
 
-                    {/* ========================= */}
-                    {/* PORTADA */}
-                    {/* ========================= */}
+                    {/* portada */}
 
                     <a
                         className="inspiracion-portada"
@@ -343,9 +367,7 @@ function Credits() {
                     </a>
 
 
-                    {/* ========================= */}
-                    {/* INFORMACIÓN */}
-                    {/* ========================= */}
+                    {/* información */}
 
                     <div className="inspiracion-info">
 
@@ -392,7 +414,7 @@ function Credits() {
                     </div>
 
 
-                    {/* FLECHA DERECHA */}
+                    {/* flecha derecha */}
 
                     <button
                         className="flecha flecha-derecha"
@@ -405,7 +427,7 @@ function Credits() {
                 </div>
 
 
-                {/* INDICADORES */}
+                {/* indicadores */}
 
                 <div className="indicadores">
 
