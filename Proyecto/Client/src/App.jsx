@@ -5,6 +5,7 @@ import Credits from "./pages/Credits/Credits"
 import Login from "./pages/Login/Login"
 import Register from "./pages/Register/Register"
 import Home from "./pages/Home/Home"
+import Game from "./pages/Game/Game"
 
 import ProtectedRoute from "./components/ProtectedRoute"
 
@@ -39,6 +40,11 @@ function App() {
                         <Home />
                     </ProtectedRoute>
                 }
+            />
+
+            <Route
+                path="/game"
+                element={<Game />}
             />
 
         </Routes>
