@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { Modal, Box, Typography, Button } from "@mui/material"
 import Hls from "hls.js"
+import Header from "../../components/Header/Header"
 import "./Credits.css"
 
 function Credits() {
@@ -206,7 +207,12 @@ function Credits() {
     }, [modalAbierto])
 
     return (
-        <main className="credits">
+        <>
+            <div className="credits-header">
+                <Header />
+            </div>
+
+            <main className="credits">
 
             <section className="integrantes">
 
@@ -452,7 +458,8 @@ function Credits() {
 
             </section>
 
-        </main>
+            </main>
+        </>
     )
 }
 

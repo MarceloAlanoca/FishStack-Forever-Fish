@@ -1,6 +1,6 @@
 import { useRef, useState } from "react"
-import { Link } from "react-router-dom"
 
+import Header from "../../components/Header/Header"
 import "./Game.css"
 
 function Game() {
@@ -17,11 +17,11 @@ function Game() {
 
     return (
         <main className="game-page">
-            <header className="game-toolbar">
-                <Link className="game-back" to="/">
-                    ← Volver
-                </Link>
+            <div className="game-header">
+                <Header />
+            </div>
 
+            <div className="game-toolbar">
                 <div className="game-title">
                     <span className="game-status" aria-hidden="true" />
                     <strong>FishStack: Forever Fish</strong>
@@ -35,7 +35,7 @@ function Game() {
                 >
                     Pantalla completa
                 </button>
-            </header>
+            </div>
 
             <section className="game-stage" aria-label="Juego FishStack">
                 {cargando && (

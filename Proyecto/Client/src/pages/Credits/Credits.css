@@ -61,6 +61,10 @@ al nombre REAL del archivo dentro de cada carpeta.
 /* PÁGINA */
 /* =============================== */
 
+.credits-header {
+    padding: 0 7%;
+}
+
 .credits {
     width: 100%;
     min-height: 100vh;
@@ -741,6 +745,10 @@ al nombre REAL del archivo dentro de cada carpeta.
 
 
 @media (max-width: 600px) {
+
+    .credits-header {
+        padding: 0 20px;
+    }
 
     .credits {
         padding: 50px 20px;
