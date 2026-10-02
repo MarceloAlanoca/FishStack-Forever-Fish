@@ -179,6 +179,8 @@ function Credits() {
         )
     }
 
+    const inspiracion = inspiraciones[inspiracionActual]
+
     useEffect(() => {
 
         const video = videoRef.current
@@ -198,9 +200,7 @@ function Credits() {
             video.addEventListener("loadedmetadata", colocarTiempo, { once: true })
         }
 
-    }, [inspiracionActual])
-
-    const inspiracion = inspiraciones[inspiracionActual]
+    }, [inspiracionActual, inspiracion.segundoInicio])
 
     useEffect(() => {
         if (!modalAbierto || !modalVideoRef.current) return
