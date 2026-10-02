@@ -20,6 +20,19 @@ function Credits() {
         setModalAbierto(false)
     }
 
+    const moverFondo = (event) => {
+        const movimientoX = (event.clientX / window.innerWidth - 0.5) * -18
+        const movimientoY = (event.clientY / window.innerHeight - 0.5) * -12
+
+        event.currentTarget.style.setProperty("--background-x", `${movimientoX}px`)
+        event.currentTarget.style.setProperty("--background-y", `${movimientoY}px`)
+    }
+
+    const centrarFondo = (event) => {
+        event.currentTarget.style.setProperty("--background-x", "0px")
+        event.currentTarget.style.setProperty("--background-y", "0px")
+    }
+
     const integrantes = [
         {
             id: 1,
@@ -39,7 +52,7 @@ function Credits() {
             detalle: "Trabajó principalmente en distintas partes relacionadas con el apartado visual del proyecto.",
             aporte: "Ayudó a construir la identidad visual, lore y promocion del juego.",
             imagen: "/images/Integrantes/Gael.jpg",
-            video: "/videos/Integrantes/cobra.mp4"
+            video: "/videos/Integrantes/Fondo2.mp4"
         },
         {
             id: 3,
@@ -49,7 +62,7 @@ function Credits() {
             detalle: ".",
             aporte: "",
             imagen: "/images/Integrantes/Marcelo.jpg",
-            video: "/videos/Integrantes/bruh.mp4"
+            video: "/videos/Integrantes/Fondo3.mp4"
         },
         {
             id: 4,
@@ -59,7 +72,7 @@ function Credits() {
             detalle: "Trabajó en elementos relacionados con música y ambientación del juego.",
             aporte: "Su trabajo ayudó a darle personalidad sonora a los diferentes escenarios.",
             imagen: "/images/Integrantes/John.jpg",
-            video: "/videos/Integrantes/aqua.mp4"
+            video: "/videos/Integrantes/Fondo4.mp4"
         }
     ]
 
@@ -207,7 +220,11 @@ function Credits() {
     }, [modalAbierto])
 
     return (
-        <>
+        <div
+            className="credits-page"
+            onMouseMove={moverFondo}
+            onMouseLeave={centrarFondo}
+        >
             <div className="credits-header">
                 <Header />
             </div>
@@ -459,7 +476,7 @@ function Credits() {
             </section>
 
             </main>
-        </>
+        </div>
     )
 }
 

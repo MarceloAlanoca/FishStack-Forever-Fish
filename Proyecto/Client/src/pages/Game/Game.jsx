@@ -15,8 +15,25 @@ function Game() {
         }
     }
 
+    const moverFondo = (event) => {
+        const movimientoX = (event.clientX / window.innerWidth - 0.5) * -18
+        const movimientoY = (event.clientY / window.innerHeight - 0.5) * -12
+
+        event.currentTarget.style.setProperty("--background-x", `${movimientoX}px`)
+        event.currentTarget.style.setProperty("--background-y", `${movimientoY}px`)
+    }
+
+    const centrarFondo = (event) => {
+        event.currentTarget.style.setProperty("--background-x", "0px")
+        event.currentTarget.style.setProperty("--background-y", "0px")
+    }
+
     return (
-        <main className="game-page">
+        <main
+            className="game-page"
+            onMouseMove={moverFondo}
+            onMouseLeave={centrarFondo}
+        >
             <div className="game-header">
                 <Header />
             </div>
@@ -25,7 +42,7 @@ function Game() {
                 <div className="game-title">
                     <span className="game-status" aria-hidden="true" />
                     <strong>FishStack: Forever Fish</strong>
-                    <small>Alpha</small>
+                    <small>DEMO</small>
                 </div>
 
                 <button
@@ -41,7 +58,7 @@ function Game() {
                 {cargando && (
                     <div className="game-loading" role="status">
                         <span className="game-loader" />
-                        <p>Cargando la alpha…</p>
+                        <p>Cargando la demo…</p>
                         <small>La primera carga puede tardar un poco.</small>
                     </div>
                 )}

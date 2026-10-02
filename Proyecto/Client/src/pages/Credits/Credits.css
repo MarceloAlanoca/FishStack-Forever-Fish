@@ -61,11 +61,46 @@ al nombre REAL del archivo dentro de cada carpeta.
 /* PÁGINA */
 /* =============================== */
 
+#root:has(> .credits-page) {
+    width: 100%;
+    max-width: none;
+    border: 0;
+}
+
+.credits-page {
+    --background-x: 0px;
+    --background-y: 0px;
+
+    position: relative;
+    isolation: isolate;
+    width: 100%;
+    min-height: 100svh;
+    overflow: hidden;
+    box-sizing: border-box;
+    background: #07131b;
+}
+
+.credits-page::before {
+    content: "";
+    position: fixed;
+    inset: -25px;
+    z-index: 0;
+    pointer-events: none;
+    background: url("/images/Backgrounds/Credits.png") center / cover;
+    transform: translate3d(var(--background-x), var(--background-y), 0) scale(1.04);
+    transition: transform 0.22s ease-out;
+    will-change: transform;
+}
+
 .credits-header {
-    padding: 0 7%;
+    position: relative;
+    z-index: 1;
+    width: 100%;
 }
 
 .credits {
+    position: relative;
+    z-index: 1;
     width: 100%;
     min-height: 100vh;
 
@@ -746,10 +781,6 @@ al nombre REAL del archivo dentro de cada carpeta.
 
 @media (max-width: 600px) {
 
-    .credits-header {
-        padding: 0 20px;
-    }
-
     .credits {
         padding: 50px 20px;
     }
@@ -781,5 +812,11 @@ al nombre REAL del archivo dentro de cada carpeta.
         flex-direction: column;
 
         text-align: center;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .credits-page::before {
+        transition: none;
     }
 }

@@ -1,15 +1,42 @@
+#root:has(> .game-page) {
+    width: 100%;
+    max-width: none;
+    border: 0;
+}
+
 .game-page {
+    --background-x: 0px;
+    --background-y: 0px;
+
+    position: relative;
+    isolation: isolate;
     width: 100%;
     min-height: 100svh;
-    padding: 18px;
+    padding: 0 18px 18px;
+    overflow: hidden;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     gap: 14px;
     color: #eef7ff;
-    background:
-        radial-gradient(circle at 50% 0%, rgba(25, 112, 140, 0.28), transparent 42%),
-        #07131b;
+    background: #07131b;
+}
+
+.game-page::before {
+    content: "";
+    position: fixed;
+    inset: -25px;
+    z-index: 0;
+    pointer-events: none;
+    background: url("/images/Backgrounds/Game.png") center / cover;
+    transform: translate3d(var(--background-x), var(--background-y), 0) scale(1.04);
+    transition: transform 0.22s ease-out;
+    will-change: transform;
+}
+
+.game-page > * {
+    position: relative;
+    z-index: 1;
 }
 
 .game-toolbar {
@@ -45,8 +72,8 @@
 }
 
 .game-header {
-    width: min(100%, 1280px);
-    margin: 0 auto;
+    width: calc(100% + 36px);
+    margin: 0 -18px;
 }
 
 .game-title {
@@ -140,7 +167,12 @@
 
 @media (max-width: 700px) {
     .game-page {
-        padding: 10px;
+        padding: 0 10px 10px;
+    }
+
+    .game-header {
+        width: calc(100% + 20px);
+        margin: 0 -10px;
     }
 
     .game-toolbar {
@@ -158,5 +190,11 @@
 
     .game-hint {
         display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .game-page::before {
+        transition: none;
     }
 }
