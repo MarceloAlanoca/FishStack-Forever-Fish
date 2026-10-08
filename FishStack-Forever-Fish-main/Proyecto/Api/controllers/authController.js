@@ -1,0 +1,162 @@
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const { Op } = require("sequelize");
+
+const User = require("../models/userModel");
+
+const SECRET = process.env.JWT_SECRET || "losOG";
+
+
+const register = async (req, res) => {
+    try {
+
+        const {
+            Nombre,
+            Apellido,
+            Correo,
+            Nombre_Vista,
+            Contraseña
+        } = req.body;
+
+        if (!Nombre || !Apellido || !Correo || !Nombre_Vista || !Contraseña) {
+            return res.status(400).json({
+                message: "Todos los campos son obligatorios"
+            });
+        }
+
+        const correoNormalizado = Correo.trim().toLowerCase();
+        const formatoCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!formatoCorreo.test(correoNormalizado)) {
+            return res.status(400).json({
+                message: "El correo electrónico no es válido"
+            });
+        }
+
+        const usuarioExistente = await User.findOne({
+            where: {
+                [Op.or]: [
+                    { Nombre_Vista: Nombre_Vista.trim() },
+                    { Correo: correoNormalizado }
+                ]
+            }
+        });
+
+        if (usuarioExistente) {
+            const campoDuplicado = usuarioExistente.Correo === correoNormalizado
+                ? "El correo electrónico ya está registrado"
+                : "El nombre de usuario ya existe";
+
+            return res.status(400).json({
+                message: campoDuplicado
+            });
+        }
+
+        const hashedPassword = await bcrypt.hash(Contraseña, 12);
+
+        const newUser = await User.create({
+            Nombre: Nombre,
+            Apellido: Apellido,
+            Correo: correoNormalizado,
+            Nombre_Vista: Nombre_Vista.trim(),
+            Contraseña: hashedPassword,
+            Rol: "Usuario"
+        });
+
+        res.status(201).json({
+            message: "Usuario registrado con exito",
+            usuario: {
+                id: newUser.ID_Usuario,
+                nombre: newUser.Nombre,
+                correo: newUser.Correo,
+                nombreVista: newUser.Nombre_Vista,
+                rol: newUser.Rol
+            }
+        });
+
+    } catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+            message: "Error en el servidor",
+            error: error.message
+        });
+
+    }
+};
+
+
+const login = async (req, res) => {
+    try {
+
+        const {
+            Nombre_Vista,
+            Contraseña
+        } = req.body;
+
+        if (!Nombre_Vista || !Contraseña) {
+            return res.status(400).json({
+                message: "Usuario y contraseña requeridos"
+            });
+        }
+
+        const user = await User.findOne({
+            where: {
+                Nombre_Vista: Nombre_Vista
+            }
+        });
+
+        if (!user) {
+            return res.status(400).json({
+                message: "Credenciales incorrectas"
+            });
+        }
+
+        const isMatch = await bcrypt.compare(
+            Contraseña,
+            user.Contraseña
+        );
+
+        if (!isMatch) {
+            return res.status(400).json({
+                message: "Credenciales incorrectas"
+            });
+        }
+
+        const payload = {
+            id: user.ID_Usuario,
+            nombreVista: user.Nombre_Vista,
+            rol: user.Rol
+        };
+
+        const token = jwt.sign(
+            payload,
+            SECRET,
+            {
+                expiresIn: "1h"
+            }
+        );
+
+        res.status(200).json({
+            message: "Login correcto",
+            token: token
+        });
+
+    } catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+            message: "Error en el servidor",
+            error: error.message
+        });
+
+    }
+};
+
+
+module.exports = {
+    register,
+    login
+};
