@@ -54,6 +54,10 @@ al nombre REAL del archivo dentro de cada carpeta.
     font-family: "Fisch";
     src: url("/fonts/fichs.otf") format("opentype");
 }
+@font-face {
+    font-family: "StardewValley";
+    src: url("/fonts/deltarune.tff") format("truetype");
+}
 
 
 
