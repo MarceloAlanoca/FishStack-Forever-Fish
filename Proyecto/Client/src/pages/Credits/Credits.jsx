@@ -153,9 +153,19 @@ function Credits() {
             portada: "/images/inspiraciones/fisch-portada.jpg",
             video: "/videos/fisch-gameplay.mp4",
             segundoInicio: 0,
-            link: "",
+            link: "https://www.roblox.com/es/games/16732694052/Fisch",
             descripcion: "Fisch en Roblox es una experiencia de aventura y exploración de mundo abierto, cuyo objetivo principal es pescar para obtener ganancias, completar misiones y llenar un bestiario.",
             inspiracion: "Practicamente la inspiracion del primer juego y de este ahora aun tambien, sus multiples items como cañas, barcos y cebos nos inspiro a hacer el modo historia. Tambien algunos peces extravagantes y graciosos que tenian nos ayudaron en el apartado artistico",
+        },
+        {
+            nombre: "Stardew Valley",
+            clase: "stardewvalley",
+            portada: "/images/inspiraciones/stardewvalley-portada.jpg",
+            video: "/videos/stardewvalley-gameplay.mp4",
+            segundoInicio: 0,
+            link: "https://store.steampowered.com/app/413150/Stardew_Valley/?l=spanish",
+            descripcion: "Stardew Valley es un videojuego indie de simulación de granja y rol creado y desarrollado por Eric \"ConcernedApe\" Barone, lanzado originalmente en 2016. En el juego, los jugadores asumen el papel de un personaje que hereda una granja en ruinas y deben trabajar para restaurarla y convertirla en un próspero negocio agrícola.",
+            inspiracion: "Nos inspiro para el sistema de pesca, la variedad de peces y la forma en que se pueden obtener distintos recursos y objetos dentro del modo historia, como los alimentos.",
         }
 
         // plantilla de inspiración: { nombre, clase, portada, video, segundoInicio, link, descripcion, inspiracion }
