@@ -752,6 +752,12 @@ al nombre REAL del archivo dentro de cada carpeta.
     color: #f7f3a2;
     border-color: #d9e46e;
 }
+.inspiracion-card.stardewvalley {
+    font-family: "StardewValley", "FrontPage", serif;
+    background: linear-gradient(135deg, #172f3b, #386778 55%, #8eaa8d);
+    color: #f7f3a2;
+    border-color: #d9e46e;
+}
 
 
 /* =============================== */
