@@ -5,6 +5,7 @@ import Credits from "./pages/Credits/Credits"
 import Login from "./pages/Login/Login"
 import Register from "./pages/Register/Register"
 import Home from "./pages/Home/Home"
+import Profile from "./pages/Profile/Profile"
 import Game from "./pages/Game/Game"
 
 import ProtectedRoute from "./components/ProtectedRoute"
@@ -46,6 +47,8 @@ function App() {
                 path="/game"
                 element={<Game />}
             />
+
+            <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
 
         </Routes>
     )

@@ -79,37 +79,10 @@
 .home-bubble--two { left: 72%; animation-delay: -4s; width: 16px; height: 16px; }
 .home-bubble--three { left: 88%; animation-delay: -7s; }
 
-.home-welcome,
 .home-dashboard,
 .home-footer {
     position: relative;
     z-index: 1;
-}
-
-.home-welcome {
-    padding: 34px 0 25px;
-}
-
-.home-welcome p,
-.home-panel__title small {
-    color: var(--sea-blue);
-    font-size: 0.78rem;
-    letter-spacing: 0.18em;
-}
-
-.home-welcome h1 {
-    margin: 4px 0;
-    color: var(--foam);
-    font-family: "Home Pixel", monospace;
-    font-size: clamp(2.3rem, 5vw, 4rem);
-    font-weight: 400;
-    letter-spacing: 0.02em;
-    line-height: 1;
-    text-shadow: 3px 3px 0 #062238;
-}
-
-.home-welcome > span {
-    color: #abd1d8;
 }
 
 .home-dashboard {
@@ -117,7 +90,7 @@
     grid-template-columns: minmax(230px, 0.85fr) minmax(320px, 1.25fr) minmax(230px, 0.9fr);
     gap: 18px;
     max-width: 1400px;
-    margin: 0 auto;
+    margin: 30px auto 0;
 }
 
 .home-panel {
@@ -154,6 +127,9 @@
 .home-panel__title small {
     position: absolute;
     right: 15px;
+    color: var(--sea-blue);
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
 }
 
 .home-ad {
@@ -635,11 +611,7 @@
         padding: 0 14px;
     }
 
-    .home-welcome {
-        padding-top: 24px;
-    }
-
-    .home-dashboard {
+.home-dashboard {
         grid-template-columns: 1fr;
     }
 

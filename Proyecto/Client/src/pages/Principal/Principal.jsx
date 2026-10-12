@@ -1,6 +1,40 @@
 import "./Principal.css";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { API_URL } from "../../config/api";
 
 function Principal() {
+  const navigate = useNavigate()
+  const [comprobandoSesion, setComprobandoSesion] = useState(false)
+  const [errorSesion, setErrorSesion] = useState("")
+
+  const entrarAlMundo = async () => {
+    if (comprobandoSesion) return
+    const token = localStorage.getItem("token")
+    if (!token) {
+      navigate("/login")
+      return
+    }
+    setComprobandoSesion(true)
+    setErrorSesion("")
+    try {
+      await axios.get(`${API_URL}/me`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      navigate("/home")
+    } catch (error) {
+      if ([401, 403, 404].includes(error.response?.status)) {
+        localStorage.removeItem("token")
+        navigate("/login")
+      } else {
+        setErrorSesion("No se pudo comprobar tu sesión. Inténtalo de nuevo.")
+      }
+    } finally {
+      setComprobandoSesion(false)
+    }
+  }
+
   const moverLogo = (event) => {
     const imagen = event.currentTarget
     const rect = imagen.getBoundingClientRect()
@@ -67,9 +101,10 @@ function Principal() {
 
           <h2 className="subtitle">Forever Fish</h2>
 
-          <a href="/login" className="enter-btn">
-            Entrar al Mundo
-          </a>
+          <button type="button" className="enter-btn" onClick={entrarAlMundo} disabled={comprobandoSesion}>
+            {comprobandoSesion ? "Comprobando sesión…" : "Entrar al Mundo"}
+          </button>
+          {errorSesion && <p className="principal-session-error" role="alert">{errorSesion}</p>}
         </div>
       </section>
       <section className="info-section">

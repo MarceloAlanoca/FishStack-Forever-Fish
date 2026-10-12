@@ -40,6 +40,11 @@ const User = sequelize.define(
             allowNull: false
         },
 
+        Foto_Perfil: {
+            type: DataTypes.TEXT("medium"),
+            allowNull: true
+        },
+
         Rol: {
             type: DataTypes.STRING,
             allowNull: false,

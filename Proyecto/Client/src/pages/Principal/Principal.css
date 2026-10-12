@@ -164,6 +164,9 @@ body {
   transform: scale(1.1);
 }
 
+.enter-btn:disabled { cursor: wait; opacity: 0.75; transform: none; }
+.principal-session-error { margin-top: 16px; color: #ffd1d1; }
+
 @media (max-width: 600px) {
   .hero-section {
     padding: 24px 14px;

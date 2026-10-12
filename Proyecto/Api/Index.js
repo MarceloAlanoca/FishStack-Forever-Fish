@@ -4,8 +4,9 @@ const cors = require("cors");
 const { sequelize } = require("./config/db");
 
 const { sayHello } = require("./controllers/sayHello");
-const { getUsers, getUserById, me, registerUser, login } = require("./controllers/user");
+const { getUsers, getUserById, me, updateProfilePhoto, registerUser, login } = require("./controllers/user");
 const { isAuth } = require("./middlewares/auth");
+const { updateUsername, updatePassword, updateSurname } = require("./controllers/profileAccount");
 
 const server = express();
 
@@ -14,13 +15,17 @@ server.use(cors({
     origin: process.env.CLIENT_ORIGIN || "http://localhost:5173"
 }));
 
-server.use(express.json());
+server.use(express.json({ limit: "1mb" }));
 
 
 server.get('/', sayHello);
 server.get('/users/:id', isAuth, getUserById);
 server.get('/users', isAuth, getUsers);
 server.get('/me', isAuth, me);
+server.patch('/me/photo', isAuth, updateProfilePhoto);
+server.patch('/me/username', isAuth, updateUsername);
+server.patch('/me/surname', isAuth, updateSurname);
+server.patch('/me/password', isAuth, updatePassword);
 server.post('/users', registerUser);
 server.post('/login', login);
 
@@ -42,6 +47,14 @@ const iniciarServidor = async () => {
         }
 
         await sequelize.sync();
+        // Agregar solo el nuevo campo sin modificar las cuentas existentes.
+        const columns = await sequelize.getQueryInterface().describeTable("usuarios");
+        if (!columns.Foto_Perfil) {
+            await sequelize.getQueryInterface().addColumn("usuarios", "Foto_Perfil", {
+                type: require("sequelize").DataTypes.TEXT("medium"),
+                allowNull: true
+            });
+        }
 
         const puerto = Number(process.env.PORT) || 3000;
 

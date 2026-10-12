@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 import Header from "../../components/Header/Header"
 import "./Game.css"
@@ -6,6 +6,15 @@ import "./Game.css"
 function Game() {
     const frameRef = useRef(null)
     const [cargando, setCargando] = useState(true)
+    const [disponible, setDisponible] = useState(null)
+
+    useEffect(() => {
+        const controller = new AbortController()
+        fetch("/fishstack-alpha/index.html", { method: "HEAD", signal: controller.signal })
+            .then((response) => setDisponible(response.ok))
+            .catch(() => { if (!controller.signal.aborted) setDisponible(false) })
+        return () => controller.abort()
+    }, [])
 
     const activarPantallaCompleta = async () => {
         try {
@@ -49,13 +58,20 @@ function Game() {
                     className="game-fullscreen"
                     type="button"
                     onClick={activarPantallaCompleta}
+                    disabled={!disponible}
                 >
                     Pantalla completa
                 </button>
             </div>
 
             <section className="game-stage" aria-label="Juego FishStack">
-                {cargando && (
+                {disponible === false && (
+                    <div className="game-loading" role="status">
+                        <p>El juego todavía no está disponible.</p>
+                        <small>La demo volverá cuando incorporemos la nueva exportación.</small>
+                    </div>
+                )}
+                {disponible !== false && cargando && (
                     <div className="game-loading" role="status">
                         <span className="game-loader" />
                         <p>Cargando la demo…</p>
@@ -63,14 +79,14 @@ function Game() {
                     </div>
                 )}
 
-                <iframe
+                {disponible && <iframe
                     ref={frameRef}
                     className="game-frame"
                     src="/fishstack-alpha/index.html"
                     title="FishStack: Forever Fish — Alpha"
                     allow="autoplay; fullscreen; gamepad"
                     onLoad={() => setCargando(false)}
-                />
+                />}
             </section>
 
             <p className="game-hint">

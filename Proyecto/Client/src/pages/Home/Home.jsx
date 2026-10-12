@@ -145,7 +145,9 @@ function Home() {
     const acceso = accesosDirectorio[accesoActual]
 
     const interactuarConAcceso = () => {
-        mostrarProximamente(acceso.nombre)
+        if (acceso.nombre === "Perfil") navigate("/profile")
+        else if (acceso.nombre === "Creditos") navigate("/credits")
+        else mostrarProximamente(acceso.nombre)
         setReinicioAcceso((valorActual) => valorActual + 1)
     }
 
@@ -164,15 +166,9 @@ function Home() {
                 <span className="home-bubble home-bubble--three" />
             </div>
 
-            <Header />
+            <Header usuario={usuario} />
 
-            <section className="home-welcome">
-                <p>PUERTO PRINCIPAL</p>
-                <h1>Bienvenido, {usuario?.Nombre_Vista || "Pescador"}</h1>
-                <span>Elige tu proximo destino.</span>
-            </section>
-
-            <section className="home-dashboard">
+<section className="home-dashboard">
                 <article className="home-panel home-ad">
                     <div className="home-panel__title">
                         <span>Anuncios</span>

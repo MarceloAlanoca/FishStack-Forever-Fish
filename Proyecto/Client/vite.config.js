@@ -19,13 +19,14 @@ const contentTypes = {
 }
 
 function fishStackAlpha() {
-  const serveGame = (request, response, next) => {
+  const serveGame = (request, response) => {
     const pathname = decodeURIComponent((request.url || '/').split('?')[0])
     const relativePath = pathname === '/' ? 'index.html' : pathname.replace(/^\/+/, '')
     const filePath = resolve(gameDirectory, relativePath)
 
     if (!filePath.startsWith(`${gameDirectory}${sep}`) || !existsSync(filePath) || !statSync(filePath).isFile()) {
-      next()
+      response.statusCode = 404
+      response.end('Exportacion del juego no disponible')
       return
     }
 
