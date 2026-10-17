@@ -37,6 +37,7 @@ function Principal() {
 
   const moverLogo = (event) => {
     const imagen = event.currentTarget
+    // obtiene los limites de la imagen, para medir el mouse respecto de su centro.
     const rect = imagen.getBoundingClientRect()
 
     const x = event.clientX - rect.left
@@ -47,6 +48,7 @@ function Principal() {
 
     const intensidad = 25
 
+    // transforma la distancia al centro en grados de inclinacion, limitados por la intensidad.
     const rotX =
       ((y - centroY) / centroY) * -intensidad
 

@@ -7,6 +7,7 @@ export default function useCurrentUser(enabled = true) {
     const [estado, setEstado] = useState("loading")
     useEffect(() => {
         if (!enabled) return
+        // permite cancelar la consulta si el componente se desmonta antes de recibir la respuesta.
         const controller = new AbortController()
         const token = localStorage.getItem("token")
         if (!token) return
@@ -17,6 +18,7 @@ export default function useCurrentUser(enabled = true) {
             setUsuario(data)
             setEstado("ready")
         }).catch((error) => {
+            // una cancelacion al salir de la pagina no se muestra como un error de sesion.
             if (controller.signal.aborted) return
             setEstado([401, 403, 404].includes(error.response?.status) ? "unauthorized" : "error")
         })

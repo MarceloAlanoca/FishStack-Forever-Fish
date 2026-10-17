@@ -95,6 +95,7 @@ function Home() {
     useEffect(() => {
         const intervalo = setInterval(() => {
             setDireccionAnuncio("siguiente")
+            // el resto de la division vuelve al primer anuncio, al llegar al final de la lista.
             setAnuncioActual((anterior) => (anterior + 1) % anuncios.length)
         }, 15000)
 
@@ -116,10 +117,12 @@ function Home() {
     const cambiarAnuncio = (nuevoAnuncio, direccion) => {
         setDireccionAnuncio(direccion)
         setAnuncioActual(nuevoAnuncio)
+        // cambia la dependencia del efecto, para reiniciar el temporizador tras una seleccion manual.
         setReinicioAnuncio((valorActual) => valorActual + 1)
     }
 
     const moverFondo = (event) => {
+        // centra la posicion del mouse y actualiza las variables css que desplazan el fondo.
         const movimientoX = (event.clientX / window.innerWidth - 0.5) * -18
         const movimientoY = (event.clientY / window.innerHeight - 0.5) * -12
 

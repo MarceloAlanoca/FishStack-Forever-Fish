@@ -21,6 +21,7 @@ function Credits() {
     }
 
     const moverFondo = (event) => {
+        // centra la posicion del mouse y actualiza las variables css que desplazan el fondo.
         const movimientoX = (event.clientX / window.innerWidth - 0.5) * -18
         const movimientoY = (event.clientY / window.innerHeight - 0.5) * -12
 
@@ -168,7 +169,7 @@ function Credits() {
             inspiracion: "Nos inspiro para el sistema de pesca, la variedad de peces y la forma en que se pueden obtener distintos recursos y objetos dentro del modo historia, como los alimentos.",
         }
 
-        // plantilla de inspiración: { nombre, clase, portada, video, segundoInicio, link, descripcion, inspiracion }
+        // plantilla de inspiracion: { nombre, clase, portada, video, segundoInicio, link, descripcion, inspiracion }
     ]
 
     const [inspiracionActual, setInspiracionActual] = useState(0)
@@ -204,6 +205,7 @@ function Credits() {
             })
         }
 
+        // el estado 1 indica que los metadatos estan disponibles, y ya se puede elegir el segundo inicial.
         if (video.readyState >= 1) {
             colocarTiempo()
         } else {
@@ -218,6 +220,7 @@ function Credits() {
         const video = modalVideoRef.current
         const src = "https://stream.mux.com/Jwr2RhmsNrd6GEspBNgm02vJsRZAGlaoQIh4AucGdASw.m3u8"
 
+        // usa la reproduccion nativa si existe, o hls.js para reproducir el video por segmentos.
         if (video.canPlayType("application/vnd.apple.mpegurl")) {
             video.src = src
         } else if (Hls.isSupported()) {
@@ -225,6 +228,7 @@ function Credits() {
             hls.loadSource(src)
             hls.attachMedia(video)
 
+            // libera el reproductor y sus descargas, al cerrar el modal.
             return () => hls.destroy()
         }
     }, [modalAbierto])
@@ -400,7 +404,7 @@ function Credits() {
                     </a>
 
 
-                    {/* información */}
+                    {/* informacion */}
 
                     <div className="inspiracion-info">
 

@@ -5,6 +5,7 @@ import { extname, resolve, sep } from 'node:path'
 import process from 'node:process'
 import { fileURLToPath } from 'node:url'
 
+// convierte la url de este modulo a una ruta local, para ubicar la carpeta del cliente.
 const clientDirectory = fileURLToPath(new URL('.', import.meta.url))
 const gameDirectory = resolve(
   process.env.GAME_BUILD_DIR || resolve(clientDirectory, '../../Juego/FishStackFFWeb')
@@ -20,10 +21,12 @@ const contentTypes = {
 
 function fishStackAlpha() {
   const serveGame = (request, response) => {
+    // quita los parametros de la url y decodifica caracteres como los espacios del nombre.
     const pathname = decodeURIComponent((request.url || '/').split('?')[0])
     const relativePath = pathname === '/' ? 'index.html' : pathname.replace(/^\/+/, '')
     const filePath = resolve(gameDirectory, relativePath)
 
+    // comprueba que la ruta quede dentro de la carpeta del juego y apunte a un archivo existente.
     if (!filePath.startsWith(`${gameDirectory}${sep}`) || !existsSync(filePath) || !statSync(filePath).isFile()) {
       response.statusCode = 404
       response.end('Exportacion del juego no disponible')
@@ -35,6 +38,7 @@ function fishStackAlpha() {
     response.setHeader('Content-Type', contentTypes[extname(filePath)] || 'application/octet-stream')
     response.setHeader('Accept-Ranges', 'bytes')
 
+    // si el navegador pide un tramo del archivo, responde con esos bytes y el estado 206.
     if (range) {
       const [startText, endText] = range.replace('bytes=', '').split('-')
       const start = Number(startText)
@@ -47,6 +51,7 @@ function fishStackAlpha() {
     }
 
     response.setHeader('Content-Length', fileSize)
+    // envia el archivo por partes, sin cargarlo completo en memoria.
     createReadStream(filePath).pipe(response)
   }
 

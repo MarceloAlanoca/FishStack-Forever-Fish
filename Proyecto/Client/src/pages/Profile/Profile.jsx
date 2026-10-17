@@ -13,13 +13,17 @@ async function preparePhoto(file) {
         throw new Error("Elige una imagen JPG, PNG o WebP.")
     }
     if (file.size > 5 * 1024 * 1024) throw new Error("La imagen debe pesar menos de 5 MB.")
+    // decodifica el archivo como imagen, para poder recortarlo en el canvas.
     const bitmap = await createImageBitmap(file)
+
     try {
         const canvas = document.createElement("canvas")
         canvas.width = canvas.height = 256
+        // toma un cuadrado del centro de la foto y lo redimensiona a 256 por 256 pixeles.
         const side = Math.min(bitmap.width, bitmap.height)
         canvas.getContext("2d").drawImage(bitmap,
             (bitmap.width - side) / 2, (bitmap.height - side) / 2, side, side, 0, 0, 256, 256)
+        // convierte el canvas a un archivo binario, la promesa espera a que termine toblob.
         return await new Promise((resolve, reject) => {
             canvas.toBlob((blob) => {
                 if (blob) resolve(blob)
@@ -27,6 +31,7 @@ async function preparePhoto(file) {
             }, "image/png")
         })
     } finally {
+        // libera la memoria de la imagen decodificada, incluso si el recorte falla.
         bitmap.close()
     }
 }
@@ -42,6 +47,7 @@ export default function Profile() {
     useEffect(() => {
         const moverFondo = (event) => {
             if (event.pointerType === "touch") return
+            // centra las coordenadas del puntero y mueve el fondo en sentido contrario.
             const x = (event.clientX / window.innerWidth - 0.5) * -44
             const y = (event.clientY / window.innerHeight - 0.5) * -28
             pageRef.current?.style.setProperty("--profile-background-x", `${x}px`)
@@ -57,6 +63,7 @@ export default function Profile() {
         window.addEventListener("pointermove", moverFondo, { passive: true })
         window.addEventListener("pointerout", salirDeVentana)
         window.addEventListener("blur", centrarFondo)
+        // retira los eventos al salir de la pagina, para no acumular escuchas.
         return () => {
             window.removeEventListener("pointermove", moverFondo)
             window.removeEventListener("pointerout", salirDeVentana)
@@ -67,6 +74,7 @@ export default function Profile() {
     async function savePhoto(file) {
         setSaving(true)
         setMessage("")
+
         try {
             const config = { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
             let response
@@ -74,9 +82,11 @@ export default function Profile() {
                 response = await axios.delete(`${API_URL}/me/photo`, config)
             } else {
                 const form = new FormData()
+                // el nombre del campo coincide con multer, el navegador agrega el separador multipart.
                 form.append("Foto_Perfil", await preparePhoto(file), "perfil.png")
                 response = await axios.patch(`${API_URL}/me/photo`, form, config)
             }
+
             setUsuario(response.data)
             setMessage(file === null ? "Foto eliminada." : "Foto guardada.")
         } catch (error) {
@@ -111,6 +121,7 @@ export default function Profile() {
                             <input type="file" accept="image/png,image/jpeg,image/webp" disabled={saving}
                                 onChange={(event) => {
                                     const file = event.target.files?.[0]
+                                    // limpia la seleccion, para permitir elegir el mismo archivo otra vez.
                                     event.target.value = ""
                                     if (file) savePhoto(file)
                                 }} />

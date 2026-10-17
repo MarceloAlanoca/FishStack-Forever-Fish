@@ -5,6 +5,7 @@ import "./Avatar.css"
 export default function Avatar({ usuario }) {
     const [failedPhoto, setFailedPhoto] = useState(null)
     const storedPhoto = usuario?.Foto_Perfil
+    // completa la ruta con la direccion de la api, replace evita duplicar la barra de union.
     const photo = storedPhoto?.startsWith("/images/users/")
         ? `${API_URL.replace(/\/$/, "")}${storedPhoto}`
         : storedPhoto

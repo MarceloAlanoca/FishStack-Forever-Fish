@@ -25,6 +25,7 @@ const register = async (req, res) => {
         }
 
         const correoNormalizado = Correo.trim().toLowerCase();
+        // comprueba la estructura basica del correo, sin espacios y con un dominio despues del arroba.
         const formatoCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
         if (!formatoCorreo.test(correoNormalizado)) {
@@ -35,6 +36,7 @@ const register = async (req, res) => {
 
         const usuarioExistente = await User.findOne({
             where: {
+                // basta con que coincida el nombre o el correo, para detectar una cuenta duplicada.
                 [Op.or]: [
                     { Nombre_Vista: Nombre_Vista.trim() },
                     { Correo: correoNormalizado }
@@ -52,6 +54,7 @@ const register = async (req, res) => {
             });
         }
 
+        // guarda un hash de la contrasena, el 12 define el costo del calculo.
         const hashedPassword = await bcrypt.hash(Contraseña, 12);
 
         const newUser = await User.create({
@@ -107,18 +110,8 @@ const login = async (req, res) => {
             }
         });
 
-        if (!user) {
-            return res.status(400).json({
-                message: "Credenciales incorrectas"
-            });
-        }
-
-        const isMatch = await bcrypt.compare(
-            Contraseña,
-            user.Contraseña
-        );
-
-        if (!isMatch) {
+        // si no existe la cuenta, el segundo lado no se evalua y no intenta leer su contrasena.
+        if (!user || !await bcrypt.compare(Contraseña, user.Contraseña)) {
             return res.status(400).json({
                 message: "Credenciales incorrectas"
             });
@@ -130,6 +123,7 @@ const login = async (req, res) => {
             rol: user.Rol
         };
 
+        // firma los datos de la sesion, para que la api pueda verificarlos en otras solicitudes.
         const token = jwt.sign(
             payload,
             SECRET,

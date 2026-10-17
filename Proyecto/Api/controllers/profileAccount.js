@@ -3,12 +3,13 @@ const User = require("../models/userModel");
 
 const updateUsername = async (req, res) => {
     const name = req.body?.Nombre_Vista;
+
     if (typeof name !== "string" || !name.trim() || name.trim().length > 255) {
         return res.status(400).json({ message: "El nombre debe tener entre 1 y 255 caracteres." });
     }
+
     try {
-        const user = await User.findByPk(req.user.id);
-        if (!user) return res.status(404).json({ message: "Usuario no encontrado." });
+        const user = req.account;
         await user.update({ Nombre_Vista: name.trim() });
         res.json(await User.findByPk(req.user.id, { attributes: { exclude: ["Contraseña"] } }));
     } catch (error) {
@@ -23,29 +24,28 @@ const updatePassword = async (req, res) => {
     const current = req.body?.currentPassword;
     const next = req.body?.newPassword;
     const confirmation = req.body?.confirmPassword;
-    if (typeof current !== "string" || !current) {
-        return res.status(400).json({ message: "Ingresa una contraseña actual válida." });
-    }
-    if (typeof next !== "string" || next.length < 8 || Buffer.byteLength(next, "utf8") > 72) {
-        return res.status(400).json({ message: "La nueva contraseña debe tener al menos 8 caracteres y un máximo de 72 bytes." });
+
+    // bcrypt admite hasta 72 bytes, una letra con tilde o un emoji puede ocupar mas de uno.
+    if (typeof current !== "string" || !current || typeof next !== "string" ||
+        next.length < 8 || Buffer.byteLength(next, "utf8") > 72) {
+        return res.status(400).json({ message: "Ingresa la contraseña actual y una nueva de al menos 8 caracteres y hasta 72 bytes." });
     }
     if (next !== confirmation) {
         return res.status(400).json({ message: "Las contraseñas nuevas no coinciden." });
     }
+
     try {
-        const user = await User.findByPk(req.user.id);
-        if (!user) return res.status(404).json({ message: "Usuario no encontrado." });
+        const user = req.account;
         if (!await bcrypt.compare(current, user.Contraseña)) {
             return res.status(400).json({ message: "La contraseña actual es incorrecta." });
         }
-        if (current === next) {
-            return res.status(400).json({ message: "Elige una contraseña diferente de la actual." });
-        }
+
         const hash = await bcrypt.hash(next, 12);
-        // Evitar que dos solicitudes simultáneas cambien la misma contraseña anterior.
+        // actualiza solo si el hash sigue siendo el mismo, para evitar dos cambios simultaneos.
         const [updated] = await User.update({ Contraseña: hash }, {
             where: { ID_Usuario: req.user.id, Contraseña: user.Contraseña }
         });
+        // updated indica cuantas filas se modificaron, cero significa que otra solicitud ya la cambio.
         if (!updated) return res.status(409).json({ message: "La contraseña cambió. Vuelve a intentarlo con la contraseña actual." });
         res.json({ message: "Contraseña actualizada." });
     } catch {
@@ -59,8 +59,7 @@ const updateSurname = async (req, res) => {
         return res.status(400).json({ message: "El apellido debe tener entre 1 y 255 caracteres." });
     }
     try {
-        const user = await User.findByPk(req.user.id);
-        if (!user) return res.status(404).json({ message: "Usuario no encontrado." });
+        const user = req.account;
         await user.update({ Apellido: surname.trim() });
         res.json(await User.findByPk(req.user.id, { attributes: { exclude: ["Contraseña"] } }));
     } catch {

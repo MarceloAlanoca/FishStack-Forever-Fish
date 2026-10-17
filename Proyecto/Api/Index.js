@@ -19,6 +19,7 @@ server.use(cors({
 }));
 
 server.use(express.json({ limit: "1mb" }));
+// permite acceder por url a las imagenes guardadas dentro de public.
 server.use(express.static(path.join(__dirname, "public")));
 
 
@@ -26,6 +27,7 @@ server.get('/', sayHello);
 server.get('/users/:id', isAuth, getUserById);
 server.get('/users', isAuth, getUsers);
 server.get('/me', isAuth, me);
+// primero verifica la sesion, despues recibe el archivo y finalmente guarda su ruta.
 server.patch('/me/photo', isAuth, uploadProfilePhoto, updateProfilePhoto);
 server.delete('/me/photo', isAuth, deleteProfilePhoto);
 server.patch('/me/username', isAuth, updateUsername);
@@ -47,12 +49,13 @@ const iniciarServidor = async () => {
                 if (intento === intentosMaximos) throw error;
 
                 console.log(`Esperando la base de datos (${intento}/${intentosMaximos})...`);
+                // espera tres segundos antes de reintentar, porque la base puede seguir iniciandose.
                 await new Promise((resolve) => setTimeout(resolve, 3000));
             }
         }
 
         await sequelize.sync();
-        // Agregar solo el nuevo campo sin modificar las cuentas existentes.
+        // agrega el campo de la foto si falta, sin modificar las cuentas existentes.
         const columns = await sequelize.getQueryInterface().describeTable("usuarios");
         if (!columns.Foto_Perfil) {
             await sequelize.getQueryInterface().addColumn("usuarios", "Foto_Perfil", {

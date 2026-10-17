@@ -10,6 +10,7 @@ function Game() {
 
     useEffect(() => {
         const controller = new AbortController()
+        // head comprueba si existe el juego, sin descargar el contenido de la pagina.
         fetch("/fishstack-alpha/index.html", { method: "HEAD", signal: controller.signal })
             .then((response) => setDisponible(response.ok))
             .catch(() => { if (!controller.signal.aborted) setDisponible(false) })
@@ -25,6 +26,7 @@ function Game() {
     }
 
     const moverFondo = (event) => {
+        // convierte la posicion del mouse en un desplazamiento suave, aplicado al fondo mediante css.
         const movimientoX = (event.clientX / window.innerWidth - 0.5) * -18
         const movimientoY = (event.clientY / window.innerHeight - 0.5) * -12
 

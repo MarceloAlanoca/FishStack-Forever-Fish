@@ -5,7 +5,7 @@ const { Purchase } = require('./purchaseModel');
 
 
 
-// Relación muchos a muchos de Ej:
+// Relacion muchos a muchos de Ej:
 /*
 User.belongsToMany(Hobby, { through: 'UserHobbies', foreignKey: 'userId' });
 Hobby.belongsToMany(User, { through: 'UserHobbies', foreignKey: 'hobbyId' });

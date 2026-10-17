@@ -7,13 +7,16 @@ const { randomUUID } = require("node:crypto");
 const photosDirectory = path.join(__dirname, "../public/images/users");
 const photosUrl = "/images/users/";
 const extensions = { "image/png": ".png", "image/jpeg": ".jpg", "image/webp": ".webp" };
+// crea tambien las carpetas intermedias, si todavia no existen.
 mkdirSync(photosDirectory, { recursive: true });
 
 const upload = multer({
     storage: multer.diskStorage({
         destination: photosDirectory,
+        // genera un nombre unico y elige la extension segun el tipo de imagen recibido.
         filename: (req, file, callback) => callback(null, randomUUID() + extensions[file.mimetype])
     }),
+    // acepta un archivo de hasta 5 mb, sin campos de texto adicionales.
     limits: { fileSize: 5 * 1024 * 1024, files: 1, fields: 0, parts: 1 },
     fileFilter: (req, file, callback) => {
         if (!Object.hasOwn(extensions, file.mimetype)) {
@@ -23,6 +26,7 @@ const upload = multer({
         }
         callback(null, true);
     }
+// el campo debe coincidir con el del formulario, multer deja el archivo en req.file.
 }).single("Foto_Perfil");
 
 const uploadProfilePhoto = (req, res, next) => {
@@ -39,12 +43,14 @@ const uploadProfilePhoto = (req, res, next) => {
     });
 };
 
-// Solo borrar archivos generados por la aplicación dentro de la carpeta de fotos.
+// solo borra archivos de esta carpeta, la expresion comprueba la ruta y el nombre generado.
 async function removeProfilePhoto(photo) {
     if (typeof photo !== "string" || !/^\/images\/users\/[a-f0-9-]+\.(png|jpg|webp)$/.test(photo)) return;
     try {
+        // basename toma unicamente el nombre del archivo, sin las carpetas de la ruta publica.
         await unlink(path.join(photosDirectory, path.basename(photo)));
     } catch (error) {
+        // enoent indica que el archivo ya no existe, en ese caso no hace falta borrarlo.
         if (error.code !== "ENOENT") console.error("No se pudo eliminar una foto anterior", error);
     }
 }
