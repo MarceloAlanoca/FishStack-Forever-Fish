@@ -20,7 +20,12 @@ async function preparePhoto(file) {
         const side = Math.min(bitmap.width, bitmap.height)
         canvas.getContext("2d").drawImage(bitmap,
             (bitmap.width - side) / 2, (bitmap.height - side) / 2, side, side, 0, 0, 256, 256)
-        return canvas.toDataURL("image/png")
+        return await new Promise((resolve, reject) => {
+            canvas.toBlob((blob) => {
+                if (blob) resolve(blob)
+                else reject(new Error("No se pudo preparar la imagen."))
+            }, "image/png")
+        })
     } finally {
         bitmap.close()
     }
@@ -63,12 +68,17 @@ export default function Profile() {
         setSaving(true)
         setMessage("")
         try {
-            const photo = file === null ? null : await preparePhoto(file)
-            const { data } = await axios.patch(`${API_URL}/me/photo`, { Foto_Perfil: photo }, {
-                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
-            })
-            setUsuario(data)
-            setMessage(photo ? "Foto guardada." : "Foto eliminada.")
+            const config = { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+            let response
+            if (file === null) {
+                response = await axios.delete(`${API_URL}/me/photo`, config)
+            } else {
+                const form = new FormData()
+                form.append("Foto_Perfil", await preparePhoto(file), "perfil.png")
+                response = await axios.patch(`${API_URL}/me/photo`, form, config)
+            }
+            setUsuario(response.data)
+            setMessage(file === null ? "Foto eliminada." : "Foto guardada.")
         } catch (error) {
             if ([401, 403, 404].includes(error.response?.status)) setInvalidSession(true)
             setMessage(error.response?.data?.message || error.message || "No se pudo guardar la foto.")

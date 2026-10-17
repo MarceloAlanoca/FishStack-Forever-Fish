@@ -41,7 +41,7 @@ const User = sequelize.define(
         },
 
         Foto_Perfil: {
-            type: DataTypes.TEXT("medium"),
+            type: DataTypes.STRING(255),
             allowNull: true
         },
 

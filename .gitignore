@@ -1,3 +1,5 @@
 node_modules/
 .env
 /Juego/
+/Proyecto/Api/public/images/users/*
+!/Proyecto/Api/public/images/users/.gitkeep

@@ -1,5 +1,6 @@
 const User = require("../models/userModel");
 const { register: registerUser, login } = require("./authController");
+const { removeProfilePhoto, photosUrl } = require("../middlewares/profilePhoto");
 
 const publicAttributes = { exclude: ["Contraseña"] };
 
@@ -25,20 +26,41 @@ const me = async (req, res) => {
 };
 
 const updateProfilePhoto = async (req, res) => {
-    const photo = req.body?.Foto_Perfil;
-    if (photo !== null && (typeof photo !== "string" || photo.length > 700000 ||
-        !/^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/]+={0,2}$/.test(photo))) {
+    if (!req.file) {
         return res.status(400).json({ message: "Selecciona una foto PNG, JPG o WebP válida." });
     }
+    const photo = photosUrl + req.file.filename;
+    let saved = false;
     try {
         const user = await User.findByPk(req.user.id);
-        if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
+        if (!user) {
+            await removeProfilePhoto(photo);
+            return res.status(404).json({ message: "Usuario no encontrado" });
+        }
+        const previousPhoto = user.Foto_Perfil;
         await user.update({ Foto_Perfil: photo });
+        saved = true;
+        await removeProfilePhoto(previousPhoto);
         res.json(await User.findByPk(req.user.id, { attributes: publicAttributes }));
     } catch (error) {
+        if (!saved) await removeProfilePhoto(photo);
         console.error("No se pudo guardar la foto", error);
         res.status(500).json({ message: "No se pudo guardar la foto. Inténtalo de nuevo." });
     }
 };
 
-module.exports = { getUsers, getUserById, me, updateProfilePhoto, registerUser, login };
+const deleteProfilePhoto = async (req, res) => {
+    try {
+        const user = await User.findByPk(req.user.id);
+        if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
+        const previousPhoto = user.Foto_Perfil;
+        await user.update({ Foto_Perfil: null });
+        await removeProfilePhoto(previousPhoto);
+        res.json(await User.findByPk(req.user.id, { attributes: publicAttributes }));
+    } catch (error) {
+        console.error("No se pudo eliminar la foto", error);
+        res.status(500).json({ message: "No se pudo eliminar la foto. Inténtalo de nuevo." });
+    }
+};
+
+module.exports = { getUsers, getUserById, me, updateProfilePhoto, deleteProfilePhoto, registerUser, login };
