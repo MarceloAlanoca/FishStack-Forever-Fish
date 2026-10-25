@@ -6,7 +6,7 @@ import LogoutModal from "./LogoutModal"
 
 import "./Header.css"
 
-function Header({ usuario: suppliedUser }) {
+function Header({ usuario: suppliedUser, theme = "ocean" }) {
     const location = useLocation()
     const navigate = useNavigate()
     const { usuario: loadedUser } = useCurrentUser(suppliedUser === undefined)
@@ -25,7 +25,7 @@ function Header({ usuario: suppliedUser }) {
     }
 
     return (
-        <header className="site-header">
+        <header className={`site-header${theme === "slate" ? " site-header--slate" : ""}`}>
             {sesionActiva && (
                 <button className="site-header__logout" type="button" onClick={() => setConfirmarSalida(true)}>
                     Cerrar sesión
@@ -44,10 +44,13 @@ function Header({ usuario: suppliedUser }) {
                 <Link className={enlaceActivo("/home")} to="/home">Home</Link>
                 <Link className={enlaceActivo("/game")} to="/game">Jugar</Link>
                 <Link className={enlaceActivo("/credits")} to="/credits">Creditos</Link>
+                {sesionActiva && usuario?.Rol?.toLowerCase() === "administrador" && (
+                    <Link className={enlaceActivo("/crud")} to="/crud">Admin</Link>
+                )}
             </nav>
             {sesionActiva && (
-                <Link className="site-header__profile" to="/profile" aria-label={usuario ? `Ver perfil de ${usuario.Nombre_Vista}` : "Ver mi perfil"}>
-                    <span>{usuario?.Nombre_Vista || "Mi perfil"}</span>
+                <Link className="site-header__profile" to="/profile" aria-label={usuario ? `Ver perfil de ${usuario.Usuario}` : "Ver mi perfil"}>
+                    <span>{usuario?.Usuario || "Mi perfil"}</span>
                     <Avatar usuario={usuario} />
                 </Link>
             )}

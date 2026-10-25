@@ -9,7 +9,7 @@ export default function Avatar({ usuario }) {
     const photo = storedPhoto?.startsWith("/images/users/")
         ? `${API_URL.replace(/\/$/, "")}${storedPhoto}`
         : storedPhoto
-    const name = usuario?.Nombre_Vista || "Pescador"
+    const name = usuario?.Usuario || "Pescador"
     return (
         <span className="user-avatar" aria-hidden="true">
             {photo && failedPhoto !== photo ? (

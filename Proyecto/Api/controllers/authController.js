@@ -14,11 +14,11 @@ const register = async (req, res) => {
             Nombre,
             Apellido,
             Correo,
-            Nombre_Vista,
+            Usuario,
             Contraseña
         } = req.body;
 
-        if (!Nombre || !Apellido || !Correo || !Nombre_Vista || !Contraseña) {
+        if (!Nombre || !Apellido || !Correo || !Usuario || !Contraseña) {
             return res.status(400).json({
                 message: "Todos los campos son obligatorios"
             });
@@ -38,7 +38,7 @@ const register = async (req, res) => {
             where: {
                 // basta con que coincida el nombre o el correo, para detectar una cuenta duplicada.
                 [Op.or]: [
-                    { Nombre_Vista: Nombre_Vista.trim() },
+                    { Usuario: Usuario.trim() },
                     { Correo: correoNormalizado }
                 ]
             }
@@ -47,7 +47,7 @@ const register = async (req, res) => {
         if (usuarioExistente) {
             const campoDuplicado = usuarioExistente.Correo === correoNormalizado
                 ? "El correo electrónico ya está registrado"
-                : "El nombre de usuario ya existe";
+                : "El usuario ya existe";
 
             return res.status(400).json({
                 message: campoDuplicado
@@ -61,7 +61,7 @@ const register = async (req, res) => {
             Nombre: Nombre,
             Apellido: Apellido,
             Correo: correoNormalizado,
-            Nombre_Vista: Nombre_Vista.trim(),
+            Usuario: Usuario.trim(),
             Contraseña: hashedPassword,
             Rol: "Usuario"
         });
@@ -72,7 +72,7 @@ const register = async (req, res) => {
                 id: newUser.ID_Usuario,
                 nombre: newUser.Nombre,
                 correo: newUser.Correo,
-                nombreVista: newUser.Nombre_Vista,
+                usuario: newUser.Usuario,
                 rol: newUser.Rol
             }
         });
@@ -94,11 +94,11 @@ const login = async (req, res) => {
     try {
 
         const {
-            Nombre_Vista,
+            Usuario,
             Contraseña
         } = req.body;
 
-        if (!Nombre_Vista || !Contraseña) {
+        if (!Usuario || !Contraseña) {
             return res.status(400).json({
                 message: "Usuario y contraseña requeridos"
             });
@@ -106,7 +106,7 @@ const login = async (req, res) => {
 
         const user = await User.findOne({
             where: {
-                Nombre_Vista: Nombre_Vista
+                Usuario: Usuario
             }
         });
 
@@ -119,7 +119,7 @@ const login = async (req, res) => {
 
         const payload = {
             id: user.ID_Usuario,
-            nombreVista: user.Nombre_Vista,
+            usuario: user.Usuario,
             rol: user.Rol
         };
 

@@ -36,7 +36,7 @@ const isAuth = async (req, res, next) => {
         // deja los datos de la sesion disponibles para el controlador que se ejecuta despues de next.
         req.user = {
             id: user.ID_Usuario,
-            nombreVista: user.Nombre_Vista,
+            usuario: user.Usuario,
             rol: user.Rol
         };
 
@@ -51,6 +51,11 @@ const isAuth = async (req, res, next) => {
     }
 };
 
-module.exports = {
-    isAuth
+const isAdmin = (req, res, next) => {
+    if (req.user?.rol?.toLowerCase() !== "administrador") {
+        return res.status(403).json({ message: "Necesitas permisos de administrador." });
+    }
+    next();
 };
+
+module.exports = { isAuth, isAdmin };

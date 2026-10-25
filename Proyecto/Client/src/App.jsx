@@ -7,6 +7,7 @@ import Register from "./pages/Register/Register"
 import Home from "./pages/Home/Home"
 import Profile from "./pages/Profile/Profile"
 import Game from "./pages/Game/Game"
+import Crud from "./pages/Crud/Crud"
 
 import ProtectedRoute from "./components/ProtectedRoute"
 
@@ -49,6 +50,7 @@ function App() {
             />
 
             <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            <Route path="/crud" element={<ProtectedRoute><Crud /></ProtectedRoute>} />
 
         </Routes>
     )

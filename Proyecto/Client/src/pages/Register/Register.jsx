@@ -8,7 +8,7 @@ const initialForm = {
     Nombre: "",
     Apellido: "",
     Correo: "",
-    Nombre_Vista: "",
+    Usuario: "",
     Contraseña: ""
 };
 
@@ -91,7 +91,7 @@ function Register() {
                             required
                         />
                     </label>
-                    <label><span>Nombre de usuario</span><input type="text" name="Nombre_Vista" placeholder="Elige un nombre de usuario" value={form.Nombre_Vista} onChange={cambiarDato} autoComplete="username" minLength="3" required /></label>
+                    <label><span>Usuario</span><input type="text" name="Usuario" placeholder="Elige un usuario" value={form.Usuario} onChange={cambiarDato} autoComplete="username" minLength="3" required /></label>
                     <label>
                         <span>Contraseña</span>
                         <div className="register-form__password">

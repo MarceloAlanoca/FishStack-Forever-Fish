@@ -113,7 +113,7 @@ export default function Profile() {
                 {usuario && <>
                     <div className="profile-identity">
                         <Avatar usuario={usuario} />
-                        <div><h2>{usuario.Nombre_Vista}</h2><p>Tu cuenta de FishStack</p></div>
+                        <div><h2>{usuario.Usuario}</h2><p>Tu cuenta de FishStack</p></div>
                     </div>
                     <div className="profile-photo-actions">
                         <label className="profile-photo-button">
@@ -131,13 +131,13 @@ export default function Profile() {
                     <p className="profile-help">JPG, PNG o WebP, hasta 5 MB. La foto se recorta al centro.</p>
                     <p className="profile-message" role="status">{message}</p>
                     <dl className="profile-details">
-                        <div><dt>Usuario</dt><dd>{usuario.Nombre_Vista}</dd></div>
+                        <div><dt>Usuario</dt><dd>{usuario.Usuario}</dd></div>
                         <div><dt>Nombre</dt><dd>{usuario.Nombre}</dd></div>
                         <div><dt>Apellido</dt><dd>{usuario.Apellido}</dd></div>
                         <div><dt>Correo</dt><dd>{usuario.Correo}</dd></div>
                     </dl>
                     <div className="profile-account-actions">
-                        <button type="button" disabled={saving} onClick={() => setModal("username")}>Cambiar nombre de usuario</button>
+                        <button type="button" disabled={saving} onClick={() => setModal("username")}>Cambiar usuario</button>
                         <button type="button" disabled={saving} onClick={() => setModal("surname")}>Cambiar apellido</button>
                         <button type="button" disabled={saving} onClick={() => setModal("password")}>Cambiar contraseña</button>
                     </div>

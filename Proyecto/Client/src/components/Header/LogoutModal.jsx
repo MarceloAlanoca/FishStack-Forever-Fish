@@ -14,7 +14,7 @@ export default function LogoutModal({ usuario, onCancel, onConfirm }) {
             onCancel={(event) => { event.preventDefault(); onCancel() }}>
             <h2 id="logout-title">¿Cerrar sesión?</h2>
             <p id="logout-description">
-                {usuario?.Nombre_Vista ? `¿Quieres cerrar la sesión de ${usuario.Nombre_Vista}?` : "¿Quieres cerrar la sesión de tu cuenta?"}
+                {usuario?.Usuario ? `¿Quieres cerrar la sesión de ${usuario.Usuario}?` : "¿Quieres cerrar la sesión de tu cuenta?"}
             </p>
             <div className="logout-modal__actions">
                 <button type="button" autoFocus onClick={onCancel}>Cancelar</button>

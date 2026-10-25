@@ -3,12 +3,14 @@ const cors = require("cors");
 const path = require("node:path");
 
 const { sequelize } = require("./config/db");
+const { migrateUsername } = require("./models/migrateUsername");
 
 const { sayHello } = require("./controllers/sayHello");
 const { getUsers, getUserById, me, updateProfilePhoto, deleteProfilePhoto, registerUser, login } = require("./controllers/user");
 const { uploadProfilePhoto } = require("./middlewares/profilePhoto");
 const { migrateProfilePhotos } = require("./models/migrateProfilePhotos");
-const { isAuth } = require("./middlewares/auth");
+const { ensureAdminAccount } = require("./scripts/ensureAdminAccount");
+const { isAuth, isAdmin } = require("./middlewares/auth");
 const { updateUsername, updatePassword, updateSurname } = require("./controllers/profileAccount");
 
 const server = express();
@@ -27,6 +29,9 @@ server.get('/', sayHello);
 server.get('/users/:id', isAuth, getUserById);
 server.get('/users', isAuth, getUsers);
 server.get('/me', isAuth, me);
+server.get('/admin', isAuth, isAdmin, (req, res) => {
+    res.json({ usuario: { Usuario: req.account.Usuario, Rol: req.account.Rol } });
+});
 // primero verifica la sesion, despues recibe el archivo y finalmente guarda su ruta.
 server.patch('/me/photo', isAuth, uploadProfilePhoto, updateProfilePhoto);
 server.delete('/me/photo', isAuth, deleteProfilePhoto);
@@ -54,6 +59,7 @@ const iniciarServidor = async () => {
             }
         }
 
+        await migrateUsername();
         await sequelize.sync();
         // agrega el campo de la foto si falta, sin modificar las cuentas existentes.
         const columns = await sequelize.getQueryInterface().describeTable("usuarios");
@@ -64,6 +70,7 @@ const iniciarServidor = async () => {
             });
         }
         await migrateProfilePhotos();
+        await ensureAdminAccount();
 
         const puerto = Number(process.env.PORT) || 3000;
 

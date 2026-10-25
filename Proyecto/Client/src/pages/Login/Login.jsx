@@ -7,7 +7,7 @@ import "./Login.css";
 function Login() {
     const navigate = useNavigate();
 
-    const [Nombre_Vista, setNombreVista] = useState("");
+    const [Usuario, setUsuario] = useState("");
     const [Contraseña, setContraseña] = useState("");
     const [mensaje, setMensaje] = useState("");
     const [cargando, setCargando] = useState(false);
@@ -20,7 +20,7 @@ function Login() {
 
         try {
             const respuesta = await axios.post(`${API_URL}/login`, {
-                Nombre_Vista,
+                Usuario,
                 Contraseña
             });
 
@@ -68,13 +68,13 @@ function Login() {
 
                 <form className="login-form" onSubmit={iniciarSesion}>
                     <label>
-                        <span>Nombre de usuario</span>
+                        <span>Usuario</span>
                         <input
                             type="text"
-                            placeholder="Tu nombre de usuario"
-                            value={Nombre_Vista}
+                            placeholder="Tu usuario"
+                            value={Usuario}
                             onChange={(event) => {
-                                setNombreVista(event.target.value);
+                                setUsuario(event.target.value);
                                 if (mensaje) setMensaje("");
                             }}
                             autoComplete="username"

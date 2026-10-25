@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const User = require("../models/userModel");
 
 const updateUsername = async (req, res) => {
-    const name = req.body?.Nombre_Vista;
+    const name = req.body?.Usuario;
 
     if (typeof name !== "string" || !name.trim() || name.trim().length > 255) {
         return res.status(400).json({ message: "El nombre debe tener entre 1 y 255 caracteres." });
@@ -10,11 +10,11 @@ const updateUsername = async (req, res) => {
 
     try {
         const user = req.account;
-        await user.update({ Nombre_Vista: name.trim() });
+        await user.update({ Usuario: name.trim() });
         res.json(await User.findByPk(req.user.id, { attributes: { exclude: ["Contraseña"] } }));
     } catch (error) {
         if (error.name === "SequelizeUniqueConstraintError") {
-            return res.status(409).json({ message: "Ese nombre de usuario ya está en uso." });
+            return res.status(409).json({ message: "Ese usuario ya está en uso." });
         }
         res.status(500).json({ message: "No se pudo cambiar el nombre. Inténtalo de nuevo." });
     }

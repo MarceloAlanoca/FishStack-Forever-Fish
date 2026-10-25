@@ -29,7 +29,7 @@ const User = sequelize.define(
             }
         },
 
-        Nombre_Vista: {
+        Usuario: {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true
