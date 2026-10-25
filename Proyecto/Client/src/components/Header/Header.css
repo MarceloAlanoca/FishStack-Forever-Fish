@@ -188,3 +188,67 @@
 @media (max-width: 430px) {
     .site-header__logout { padding: 8px 10px; }
 }
+
+/* Efecto platino giratorio del acceso Admin de la pagina anterior. */
+.site-header .site-header__nav a.site-header__admin {
+    padding-inline: 17px;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border: 2px solid #c8c3bc;
+    border-radius: 10px;
+    background: #565a66;
+    color: #fff;
+    font-weight: bold;
+    text-shadow: 0 1px 3px #151924;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.site-header__admin::before,
+.site-header__admin::after {
+    content: "";
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    top: 50%;
+    left: 50%;
+    background: conic-gradient(#565a66 0deg, #98938d 65deg, #f4f4f4 100deg, #c8c3bc 135deg, #565a66 180deg, #98938d 245deg, #fff 280deg, #c8c3bc 315deg, #565a66 360deg);
+    transform: translate(-50%, -50%) rotate(0deg);
+    z-index: -1;
+    pointer-events: none;
+    animation: header-admin-platinum 3s linear infinite;
+}
+
+.site-header__admin::before {
+    filter: blur(1.2rem);
+    opacity: 0.6;
+}
+
+.site-header .site-header__nav a.site-header__admin:hover,
+.site-header .site-header__nav a.site-header__admin:focus-visible {
+    transform: scale(1.05);
+    border-color: #f4f4f4;
+    background-color: rgba(121, 128, 145, 0.85);
+    color: #fff;
+}
+
+.site-header .site-header__nav a.site-header__admin:focus-visible {
+    outline: 2px solid #f4f4f4;
+    outline-offset: 4px;
+}
+
+@keyframes header-admin-platinum {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@media (max-width: 700px) {
+    .site-header .site-header__nav a.site-header__admin { padding-inline: 11px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .site-header__admin::before, .site-header__admin::after { animation: none; }
+    .site-header .site-header__nav a.site-header__admin { transition: none; }
+    .site-header .site-header__nav a.site-header__admin:hover,
+    .site-header .site-header__nav a.site-header__admin:focus-visible { transform: none; }
+}

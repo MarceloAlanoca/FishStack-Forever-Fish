@@ -1,56 +1,30 @@
-const { Op } = require("sequelize");
-const User = require("../models/UpdateModel");
-const { update } = require("../models/UpdateModel");
-const { updatecomentarios } = require("../models/UpdateComentariosModel");
-const { comentarios } = requite("../models/UpdateComentariosModel.js")
+const { Updates } = require("../models/UpdateModel");
 
 const getUpdates = async (req, res) => {
-    try{
-        const updates = await Updates.findAll();
-        let Updates = [];
-        for (let i = 0; i < updates.length; i++) {
-            Updates.push(updates[i])
-        }
-        res.status(200).json(updates)
+    try {
+        const updates = await Updates.findAll({
+            attributes: ["ID_Update", "Nombre", "Version", "Descripcion_Inicial", "Fecha"],
+            order: [["Fecha", "DESC"], ["ID_Update", "DESC"]]
+        });
+        res.json(updates);
+    } catch (error) {
+        console.error("Error al consultar actualizaciones", error);
+        res.status(500).json({ message: "No se pudieron cargar las actualizaciones." });
     }
-    catch{
-        res.status(500).json(error)
-    }
-}
+};
 
 const getUpdatesByID = async (req, res) => {
-    try{
-        const { id } = req.params
-        const updates = await Updates.findByPk();
-        if (!updates) {
-        return res.status(404).json({ message: "Update no existente we" });
-        }
-        res.status(200).json(updates)
+    if (!/^[1-9]\d*$/.test(req.params.id) || !Number.isSafeInteger(Number(req.params.id))) {
+        return res.status(400).json({ message: "El identificador de actualización no es válido." });
     }
-    catch{
-        res.status(500).json(error)
+    try {
+        const update = await Updates.findByPk(req.params.id);
+        if (!update) return res.status(404).json({ message: "Actualización no encontrada." });
+        res.json(update);
+    } catch (error) {
+        console.error("Error al consultar la actualización", error);
+        res.status(500).json({ message: "No se pudo cargar esta actualización." });
     }
-}
+};
 
-const getComments = async (req, res) => {
-    try{
-        const comments = await updatescomentarios.findAll();
-        let Comments = [];
-        for (let i = 0; i < updatescomentarios.length; i++) {
-            Updates.push(updates[i])
-        }
-        res.status(200).json(updates)
-    }
-    catch{
-        res.status(500).json(error)
-    }
-}
-
-// const get = async (req, res) => {
-//     try{
-
-//     }
-//     catch{
-
-//     }
-// }
+module.exports = { getUpdates, getUpdatesByID };

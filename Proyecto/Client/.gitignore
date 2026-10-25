@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Pagina de actualizaciones (no son archivos de registro)
+!src/pages/Logs/
+!src/pages/Logs/**

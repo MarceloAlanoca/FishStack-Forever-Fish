@@ -41,12 +41,12 @@ function Header({ usuario: suppliedUser, theme = "ocean" }) {
 
             <div className="site-header__right">
             <nav className="site-header__nav" aria-label="Navegacion principal">
+                {sesionActiva && usuario?.Rol?.toLowerCase() === "administrador" && (
+                    <Link className={`site-header__admin ${enlaceActivo("/crud")}`} to="/crud">Admin</Link>
+                )}
                 <Link className={enlaceActivo("/home")} to="/home">Home</Link>
                 <Link className={enlaceActivo("/game")} to="/game">Jugar</Link>
                 <Link className={enlaceActivo("/credits")} to="/credits">Creditos</Link>
-                {sesionActiva && usuario?.Rol?.toLowerCase() === "administrador" && (
-                    <Link className={enlaceActivo("/crud")} to="/crud">Admin</Link>
-                )}
             </nav>
             {sesionActiva && (
                 <Link className="site-header__profile" to="/profile" aria-label={usuario ? `Ver perfil de ${usuario.Usuario}` : "Ver mi perfil"}>

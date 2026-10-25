@@ -8,6 +8,7 @@ import Home from "./pages/Home/Home"
 import Profile from "./pages/Profile/Profile"
 import Game from "./pages/Game/Game"
 import Crud from "./pages/Crud/Crud"
+import Logs from "./pages/Logs/Logs"
 
 import ProtectedRoute from "./components/ProtectedRoute"
 
@@ -50,6 +51,7 @@ function App() {
             />
 
             <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            <Route path="/logs" element={<Logs />} />
             <Route path="/crud" element={<ProtectedRoute><Crud /></ProtectedRoute>} />
 
         </Routes>

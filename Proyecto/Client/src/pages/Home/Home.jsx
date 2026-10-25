@@ -256,10 +256,10 @@ function Home() {
                             <span><strong>Shop</strong><small>Tienda del puerto</small></span>
                         </button>
 
-                        <button className="home-action home-action--logs" type="button" onClick={() => mostrarProximamente("Logs")}>
+                        <Link className="home-action home-action--logs" to="/logs">
                             <span className="home-action__icon">≡</span>
                             <span><strong>Logs</strong><small>Ultimas novedades</small></span>
-                        </button>
+                        </Link>
                     </div>
 
                     {aviso && <p className="home-notice" role="status">{aviso}</p>}

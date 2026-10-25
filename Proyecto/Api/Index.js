@@ -6,6 +6,8 @@ const { sequelize } = require("./config/db");
 const { migrateUsername } = require("./models/migrateUsername");
 
 const { sayHello } = require("./controllers/sayHello");
+const { getUpdates, getUpdatesByID } = require("./controllers/UpdateController");
+const { seedUpdates } = require("./scripts/seedUpdates");
 const { getUsers, getUserById, me, updateProfilePhoto, deleteProfilePhoto, registerUser, login } = require("./controllers/user");
 const { uploadProfilePhoto } = require("./middlewares/profilePhoto");
 const { migrateProfilePhotos } = require("./models/migrateProfilePhotos");
@@ -26,6 +28,8 @@ server.use(express.static(path.join(__dirname, "public")));
 
 
 server.get('/', sayHello);
+server.get('/updates', getUpdates);
+server.get('/updates/:id', getUpdatesByID);
 server.get('/users/:id', isAuth, getUserById);
 server.get('/users', isAuth, getUsers);
 server.get('/me', isAuth, me);
@@ -71,6 +75,7 @@ const iniciarServidor = async () => {
         }
         await migrateProfilePhotos();
         await ensureAdminAccount();
+        await seedUpdates();
 
         const puerto = Number(process.env.PORT) || 3000;
 
