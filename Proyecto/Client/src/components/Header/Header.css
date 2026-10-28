@@ -83,13 +83,18 @@
     color: #f5cf69;
     text-decoration: none;
 }
+
 .site-header__profile > span:first-child {
     max-width: 180px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-.site-header__profile:hover, .site-header__profile:focus-visible { color: #eafcff; }
+
+.site-header__profile:hover,
+.site-header__profile:focus-visible {
+    color: #eafcff;
+}
 
 .site-header__logout {
     grid-column: 1;
@@ -104,8 +109,18 @@
     font-size: 0.88rem;
     cursor: pointer;
 }
-.site-header__logout:hover { background: #58374f; border-color: #c48197; }
-.site-header__logout:focus-visible, .logout-modal button:focus-visible { outline: 2px solid #f5cf69; outline-offset: 3px; }
+
+.site-header__logout:hover {
+    background: #58374f;
+    border-color: #c48197;
+}
+
+.site-header__logout:focus-visible,
+.logout-modal button:focus-visible {
+    outline: 2px solid #f5cf69;
+    outline-offset: 3px;
+}
+
 .logout-modal {
     position: fixed;
     inset: 0;
@@ -122,13 +137,50 @@
     font-family: "Header Pixel", monospace;
     text-align: left;
 }
-.logout-modal::backdrop { background: #021522cc; }
-.logout-modal h2 { margin: 0 0 16px; color: #f5cf69; font: inherit; font-size: 1.8rem; }
-.logout-modal p { margin: 0; overflow-wrap: anywhere; }
-.logout-modal__actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
-.logout-modal button { padding: 10px 16px; border: 2px solid #397c91; border-radius: 10px; color: #eafcff; background: #0d3b55; font: inherit; cursor: pointer; }
-.logout-modal .logout-modal__confirm { border-color: #86546c; background: #422d43; color: #ffe1e7; }
-.logout-modal .logout-modal__confirm:hover { background: #58374f; }
+
+.logout-modal::backdrop {
+    background: #021522cc;
+}
+
+.logout-modal h2 {
+    margin: 0 0 16px;
+    color: #f5cf69;
+    font: inherit;
+    font-size: 1.8rem;
+}
+
+.logout-modal p {
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.logout-modal__actions {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 26px;
+}
+
+.logout-modal button {
+    padding: 10px 16px;
+    border: 2px solid #397c91;
+    border-radius: 10px;
+    color: #eafcff;
+    background: #0d3b55;
+    font: inherit;
+    cursor: pointer;
+}
+
+.logout-modal .logout-modal__confirm {
+    border-color: #86546c;
+    background: #422d43;
+    color: #ffe1e7;
+}
+
+.logout-modal .logout-modal__confirm:hover {
+    background: #58374f;
+}
 
 .site-header__nav a,
 .site-header__nav button {
@@ -158,8 +210,13 @@
         gap: 12px;
     }
 
-    .site-header__brand { grid-column: 1 / -1; }
-    .site-header__logout { grid-row: 2; }
+    .site-header__brand {
+        grid-column: 1 / -1;
+    }
+
+    .site-header__logout {
+        grid-row: 2;
+    }
 
     .site-header__brand strong {
         font-size: 1.35rem;
@@ -174,9 +231,19 @@
         flex-wrap: wrap;
     }
 
-    .site-header__right { grid-column: 2; grid-row: 2; gap: 8px; }
-    .site-header__profile { gap: 6px; }
-    .site-header__profile > span:first-child { max-width: 100px; }
+    .site-header__right {
+        grid-column: 2;
+        grid-row: 2;
+        gap: 8px;
+    }
+
+    .site-header__profile {
+        gap: 6px;
+    }
+
+    .site-header__profile > span:first-child {
+        max-width: 100px;
+    }
 
     .site-header__nav a,
     .site-header__nav button {
@@ -186,10 +253,13 @@
 }
 
 @media (max-width: 430px) {
-    .site-header__logout { padding: 8px 10px; }
+    .site-header__logout {
+        padding: 8px 10px;
+    }
 }
 
 /* Efecto platino giratorio del acceso Admin de la pagina anterior. */
+
 .site-header .site-header__nav a.site-header__admin {
     padding-inline: 17px;
     position: relative;
@@ -238,17 +308,33 @@
 }
 
 @keyframes header-admin-platinum {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to { transform: translate(-50%, -50%) rotate(360deg); }
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
 }
 
 @media (max-width: 700px) {
-    .site-header .site-header__nav a.site-header__admin { padding-inline: 11px; }
+    .site-header .site-header__nav a.site-header__admin {
+        padding-inline: 11px;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .site-header__admin::before, .site-header__admin::after { animation: none; }
-    .site-header .site-header__nav a.site-header__admin { transition: none; }
+    .site-header__admin::before,
+    .site-header__admin::after {
+        animation: none;
+    }
+
+    .site-header .site-header__nav a.site-header__admin {
+        transition: none;
+    }
+
     .site-header .site-header__nav a.site-header__admin:hover,
-    .site-header .site-header__nav a.site-header__admin:focus-visible { transform: none; }
+    .site-header .site-header__nav a.site-header__admin:focus-visible {
+        transform: none;
+    }
 }

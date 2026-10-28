@@ -20,7 +20,6 @@
     --activity-overhang: 3vw;
     --background-x: 0px;
     --background-y: 0px;
-
     position: relative;
     isolation: isolate;
     min-height: 100svh;
@@ -61,9 +60,24 @@
     animation: home-swim 18s linear infinite;
 }
 
-.home-fish--one { top: 18%; left: -10%; }
-.home-fish--two { top: 55%; left: -18%; animation-delay: -6s; animation-duration: 24s; }
-.home-fish--three { top: 78%; left: -8%; animation-delay: -11s; animation-duration: 20s; }
+.home-fish--one {
+    top: 18%;
+    left: -10%;
+}
+
+.home-fish--two {
+    top: 55%;
+    left: -18%;
+    animation-delay: -6s;
+    animation-duration: 24s;
+}
+
+.home-fish--three {
+    top: 78%;
+    left: -8%;
+    animation-delay: -11s;
+    animation-duration: 20s;
+}
 
 .home-bubble {
     position: absolute;
@@ -75,9 +89,21 @@
     animation: home-bubble 9s linear infinite;
 }
 
-.home-bubble--one { left: 12%; }
-.home-bubble--two { left: 72%; animation-delay: -4s; width: 16px; height: 16px; }
-.home-bubble--three { left: 88%; animation-delay: -7s; }
+.home-bubble--one {
+    left: 12%;
+}
+
+.home-bubble--two {
+    left: 72%;
+    animation-delay: -4s;
+    width: 16px;
+    height: 16px;
+}
+
+.home-bubble--three {
+    left: 88%;
+    animation-delay: -7s;
+}
 
 .home-dashboard,
 .home-footer {
@@ -97,8 +123,7 @@
     min-height: 480px;
     border: 3px solid #1a536c;
     background: rgba(5, 29, 46, 0.94);
-    box-shadow:
-        8px 8px 0 rgba(2, 13, 25, 0.55),
+    box-shadow: 8px 8px 0 rgba(2, 13, 25, 0.55),
         inset 0 0 0 2px rgba(113, 203, 211, 0.08);
 }
 
@@ -482,13 +507,23 @@
 }
 
 @keyframes home-fade {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes home-title-gradient {
-    from { background-position: 0% 50%; }
-    to { background-position: 250% 50%; }
+    from {
+        background-position: 0% 50%;
+    }
+
+    to {
+        background-position: 250% 50%;
+    }
 }
 
 @keyframes home-play-glow {
@@ -528,8 +563,13 @@
 }
 
 @keyframes home-change-progress {
-    from { transform: scaleX(0); }
-    to { transform: scaleX(1); }
+    from {
+        transform: scaleX(0);
+    }
+
+    to {
+        transform: scaleX(1);
+    }
 }
 
 @keyframes home-activity-open {
@@ -553,15 +593,21 @@
 }
 
 @keyframes home-swim {
-    to { transform: translateX(120vw); }
+    to {
+        transform: translateX(120vw);
+    }
 }
 
 @keyframes home-bubble {
-    to { transform: translateY(-110vh); }
+    to {
+        transform: translateY(-110vh);
+    }
 }
 
 @keyframes home-loading {
-    50% { transform: translateX(10px); }
+    50% {
+        transform: translateX(10px);
+    }
 }
 
 @media (max-width: 1050px) {
@@ -611,7 +657,7 @@
         padding: 0 14px;
     }
 
-.home-dashboard {
+    .home-dashboard {
         grid-template-columns: 1fr;
     }
 

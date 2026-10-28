@@ -50,6 +50,7 @@ function UpdateDetail({ id, onClose }) {
             <div className="logs-detail__body">
                 {!update && !error && <p role="status">Cargando actualización...</p>}
                 {error && <div role="alert"><p>{error}</p><button type="button" onClick={() => { setError(""); setRetry((value) => value + 1) }}>Reintentar</button></div>}
+                {update?.Imagen && <img className="logs-detail__image" src={API_URL + update.Imagen} alt={update.Nombre} />}
                 {update && <p className="logs-detail__text">{update.Detalle}</p>}
             </div>
         </dialog>
@@ -88,7 +89,8 @@ export default function Logs() {
                     {estado === "ready" && updates.length === 0 && <p className="logs-state">Todavía no hay actualizaciones publicadas.</p>}
                     {estado === "ready" && updates.map((update) => <article className="logs-entry" key={update.ID_Update}>
                         <button type="button" className="logs-entry__open" onClick={() => setSelected(update.ID_Update)} aria-haspopup="dialog">
-                            <span className="logs-entry__meta"><span className="logs-version">v{update.Version}</span><time dateTime={update.Fecha}>{fechaPublicacion(update.Fecha)}</time></span>
+                            <span className="logs-entry__meta"><span className="logs-version">v{update.Version}</span><span>{update.Tipo}</span><time dateTime={update.Fecha}>{fechaPublicacion(update.Fecha)}</time></span>
+                            {update.Imagen && <img className="logs-entry__image" src={API_URL + update.Imagen} alt="" loading="lazy" />}
                             <h2>{update.Nombre}</h2>
                             <p>{update.Descripcion_Inicial}</p>
                             <span className="logs-entry__read">Leer actualización <span aria-hidden="true">→</span></span>

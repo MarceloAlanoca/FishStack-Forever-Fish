@@ -3,17 +3,15 @@ import { Link, Navigate } from "react-router-dom"
 import axios from "axios"
 import Header from "../../components/Header/Header"
 import { API_URL } from "../../config/api"
+import UserManager from "./UserManager"
+import ArticleManager from "./ArticleManager"
+import UpdateManager from "./UpdateManager"
 import "./Crud.css"
-
-const secciones = [
-    { numero: "01", nombre: "Usuarios", texto: "Cuentas y roles de la comunidad." },
-    { numero: "02", nombre: "Artículos", texto: "Productos y contenido de la tienda." },
-    { numero: "03", nombre: "Peces", texto: "Catálogo de peces de FishStack." }
-]
 
 export default function Crud() {
     const [estado, setEstado] = useState("loading")
     const [usuario, setUsuario] = useState(null)
+    const [section, setSection] = useState("users")
     useEffect(() => {
         const controller = new AbortController()
         axios.get(API_URL + "/admin", {
@@ -49,17 +47,39 @@ export default function Crud() {
                         <h1>CRUD</h1><p>Un espacio para administrar FishStack: Forever Fish.</p>
                         <div className="crud-session"><span className="crud-session__dot" />{usuario.Usuario}<span>Administrador</span></div>
                     </section>
-                    <section className="crud-modules" aria-labelledby="crud-modules-title">
-                        <div className="crud-section-title"><h2 id="crud-modules-title">Panel de gestión</h2><span>PRÓXIMAMENTE</span></div>
-                        <div className="crud-grid">
-                            {secciones.map((seccion) => <article className="crud-card" key={seccion.numero}>
-                                <span className="crud-card__number">{seccion.numero}</span>
-                                <h3>{seccion.nombre}</h3><p>{seccion.texto}</p>
-                                <span className="crud-card__status">En preparación</span>
-                            </article>)}
-                        </div>
-                        <p className="crud-note">Las herramientas para crear, consultar, modificar y eliminar contenido se añadirán aquí.</p>
-                    </section>
+                    <div className="crud-workspace">
+                        <nav className="crud-sidebar" aria-label="Secciones de administración">
+                            <h2>Administrar</h2>
+                            <button
+                                type="button"
+                                className={section === "users" ? "crud-sidebar-active" : ""}
+                                aria-current={section === "users" ? "page" : undefined}
+                                onClick={() => setSection("users")}
+                            >
+                                Usuarios
+                            </button>
+                            <button
+                                type="button"
+                                className={section === "articles" ? "crud-sidebar-active" : ""}
+                                aria-current={section === "articles" ? "page" : undefined}
+                                onClick={() => setSection("articles")}
+                            >
+                                Artículos
+                            </button>
+                            <button
+                                type="button"
+                                className={section === "updates" ? "crud-sidebar-active" : ""}
+                                aria-current={section === "updates" ? "page" : undefined}
+                                onClick={() => setSection("updates")}
+                            >
+                                Actualizaciones
+                            </button>
+                            <button type="button" disabled>Créditos</button>
+                        </nav>
+                        {section === "users" && <UserManager currentUser={usuario} onCurrentUserChange={setUsuario} />}
+                        {section === "articles" && <ArticleManager />}
+                        {section === "updates" && <UpdateManager />}
+                    </div>
                 </>}
             </main>
             <footer className="crud-footer"><span>FishStack: Forever Fish</span><span>DevPlay Studio</span></footer>

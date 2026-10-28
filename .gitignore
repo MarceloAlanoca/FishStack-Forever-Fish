@@ -3,3 +3,5 @@ node_modules/
 /Juego/
 /Proyecto/Api/public/images/users/*
 !/Proyecto/Api/public/images/users/.gitkeep
+/Proyecto/Api/public/images/updates/*
+!/Proyecto/Api/public/images/updates/.gitkeep

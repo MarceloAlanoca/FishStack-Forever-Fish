@@ -1,0 +1,52 @@
+/* Centrado común para los formularios del CRUD y el detalle de Logs. */
+.crud-modal,
+.logs-detail {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    height: fit-content;
+    max-height: calc(100dvh - 48px);
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.crud-modal[open],
+.logs-detail[open] {
+    animation: modal-enter 0.3s ease-out;
+}
+
+.crud-modal[open]::backdrop,
+.logs-detail[open]::backdrop {
+    animation: modal-backdrop-enter 0.3s ease-out;
+}
+
+@keyframes modal-enter {
+    from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.94);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes modal-backdrop-enter {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .crud-modal[open],
+    .logs-detail[open],
+    .crud-modal[open]::backdrop,
+    .logs-detail[open]::backdrop {
+        animation: none;
+    }
+}

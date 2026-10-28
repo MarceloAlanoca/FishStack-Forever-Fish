@@ -1,30 +1,269 @@
-#root:has(> .logs-page) { width: 100%; max-width: none; border: 0; }
-.logs-page { min-height: 100svh; display: flex; flex-direction: column; color: #263446; background: #f5f7fa; color-scheme: light; font-family: system-ui, sans-serif; text-align: left; }
-.logs-content { width: min(1000px, 100%); margin: 0 auto; padding: 56px 28px 72px; box-sizing: border-box; flex: 1; }
-.logs-intro { margin-bottom: 36px; }
-.logs-eyebrow { color: #4e647d; font-size: .72rem; font-weight: 700; letter-spacing: .12em; }
-.logs-intro h1 { color: #182f4f; font: 3.6rem/1.1 "Header Pixel", monospace; letter-spacing: 0; margin: 14px 0 16px; }
-.logs-intro > p { color: #556579; line-height: 1.7; }
-.logs-list { display: grid; gap: 18px; }
-.logs-entry { background: #fff; border: 1px solid #dce3ec; border-radius: 10px; box-shadow: 0 4px 12px #14283c0a; overflow: hidden; }
-.logs-entry__open { width: 100%; padding: 28px 30px; border: 0; background: transparent; color: inherit; text-align: left; font: inherit; cursor: pointer; }
-.logs-entry:hover { border-color: #8ba7c7; box-shadow: 0 8px 20px #14283c10; }
-.logs-entry__open:focus-visible { outline: 3px solid #457aad; outline-offset: -4px; }
-.logs-entry__meta { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 18px; color: #52647a; font-size: .78rem; }
-.logs-version { padding: 4px 10px; border-radius: 4px; background: #eaf0f8; color: #234b78; font-weight: 700; }
-.logs-entry h2 { margin: 0 0 12px; color: #1b3556; font: 1.35rem/1.4 system-ui, sans-serif; font-weight: 700; letter-spacing: 0; overflow-wrap: anywhere; }
-.logs-entry p { color: #536276; line-height: 1.7; overflow-wrap: anywhere; }
-.logs-entry__read { display: inline-flex; gap: 12px; margin-top: 22px; color: #25588b; font-size: .85rem; font-weight: 600; }
-.logs-state { background: #fff; border: 1px solid #dce3ec; border-radius: 10px; padding: 28px; line-height: 1.7; }
-.logs-state button, .logs-detail__body button { margin-top: 16px; padding: 10px 18px; border: 1px solid #25588b; border-radius: 6px; background: #234d7a; color: #fff; font: inherit; cursor: pointer; }
-.logs-footer { padding: 22px 28px; text-align: center; color: #52647a; border-top: 1px solid #dce3ec; font-size: .8rem; background: #fff; }
-.logs-detail { width: min(1100px, calc(100vw - 32px)); max-width: none; max-height: calc(100svh - 48px); padding: 0; border: 0; border-radius: 12px; background: #fff; color: #263446; color-scheme: light; box-shadow: 0 30px 80px #0006; font-family: system-ui, sans-serif; text-align: left; overflow-y: auto; }
-.logs-detail::backdrop { background: #061427b8; }
-.logs-detail__header { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; padding: 28px 32px; background: #0b255c; color: #fff; }
-.logs-detail__header h2 { margin: 0 0 10px; color: #fff; font: 1.6rem/1.4 system-ui, sans-serif; font-weight: 700; overflow-wrap: anywhere; }
-.logs-detail__header p { color: #c5d5ef; font-size: .85rem; }
-.logs-detail__close { flex-shrink: 0; padding: 0 8px; border: 0; border-radius: 4px; background: transparent; color: #fff; font: 2rem/1.1 system-ui, sans-serif; cursor: pointer; }
-.logs-detail__close:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
-.logs-detail__body { padding: 36px 32px 48px; min-height: 200px; }
-.logs-detail__text { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.9; }
-@media (max-width: 600px) { .logs-content { padding: 36px 18px 48px; } .logs-intro h1 { font-size: 2.8rem; } .logs-entry__open { padding: 22px; } .logs-detail__header { padding: 22px; gap: 12px; } .logs-detail__header h2 { font-size: 1.2rem; } .logs-detail__body { padding: 24px 22px 32px; } }
+#root:has(> .logs-page) {
+    width: 100%;
+    max-width: none;
+    border: 0;
+}
+
+.logs-page {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    color: #263446;
+    background: #f5f7fa;
+    color-scheme: light;
+    font-family: system-ui, sans-serif;
+    text-align: left;
+}
+
+.logs-content {
+    width: min(1000px, 100%);
+    margin: 0 auto;
+    padding: 56px 28px 72px;
+    box-sizing: border-box;
+    flex: 1;
+}
+
+.logs-intro {
+    margin-bottom: 36px;
+}
+
+.logs-eyebrow {
+    color: #4e647d;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+}
+
+.logs-intro h1 {
+    color: #182f4f;
+    font: 3.6rem/1.1 "Header Pixel", monospace;
+    letter-spacing: 0;
+    margin: 14px 0 16px;
+}
+
+.logs-intro > p {
+    color: #556579;
+    line-height: 1.7;
+}
+
+.logs-list {
+    display: grid;
+    gap: 18px;
+}
+
+.logs-entry {
+    background: #fff;
+    border: 1px solid #dce3ec;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px #14283c0a;
+    overflow: hidden;
+}
+
+.logs-entry__open {
+    width: 100%;
+    padding: 28px 30px;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    text-align: left;
+    font: inherit;
+    cursor: pointer;
+}
+
+.logs-entry:hover {
+    border-color: #8ba7c7;
+    box-shadow: 0 8px 20px #14283c10;
+}
+
+.logs-entry__open:focus-visible {
+    outline: 3px solid #457aad;
+    outline-offset: -4px;
+}
+
+.logs-entry__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 18px;
+    color: #52647a;
+    font-size: .78rem;
+}
+
+.logs-version {
+    padding: 4px 10px;
+    border-radius: 4px;
+    background: #eaf0f8;
+    color: #234b78;
+    font-weight: 700;
+}
+
+.logs-entry h2 {
+    margin: 0 0 12px;
+    color: #1b3556;
+    font: 1.35rem/1.4 system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: 0;
+    overflow-wrap: anywhere;
+}
+
+.logs-entry p {
+    color: #536276;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+.logs-entry__read {
+    display: inline-flex;
+    gap: 12px;
+    margin-top: 22px;
+    color: #25588b;
+    font-size: .85rem;
+    font-weight: 600;
+}
+
+.logs-state {
+    background: #fff;
+    border: 1px solid #dce3ec;
+    border-radius: 10px;
+    padding: 28px;
+    line-height: 1.7;
+}
+
+.logs-state button,
+.logs-detail__body button {
+    margin-top: 16px;
+    padding: 10px 18px;
+    border: 1px solid #25588b;
+    border-radius: 6px;
+    background: #234d7a;
+    color: #fff;
+    font: inherit;
+    cursor: pointer;
+}
+
+.logs-footer {
+    padding: 22px 28px;
+    text-align: center;
+    color: #52647a;
+    border-top: 1px solid #dce3ec;
+    font-size: .8rem;
+    background: #fff;
+}
+
+.logs-detail {
+    width: min(1100px, calc(100vw - 32px));
+    max-width: none;
+    max-height: calc(100svh - 48px);
+    padding: 0;
+    border: 0;
+    border-radius: 12px;
+    background: #fff;
+    color: #263446;
+    color-scheme: light;
+    box-shadow: 0 30px 80px #0006;
+    font-family: system-ui, sans-serif;
+    text-align: left;
+    overflow-y: auto;
+}
+
+.logs-detail::backdrop {
+    background: #061427b8;
+}
+
+.logs-detail__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 28px 32px;
+    background: #0b255c;
+    color: #fff;
+}
+
+.logs-detail__header h2 {
+    margin: 0 0 10px;
+    color: #fff;
+    font: 1.6rem/1.4 system-ui, sans-serif;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.logs-detail__header p {
+    color: #c5d5ef;
+    font-size: .85rem;
+}
+
+.logs-detail__close {
+    flex-shrink: 0;
+    padding: 0 8px;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: #fff;
+    font: 2rem/1.1 system-ui, sans-serif;
+    cursor: pointer;
+}
+
+.logs-detail__close:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 4px;
+}
+
+.logs-detail__body {
+    padding: 36px 32px 48px;
+    min-height: 200px;
+}
+
+.logs-detail__text {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    line-height: 1.9;
+}
+
+@media (max-width: 600px) {
+    .logs-content {
+        padding: 36px 18px 48px;
+    }
+
+    .logs-intro h1 {
+        font-size: 2.8rem;
+    }
+
+    .logs-entry__open {
+        padding: 22px;
+    }
+
+    .logs-detail__header {
+        padding: 22px;
+        gap: 12px;
+    }
+
+    .logs-detail__header h2 {
+        font-size: 1.2rem;
+    }
+
+    .logs-detail__body {
+        padding: 24px 22px 32px;
+    }
+}
+
+.logs-entry__image {
+    display: block;
+    width: 100%;
+    max-height: 280px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    object-fit: contain;
+    background: #f1f4f8;
+}
+
+.logs-detail__image {
+    display: block;
+    width: 100%;
+    max-height: 480px;
+    margin: 0 auto 28px;
+    border-radius: 8px;
+    object-fit: contain;
+    background: #f1f4f8;
+}

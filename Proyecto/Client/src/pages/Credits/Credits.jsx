@@ -1,10 +1,31 @@
 import { useEffect, useRef, useState } from "react"
 import { Modal, Box, Typography, Button } from "@mui/material"
 import Hls from "hls.js"
+import axios from "axios"
+import { API_URL } from "../../config/api"
 import Header from "../../components/Header/Header"
 import "./Credits.css"
 
 function Credits() {
+    const [integrantes, setIntegrantes] = useState([])
+    const [inspiraciones, setInspiraciones] = useState([])
+    const [estado, setEstado] = useState("loading")
+    const [reintento, setReintento] = useState(0)
+
+    useEffect(() => {
+        const controller = new AbortController()
+        axios.get(API_URL + "/credits", { signal: controller.signal })
+            .then(({ data }) => {
+                setIntegrantes(data.integrantes)
+                setInspiraciones(data.inspiraciones)
+                setEstado("ready")
+            })
+            .catch(() => {
+                if (!controller.signal.aborted) setEstado("error")
+            })
+        return () => controller.abort()
+    }, [reintento])
+
     const videoRef = useRef(null)
     const modalVideoRef = useRef(null)
 
@@ -34,144 +55,6 @@ function Credits() {
         event.currentTarget.style.setProperty("--background-y", "0px")
     }
 
-    const integrantes = [
-        {
-            id: 1,
-            nombre: "Thiago",
-            rol: "Programación",
-            descripcion: "Encargado principal de la programacion de los sistemas del juego y desarrollo web.",
-            detalle: "Participó en la programación de mecánicas, sistemas de pesca, interfaz, integración web y organización de diferentes sistemas del proyecto.",
-            aporte: "Su trabajo principal estuvo enfocado en convertir las ideas del equipo en sistemas funcionales dentro del juego y pagina.",
-            imagen: "/images/Integrantes/Thiago.jpg",
-            video: "/videos/Integrantes/Fondo.mp4"
-        },
-        {
-            id: 2,
-            nombre: "Gael",
-            rol: "Arte - Promocion",
-            descripcion: "Participó en la creación de sprites, escenarios, lore del juego y promocion, mecarderia del proyecto.",
-            detalle: "Trabajó principalmente en distintas partes relacionadas con el apartado visual del proyecto.",
-            aporte: "Ayudó a construir la identidad visual, lore y promocion del juego.",
-            imagen: "/images/Integrantes/Gael.jpg",
-            video: "/videos/Integrantes/Fondo2.mp4"
-        },
-        {
-            id: 3,
-            nombre: "Marcelo",
-            rol: "Progamacion - Camino",
-            descripcion: "Trabajó en cosas agregadas dentro del juego y cosas de diseño de la pagina. El scrum master del proyecto",
-            detalle: ".",
-            aporte: "",
-            imagen: "/images/Integrantes/Marcelo.jpg",
-            video: "/videos/Integrantes/Fondo3.mp4"
-        },
-        {
-            id: 4,
-            nombre: "John",
-            rol: "Música - Diseño",
-            descripcion: "Participó en la ambientación sonora y elementos musicales del proyecto.",
-            detalle: "Trabajó en elementos relacionados con música y ambientación del juego.",
-            aporte: "Su trabajo ayudó a darle personalidad sonora a los diferentes escenarios.",
-            imagen: "/images/Integrantes/John.jpg",
-            video: "/videos/Integrantes/Fondo4.mp4"
-        }
-    ]
-
-    const inspiraciones = [
-        {
-            nombre: "Nullscape",
-            clase: "nullscape",
-            portada: "/images/inspiraciones/nullscape-portada.jpe",
-            video: "/videos/nullscape-gameplay.mp4",
-            segundoInicio: 35,
-            link: "https://www.roblox.com/es/games/129279692364812/Nullscape",
-            descripcion: "Nullscape es un juego de Roblox que es un RogueLike donde recoges regalos y asciendes niveles en un mundo vacio y subrealista",
-            inspiracion: "Nos inspiró principalmente para trabajar los fondos dinámicos y practicamente todo el modo forever fish."
-        },
-        {
-            nombre: "The Binding of Isaac",
-            clase: "tboi",
-            portada: "/images/inspiraciones/tboi-portada.jpe",
-            video: "/videos/tboi-gameplay.mp4",
-            segundoInicio: 5,
-            link: "https://store.steampowered.com/app/113200/The_Binding_of_Isaac/?l=spanish",
-            descripcion: "The Binding of Isaac es un roguelike centrado en explorar habitaciones, obtener objetos y crear combinaciones entre diferentes items y activables.",
-            inspiracion: "Fue una referencia para pensar sistemas de objetos, amuletos, estadísticas y combinaciones que puedan modificar la forma de jugar. tambien algunas mejoras y maldiciones se inspiran de algunos existentes de TBOI"
-        },
-        {
-            nombre: "GRACE",
-            clase: "grace",
-            portada: "/images/inspiraciones/grace-portada.jpg",
-            video: "/videos/grace-gameplay.mp4",
-            segundoInicio: 17,
-            link: "https://www.roblox.com/es/games/138837502355157/Grace",
-            descripcion: "GRACE es una experiencia de Roblox, destaca por su identidad visual, ambientación y presentación de sus escenarios. Similar a Doors pero con una representacion biblica",
-            inspiracion: "Nos ayudo a hacer un par de enemigos, efectos y estilos de perks unicos dentro del modo forever fish"
-        },
-        {
-            nombre: "Dredge",
-            clase: "dredge",
-            portada: "/images/inspiraciones/dredge-portada.jpe",
-            video: "/videos/dredge-gameplay.mp4",
-            segundoInicio: 0,
-            link: "https://store.steampowered.com/app/1562430/DREDGE/?l=spanish",
-            descripcion: "Dredge es un juego de pesca y exploración con una ambientación misteriosa y diferentes criaturas marinas.",
-            inspiracion: "Es una de las principales referencias para la temática de pesca, la variedad de peces, la exploración marítima y la ambientación dentro del modo historia."
-        },
-        {
-            nombre: "Undertale",
-            clase: "undertale",
-            portada: "/images/inspiraciones/undertale-portada.jpg",
-            video: "/videos/undertale-gameplay.mp4",
-            segundoInicio: 0,
-            link: "https://store.steampowered.com/app/391540/Undertale/?l=spanish",
-            descripcion: "Undertale es un RPG conocido por su pixel art, sus personajes y su forma de conectar distintas zonas mediante pequeños escenarios.",
-            inspiracion: "Nos inspiró especialmente en la exploración 2D, la división del mundo en zonas y el estilo de interacción con personajes y escenarios."
-        },
-        {
-            nombre: "Deltarune",
-            clase: "deltarune",
-            portada: "/images/inspiraciones/deltarune-portada.jpg",
-            video: "/videos/deltarune-gameplay.mp4",
-            segundoInicio: 2,
-            link: "https://store.steampowered.com/app/1671210/DELTARUNE/",
-            descripcion: "Deltarune es un videojuego de rol (RPG) creado por el desarrollador independiente Toby Fox, ambientado en un mundo paralelo al de su popular obra anterior, Undertale",
-            inspiracion: "Nos inspiro para el sistema de vidas y uso de items dentro del modo historia (y practiacmente lo mismo como el apartado de undertale)",
-        },
-        {
-            nombre: "Mario World",
-            clase: "marioworld",
-            portada: "/images/inspiraciones/marioworld-portada.jpg",
-            video: "/videos/marioworld-gameplay.mp4",
-            segundoInicio: 5,
-            link: "https://www.nintendo.com/es-es/Juegos/Super-Nintendo/Super-Mario-World-752133.html?srsltid=AfmBOormaOWKvR0zaDnCD_-PA223i60qP8oTH1L_z2c-cv9WM8SpewlG",
-            descripcion: "Super Mario World es un clásico videojuego de plataformas en dos dimensiones donde Mario y su nuevo compañero, el dinosaurio Yoshi, deben rescatar a la Princesa Peach de las garras de Bowser",
-            inspiracion: "Nos inspiro mayormente para el formato de seleccion de mundos dentro del modo historia, y algunos peces y consumibles de su mundo tambien.",
-        },
-        {
-            nombre: "Fisch",
-            clase: "fisch",
-            portada: "/images/inspiraciones/fisch-portada.jpg",
-            video: "/videos/fisch-gameplay.mp4",
-            segundoInicio: 0,
-            link: "https://www.roblox.com/es/games/16732694052/Fisch",
-            descripcion: "Fisch en Roblox es una experiencia de aventura y exploración de mundo abierto, cuyo objetivo principal es pescar para obtener ganancias, completar misiones y llenar un bestiario.",
-            inspiracion: "Practicamente la inspiracion del primer juego y de este ahora aun tambien, sus multiples items como cañas, barcos y cebos nos inspiro a hacer el modo historia. Tambien algunos peces extravagantes y graciosos que tenian nos ayudaron en el apartado artistico",
-        },
-        {
-            nombre: "Stardew Valley",
-            clase: "stardewvalley",
-            portada: "/images/inspiraciones/stardewvalley-portada.jpg",
-            video: "/videos/stardewvalley-gameplay.mp4",
-            segundoInicio: 0,
-            link: "https://store.steampowered.com/app/413150/Stardew_Valley/?l=spanish",
-            descripcion: "Stardew Valley es un videojuego indie de simulación de granja y rol creado y desarrollado por Eric \"ConcernedApe\" Barone, lanzado originalmente en 2016. En el juego, los jugadores asumen el papel de un personaje que hereda una granja en ruinas y deben trabajar para restaurarla y convertirla en un próspero negocio agrícola.",
-            inspiracion: "Nos inspiro para el sistema de pesca, la variedad de peces y la forma en que se pueden obtener distintos recursos y objetos dentro del modo historia, como los alimentos.",
-        }
-
-        // plantilla de inspiracion: { nombre, clase, portada, video, segundoInicio, link, descripcion, inspiracion }
-    ]
-
     const [inspiracionActual, setInspiracionActual] = useState(0)
 
     const siguienteInspiracion = () => {
@@ -196,7 +79,7 @@ function Credits() {
 
         const video = videoRef.current
 
-        if (!video) return
+        if (!video || !inspiracion) return
 
         const colocarTiempo = () => {
             video.currentTime = inspiracion.segundoInicio || 0
@@ -212,7 +95,8 @@ function Credits() {
             video.addEventListener("loadedmetadata", colocarTiempo, { once: true })
         }
 
-    }, [inspiracionActual, inspiracion.segundoInicio])
+        return () => video.removeEventListener("loadedmetadata", colocarTiempo)
+    }, [inspiracion])
 
     useEffect(() => {
         if (!modalAbierto || !modalVideoRef.current) return
@@ -243,9 +127,20 @@ function Credits() {
                 <Header />
             </div>
 
-            <main className="credits">
+            <main className="credits" aria-busy={estado === "loading"}>
+                {estado === "loading" && <p role="status">Cargando creditos...</p>}
+                {estado === "error" && <div role="alert">
+                    <p>No se pudieron cargar los creditos. Comprueba la conexion e intenta nuevamente.</p>
+                    <Button onClick={() => {
+                        setEstado("loading")
+                        setReintento((actual) => actual + 1)
+                    }}>Reintentar</Button>
+                </div>}
+                {estado === "ready" && integrantes.length === 0 && inspiraciones.length === 0 &&
+                    <p>No hay creditos disponibles.</p>}
 
-            <section className="integrantes">
+
+            {integrantes.length > 0 && <section className="integrantes">
 
                 <div className="titulo-seccion">
                     <h1>Créditos</h1>
@@ -349,12 +244,12 @@ function Credits() {
                     </Box>
                 </Modal>
 
-            </section>
+            </section>}
 
 
             {/* inspiraciones */}
 
-            <section className="inspiraciones">
+            {inspiracion && <section className="inspiraciones">
 
                 <div className="titulo-seccion">
 
@@ -487,7 +382,7 @@ function Credits() {
 
                 </div>
 
-            </section>
+            </section>}
 
             </main>
         </div>

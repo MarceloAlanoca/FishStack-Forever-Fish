@@ -251,10 +251,10 @@ function Home() {
                             <span className="home-change-timer home-change-timer--access" />
                         </button>
 
-                        <button className="home-action home-action--shop" type="button" onClick={() => mostrarProximamente("Shop")}>
+                        <Link className="home-action home-action--shop" to="/shop">
                             <span className="home-action__icon">$</span>
                             <span><strong>Shop</strong><small>Tienda del puerto</small></span>
-                        </button>
+                        </Link>
 
                         <Link className="home-action home-action--logs" to="/logs">
                             <span className="home-action__icon">≡</span>

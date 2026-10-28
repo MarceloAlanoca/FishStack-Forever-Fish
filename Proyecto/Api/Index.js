@@ -3,15 +3,17 @@ const cors = require("cors");
 const path = require("node:path");
 
 const { sequelize } = require("./config/db");
-const { migrateUsername } = require("./models/migrateUsername");
 
 const { sayHello } = require("./controllers/sayHello");
 const { getUpdates, getUpdatesByID } = require("./controllers/UpdateController");
 const { seedUpdates } = require("./scripts/seedUpdates");
+const { seedArticles } = require("./scripts/seedArticles");
+const { getArticles } = require("./controllers/articles");
+const { getCredits } = require("./controllers/credits");
+const { seedCredits } = require("./scripts/seedCredits");
+const { seedAdmin } = require("./scripts/seedAdmin");
 const { getUsers, getUserById, me, updateProfilePhoto, deleteProfilePhoto, registerUser, login } = require("./controllers/user");
 const { uploadProfilePhoto } = require("./middlewares/profilePhoto");
-const { migrateProfilePhotos } = require("./models/migrateProfilePhotos");
-const { ensureAdminAccount } = require("./scripts/ensureAdminAccount");
 const { isAuth, isAdmin } = require("./middlewares/auth");
 const { updateUsername, updatePassword, updateSurname } = require("./controllers/profileAccount");
 
@@ -29,12 +31,17 @@ server.use(express.static(path.join(__dirname, "public")));
 
 server.get('/', sayHello);
 server.get('/updates', getUpdates);
+server.get('/articles', getArticles);
+server.get('/credits', getCredits);
 server.get('/updates/:id', getUpdatesByID);
-server.get('/users/:id', isAuth, getUserById);
-server.get('/users', isAuth, getUsers);
+server.get('/users/:id', isAuth, isAdmin, getUserById);
+server.get('/users', isAuth, isAdmin, getUsers);
 server.get('/me', isAuth, me);
+server.use("/admin/users", require("./routes/adminUsers"));
+server.use("/admin/articles", require("./routes/adminArticles"));
+server.use("/admin/updates", require("./routes/adminUpdates"));
 server.get('/admin', isAuth, isAdmin, (req, res) => {
-    res.json({ usuario: { Usuario: req.account.Usuario, Rol: req.account.Rol } });
+    res.json({ usuario: { ID_Usuario: req.account.ID_Usuario, Usuario: req.account.Usuario, Rol: req.account.Rol } });
 });
 // primero verifica la sesion, despues recibe el archivo y finalmente guarda su ruta.
 server.patch('/me/photo', isAuth, uploadProfilePhoto, updateProfilePhoto);
@@ -63,19 +70,12 @@ const iniciarServidor = async () => {
             }
         }
 
-        await migrateUsername();
-        await sequelize.sync();
-        // agrega el campo de la foto si falta, sin modificar las cuentas existentes.
-        const columns = await sequelize.getQueryInterface().describeTable("usuarios");
-        if (!columns.Foto_Perfil) {
-            await sequelize.getQueryInterface().addColumn("usuarios", "Foto_Perfil", {
-                type: require("sequelize").DataTypes.STRING(255),
-                allowNull: true
-            });
-        }
-        await migrateProfilePhotos();
-        await ensureAdminAccount();
+        // Borra y recrea las tablas en cada arranque, incluidos los usuarios.
+        await sequelize.sync({ force: true });
+        await seedAdmin();
         await seedUpdates();
+        await seedArticles();
+        await seedCredits();
 
         const puerto = Number(process.env.PORT) || 3000;
 

@@ -7,7 +7,6 @@
 .game-page {
     --background-x: 0px;
     --background-y: 0px;
-
     position: relative;
     isolation: isolate;
     width: 100%;
@@ -162,7 +161,9 @@
 }
 
 @keyframes game-spin {
-    to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @media (max-width: 700px) {

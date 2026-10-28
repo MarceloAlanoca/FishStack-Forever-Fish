@@ -30,8 +30,10 @@ SET time_zone = "+00:00";
 CREATE TABLE `articulos` (
   `ID_Pass` int(11) NOT NULL,
   `Nombre` varchar(255) DEFAULT NULL,
-  `Descripcion` varchar(255) DEFAULT NULL,
-  `Precio` int(11) DEFAULT NULL
+  `Descripcion` text DEFAULT NULL,
+  `Precio` int(11) DEFAULT NULL,
+  `Doblones` int(11) NOT NULL DEFAULT 0,
+  `Tipo` varchar(40) NOT NULL DEFAULT 'Doblones'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -51,16 +53,38 @@ CREATE TABLE `compra` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `peces`
+-- Estructura de tabla para la tabla `creditos_integrantes`
 --
 
-CREATE TABLE `peces` (
-  `ID_pez` int(11) NOT NULL,
-  `Nombre_pez` varchar(255) DEFAULT NULL,
-  `Peso` int(11) DEFAULT NULL,
-  `Precio` int(11) DEFAULT NULL,
-  `Calidad` varchar(255) DEFAULT NULL,
-  `Profundidad` int(11) DEFAULT NULL
+CREATE TABLE `creditos_integrantes` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `orden` int NOT NULL DEFAULT 0,
+  `nombre` varchar(100) NOT NULL,
+  `rol` varchar(100) NOT NULL,
+  `descripcion` text NOT NULL,
+  `detalle` text NOT NULL,
+  `aporte` text NOT NULL,
+  `imagen` varchar(2048) NOT NULL,
+  `video` varchar(2048) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `creditos_inspiraciones`
+--
+
+CREATE TABLE `creditos_inspiraciones` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `orden` int NOT NULL DEFAULT 0,
+  `nombre` varchar(100) NOT NULL,
+  `descripcion` text NOT NULL,
+  `clase` varchar(100) NOT NULL,
+  `portada` varchar(2048) NOT NULL,
+  `video` varchar(2048) NOT NULL,
+  `segundoInicio` int NOT NULL DEFAULT 0,
+  `link` varchar(2048) NOT NULL,
+  `inspiracion` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -105,11 +129,6 @@ ALTER TABLE `compra`
   ADD KEY `ID_Usuario` (`ID_Usuario`),
   ADD KEY `ID_Pass` (`ID_Pass`);
 
---
--- Indices de la tabla `peces`
---
-ALTER TABLE `peces`
-  ADD PRIMARY KEY (`ID_pez`);
 
 --
 -- Indices de la tabla `usuarios`
@@ -134,11 +153,6 @@ ALTER TABLE `articulos`
 ALTER TABLE `compra`
   MODIFY `ID_Compra` int(11) NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT de la tabla `peces`
---
-ALTER TABLE `peces`
-  MODIFY `ID_pez` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
