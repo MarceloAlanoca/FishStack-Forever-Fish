@@ -54,6 +54,12 @@ function Header({ usuario: suppliedUser, theme = "ocean" }) {
                     <Avatar usuario={usuario} />
                 </Link>
             )}
+            {sesionActiva && usuario && (
+                <span className="site-header__balance" aria-label={`${usuario.Doblones ?? 0} doblones`}>
+                    <span>{new Intl.NumberFormat("es-AR").format(usuario.Doblones ?? 0)}</span>
+                    <img src="/images/Icons/DoblonIcon.png" alt="" />
+                </span>
+            )}
             </div>
             {confirmarSalida && <LogoutModal usuario={usuario}
                 onCancel={() => setConfirmarSalida(false)} onConfirm={cerrarSesion} />}

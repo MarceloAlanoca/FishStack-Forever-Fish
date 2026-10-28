@@ -185,6 +185,25 @@
     font: 1.6rem "Header Pixel", monospace;
 }
 
+.crud-sidebar-submenu {
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: 14px;
+    margin: 2px 0 12px;
+    border-left: 2px solid #72899f;
+}
+
+.crud-sidebar .crud-sidebar-submenu button {
+    width: 100%;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+}
+
+.crud-sidebar button[aria-expanded] span {
+    float: right;
+    margin-left: 10px;
+}
+
 .crud-sidebar button {
     display: block;
     width: 100%;

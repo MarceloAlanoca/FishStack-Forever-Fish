@@ -1,20 +1,12 @@
 const { Article } = require("../models/articlesModel");
+const { validText, validAmount } = require("../validations");
 
 function validateArticle(body) {
-    if (typeof body.Nombre !== "string" || !body.Nombre.trim() || body.Nombre.trim().length > 255) {
-        return "El nombre es obligatorio y admite hasta 255 caracteres.";
+    if (!validText(body.Nombre) || !validText(body.Descripcion, 15000) || !validText(body.Tipo, 40)) {
+        return "Completa nombre, descripcion y tipo respetando sus limites de caracteres.";
     }
-    if (typeof body.Descripcion !== "string" || !body.Descripcion.trim() || body.Descripcion.length > 15000) {
-        return "Ingresa una descripción de hasta 15.000 caracteres.";
-    }
-    if (typeof body.Tipo !== "string" || !body.Tipo.trim() || body.Tipo.trim().length > 40) {
-        return "El tipo es obligatorio y admite hasta 40 caracteres.";
-    }
-    if (!Number.isInteger(body.Precio) || body.Precio < 0 || body.Precio > 2147483647) {
-        return "El precio debe ser un número entero entre 0 y 2.147.483.647 pesos.";
-    }
-    if (!Number.isInteger(body.Doblones) || body.Doblones < 0 || body.Doblones > 2147483647) {
-        return "La cantidad de doblones debe ser un entero entre 0 y 2.147.483.647.";
+    if (!validAmount(body.Precio) || !validAmount(body.Doblones)) {
+        return "El precio y los doblones deben ser enteros entre 0 y 2.147.483.647.";
     }
     return "";
 }

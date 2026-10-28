@@ -9,7 +9,9 @@ const emptyForm = {
     Correo: "",
     Usuario: "",
     Contraseña: "",
-    Rol: "Usuario"
+    Rol: "Usuario",
+    Doblones: 0,
+    isActive: true
 }
 
 function requestConfig() {
@@ -44,7 +46,8 @@ export default function UserManager({ currentUser, onCurrentUserChange }) {
     }, [refresh])
 
     function changeField(event) {
-        setForm({ ...form, [event.target.name]: event.target.value })
+        const { name, value } = event.target
+        setForm({ ...form, [name]: name === "isActive" ? value === "true" : value })
     }
 
     function reloadUsers() {
@@ -74,7 +77,9 @@ export default function UserManager({ currentUser, onCurrentUserChange }) {
                 Correo: data.Correo || "",
                 Usuario: data.Usuario,
                 Contraseña: "",
-                Rol: data.Rol?.toLowerCase() === "administrador" ? "Administrador" : "Usuario"
+                Rol: data.Rol?.toLowerCase() === "administrador" ? "Administrador" : "Usuario",
+                Doblones: data.Doblones ?? 0,
+                isActive: data.isActive
             })
             setModalOpen(true)
         } catch (error) {
@@ -91,12 +96,13 @@ export default function UserManager({ currentUser, onCurrentUserChange }) {
         setMessage("")
         try {
             let response
+            const body = { ...form, Doblones: Number(form.Doblones) }
             if (selectedId === null) {
-                response = await axios.post(API_URL + "/admin/users", form, requestConfig())
+                response = await axios.post(API_URL + "/admin/users", body, requestConfig())
                 setUsers([...users, response.data])
                 setMessage("Usuario creado correctamente.")
             } else {
-                response = await axios.put(API_URL + "/admin/users/" + selectedId, form, requestConfig())
+                response = await axios.put(API_URL + "/admin/users/" + selectedId, body, requestConfig())
                 setUsers(users.map((user) => user.ID_Usuario === selectedId ? response.data : user))
                 setMessage("Usuario actualizado correctamente.")
             }
@@ -110,7 +116,9 @@ export default function UserManager({ currentUser, onCurrentUserChange }) {
                 Correo: response.data.Correo,
                 Usuario: response.data.Usuario,
                 Contraseña: "",
-                Rol: response.data.Rol
+                Rol: response.data.Rol,
+                Doblones: response.data.Doblones,
+                isActive: response.data.isActive
             })
             setModalOpen(false)
         } catch (error) {
@@ -121,19 +129,19 @@ export default function UserManager({ currentUser, onCurrentUserChange }) {
     }
 
     async function deleteUser() {
-        if (!window.confirm("¿Eliminar al usuario " + form.Usuario + "? Esta acción no se puede deshacer.")) return
+        if (!window.confirm("¿Eliminar al usuario " + form.Usuario + "? Sus datos se conservaran y no podra iniciar sesion.")) return
         setBusy(true)
         setError("")
         setMessage("")
         try {
             await axios.delete(API_URL + "/admin/users/" + selectedId, requestConfig())
-            setUsers(users.filter((user) => user.ID_Usuario !== selectedId))
+            setUsers(users.map((user) => user.ID_Usuario === selectedId ? { ...user, isActive: false } : user))
             setSelectedId(null)
             setForm(emptyForm)
-            setMessage("Usuario eliminado correctamente.")
+            setMessage("Cuenta eliminada correctamente.")
             setModalOpen(false)
         } catch (error) {
-            setError(error.response?.data?.message || "No se pudo eliminar el usuario.")
+            setError(error.response?.data?.message || "No se pudo desactivar la cuenta.")
         } finally {
             setBusy(false)
         }
@@ -176,6 +184,8 @@ export default function UserManager({ currentUser, onCurrentUserChange }) {
                                     <th scope="col">Apellido</th>
                                     <th scope="col">Correo</th>
                                     <th scope="col">Rol</th>
+                                    <th scope="col">Estado</th>
+                                    <th scope="col">Doblones</th>
                                     <th scope="col">Acción</th>
                                 </tr>
                             </thead>
@@ -188,10 +198,12 @@ export default function UserManager({ currentUser, onCurrentUserChange }) {
                                         <td>{user.Apellido}</td>
                                         <td>{user.Correo || "Sin correo"}</td>
                                         <td>{user.Rol}</td>
+                                        <td>{user.isActive ? "Activa" : "Inactiva"}</td>
+                                        <td>{user.Doblones ?? 0}</td>
                                         <td><button type="button" disabled={busy} onClick={() => selectUser(user.ID_Usuario)}>Editar</button></td>
                                     </tr>
                                 ))}
-                                {!loading && filteredUsers.length === 0 && <tr><td colSpan="7">No se encontraron usuarios.</td></tr>}
+                                {!loading && filteredUsers.length === 0 && <tr><td colSpan="9">No se encontraron usuarios.</td></tr>}
                             </tbody>
                         </table>
                     </div>
@@ -237,9 +249,20 @@ export default function UserManager({ currentUser, onCurrentUserChange }) {
                                         <option value="Administrador">Administrador</option>
                                     </select>
                                 </label>
+                                <label>
+                                    Estado de la cuenta
+                                    <select name="isActive" value={String(form.isActive)} onChange={changeField} disabled={ownAccount}>
+                                        <option value="true">Activa</option>
+                                        <option value="false">Inactiva</option>
+                                    </select>
+                                </label>
+                                <label>
+                                    Doblones
+                                    <input name="Doblones" type="number" min="0" max="2147483647" step="1" required value={form.Doblones} onChange={changeField} />
+                                </label>
                                 <div className="crud-form-actions">
                                     <button type="submit">{busy ? "Guardando..." : selectedId === null ? "Crear usuario" : "Guardar cambios"}</button>
-                                    {selectedId !== null && <button className="crud-delete" type="button" onClick={deleteUser} disabled={ownAccount}>Eliminar usuario</button>}
+                                    {selectedId !== null && <button className="crud-delete" type="button" onClick={deleteUser} disabled={ownAccount}>Eliminar cuenta</button>}
                                 </div>
                                 {ownAccount && <p className="crud-form-help">Estás editando tu cuenta. Puedes cambiar tus datos, pero no eliminarla ni quitarte el rol de administrador.</p>}
                             </fieldset>

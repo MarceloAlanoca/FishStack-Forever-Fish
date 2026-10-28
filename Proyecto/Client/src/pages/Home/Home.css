@@ -191,16 +191,23 @@
     animation: home-ad-slide-previous 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.anuncio-mar {
-    background-image: url("/images/PLACEHOLDER.png");
+.home-ad__link {
+    position: absolute;
+    inset: 0;
+    display: block;
+    background: #061826;
 }
 
-.anuncio-comunidad {
-    background-image: url("/images/PLACEHOLDER-2.png");
+.home-ad__link img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
 }
 
-.anuncio-forever {
-    background-image: url("/images/PLACEHOLDER-3.png");
+.home-ad__link:focus-visible {
+    outline: 3px solid var(--sand);
+    outline-offset: -4px;
 }
 
 .home-ad__dots {
@@ -227,6 +234,7 @@
 }
 
 .home-ad__arrow {
+    z-index: 2;
     position: absolute;
     top: 50%;
     width: 32px;
@@ -411,6 +419,8 @@
 }
 
 .home-activity__toggle {
+    touch-action: none;
+    user-select: none;
     position: absolute;
     top: 50%;
     left: -35px;
@@ -713,4 +723,89 @@
     .home-loading__fish {
         animation: none;
     }
+}
+.home-networks {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    width: min(460px, calc(100vw - 32px));
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 32px 26px;
+    border: 2px solid #397c91;
+    border-radius: 18px;
+    background: #051d2e;
+    color: #eafcff;
+    font-family: "Header Pixel", monospace;
+    text-align: left;
+}
+
+.home-networks::backdrop {
+    background: #021522b3;
+    backdrop-filter: blur(8px);
+}
+
+.home-networks h2 {
+    padding-right: 24px;
+    margin: 0 0 24px;
+    color: #f5cf69;
+    font: inherit;
+    font-size: 1.8rem;
+}
+
+.home-networks__close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    border: 0;
+    background: transparent;
+    color: #eafcff;
+    font-size: 1.6rem;
+    cursor: pointer;
+}
+
+.home-networks__card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px;
+    margin-top: 12px;
+    border: 2px solid #397c91;
+    border-radius: 10px;
+    background: #0d3b55;
+    color: #eafcff;
+    text-decoration: none;
+}
+
+.home-networks__card > span:first-child {
+    font-size: 1.8rem;
+}
+
+.home-networks__card strong,
+.home-networks__card small {
+    display: block;
+}
+
+.home-networks__card small {
+    margin-top: 6px;
+    color: #a9d1d7;
+}
+
+a.home-networks__card:hover {
+    border-color: #f5cf69;
+    background: #154962;
+}
+
+.home-networks a:focus-visible,
+.home-networks button:focus-visible {
+    outline: 2px solid #f5cf69;
+    outline-offset: 4px;
+}
+
+.home-networks__placeholder {
+    background: #09283d;
+    border-style: dashed;
 }

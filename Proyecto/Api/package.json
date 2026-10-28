@@ -4,7 +4,8 @@
   "description": "Esta sera la version Remake de FishStack, programado por el grupo DevPlay Studio",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js --watch"
+    "start": "node Index.js",
+    "dev": "node --watch Index.js"
   },
   "repository": {
     "type": "git",

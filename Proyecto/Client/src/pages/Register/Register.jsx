@@ -57,16 +57,6 @@ function Register() {
                 ← Volver a la página principal
             </button>
 
-            <div className="register-bubbles" aria-hidden="true">
-                {[12, 24, 43, 67, 81, 92].map((position, index) => (
-                    <span key={position} style={{
-                        "--bubble-left": `${position}%`,
-                        "--bubble-delay": `${index * -1.35}s`,
-                        "--bubble-size": `${5 + (index % 3) * 3}px`
-                    }} />
-                ))}
-            </div>
-
             <section className="register-card" aria-labelledby="register-title">
                 <div className="register-card__header">
                     <span className="register-card__kicker">ÚNETE A LA TRIPULACIÓN</span>
@@ -91,7 +81,11 @@ function Register() {
                             required
                         />
                     </label>
-                    <label><span>Usuario</span><input type="text" name="Usuario" placeholder="Elige un usuario" value={form.Usuario} onChange={cambiarDato} autoComplete="username" minLength="3" required /></label>
+                    <label htmlFor="register-username">
+                        <span>Nombre de usuario</span>
+                        <input id="register-username" type="text" name="Usuario" placeholder="Elige el usuario con el que iniciarás sesión"
+                            value={form.Usuario} onChange={cambiarDato} autoComplete="username" minLength="3" maxLength="255" required />
+                    </label>
                     <label>
                         <span>Contraseña</span>
                         <div className="register-form__password">

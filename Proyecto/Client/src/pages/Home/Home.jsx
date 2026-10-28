@@ -1,30 +1,16 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 
 import { API_URL } from "../../config/api"
 import Header from "../../components/Header/Header"
+import NetworksModal from "./NetworksModal"
 import "./Home.css"
 
 const anuncios = [
-    {
-        etiqueta: "NUEVA AVENTURA",
-        titulo: "El mar te esta esperando",
-        texto: "Explora, pesca y mejora tu barco en FishStack: Forever Fish.",
-        clase: "anuncio-mar"
-    },
-    {
-        etiqueta: "COMUNIDAD",
-        titulo: "Comparte tus mejores capturas",
-        texto: "Muy pronto podras mostrar tus peces y logros a otros jugadores.",
-        clase: "anuncio-comunidad"
-    },
-    {
-        etiqueta: "MODO INFINITO",
-        titulo: "¿Hasta donde puedes llegar?",
-        texto: "Preparate para Forever Fish, el desafio que cambia en cada partida.",
-        clase: "anuncio-forever"
-    }
+    { titulo: "Drink SUS", imagen: "/images/Ads/SusAd.png", url: "https://www.innersloth.com/games/among-us/" },
+    { titulo: "CGR Corp", imagen: "/images/Ads/CGR_Corp.png", url: "https://www.corpgovrisk.com/" },
+    { titulo: "Panchito", imagen: "/images/Ads/Panchito.png", url: "https://chisap.com/shop/panchos" }
 ]
 
 const frases = [
@@ -66,7 +52,8 @@ function Home() {
     const [reinicioAcceso, setReinicioAcceso] = useState(0)
     const [frase] = useState(fraseInicial)
     const [mostrarActividad, setMostrarActividad] = useState(true)
-    const [aviso, setAviso] = useState("")
+    const activityDrag = useRef(null)
+    const [mostrarRedes, setMostrarRedes] = useState(false)
 
     useEffect(() => {
         const verificarUsuario = async () => {
@@ -110,10 +97,6 @@ function Home() {
         return () => clearInterval(intervalo)
     }, [reinicioAcceso])
 
-    const mostrarProximamente = (seccion) => {
-        setAviso(`${seccion} estara disponible proximamente.`)
-    }
-
     const cambiarAnuncio = (nuevoAnuncio, direccion) => {
         setDireccionAnuncio(direccion)
         setAnuncioActual(nuevoAnuncio)
@@ -150,7 +133,7 @@ function Home() {
     const interactuarConAcceso = () => {
         if (acceso.nombre === "Perfil") navigate("/profile")
         else if (acceso.nombre === "Creditos") navigate("/credits")
-        else mostrarProximamente(acceso.nombre)
+        else setMostrarRedes(true)
         setReinicioAcceso((valorActual) => valorActual + 1)
     }
 
@@ -180,9 +163,13 @@ function Home() {
 
                     <div className="home-ad__viewport">
                         <div
-                            className={`home-ad__slide home-ad--${direccionAnuncio} ${anuncio.clase}`}
+                            className={`home-ad__slide home-ad--${direccionAnuncio}`}
                             key={`${anuncioActual}-${direccionAnuncio}-${reinicioAnuncio}`}
                         >
+                            <a className="home-ad__link" href={anuncio.url} target="_blank" rel="noopener noreferrer"
+                                aria-label={"Visitar " + anuncio.titulo + " (abre en otra pestaña)"}>
+                                <img src={anuncio.imagen} alt={"Publicidad de " + anuncio.titulo} />
+                            </a>
                             <button
                                 className="home-ad__arrow home-ad__arrow--left"
                                 type="button"
@@ -262,50 +249,34 @@ function Home() {
                         </Link>
                     </div>
 
-                    {aviso && <p className="home-notice" role="status">{aviso}</p>}
                 </article>
 
                 <aside className={`home-panel home-activity ${mostrarActividad ? "" : "home-activity--closed"}`}>
-                    <button
-                        className="home-activity__toggle"
-                        type="button"
+                    <button className="home-activity__toggle" type="button"
                         aria-label={mostrarActividad ? "Cerrar actividad" : "Mostrar actividad"}
-                        aria-expanded={mostrarActividad}
-                        onClick={() => setMostrarActividad((valorActual) => !valorActual)}
-                    >
-                        {mostrarActividad ? "→" : "←"}
+                        aria-expanded={mostrarActividad} aria-controls="home-activity-content"
+                        onPointerDown={(event) => {
+                            activityDrag.current = { x: event.clientX, dragged: false }
+                            event.currentTarget.setPointerCapture(event.pointerId)
+                        }}
+                        onPointerUp={(event) => {
+                            if (!activityDrag.current) return
+                            const distance = event.clientX - activityDrag.current.x
+                            if (Math.abs(distance) > 25) {
+                                activityDrag.current.dragged = true
+                                setMostrarActividad(distance < 0)
+                            }
+                        }}
+                        onPointerCancel={() => { activityDrag.current = null }}
+                        onClick={() => {
+                            if (!activityDrag.current?.dragged) setMostrarActividad((current) => !current)
+                            activityDrag.current = null
+                        }}>
+                        {mostrarActividad ? "›" : "‹"}
                     </button>
-
-                        <div className="home-panel__title">
-                            <span>Actividad</span>
-                        </div>
-
-                        <ul>
-                            <li>
-                                <span className="activity-icon">!</span>
-                                <div>
-                                    <strong>Actualizacion inicial</strong>
-                                    <p>El puerto de FishStack ya esta abierto.</p>
-                                    <small>HOY</small>
-                                </div>
-                            </li>
-                            <li>
-                                <span className="activity-icon">★</span>
-                                <div>
-                                    <strong>Tu aventura comienza</strong>
-                                    <p>Entra al juego y realiza tu primera captura.</p>
-                                    <small>NUEVO</small>
-                                </div>
-                            </li>
-                            <li>
-                                <span className="activity-icon">?</span>
-                                <div>
-                                    <strong>Soporte</strong>
-                                    <p>Muy pronto podras consultar tus solicitudes.</p>
-                                    <small>PROXIMAMENTE</small>
-                                </div>
-                            </li>
-                        </ul>
+                    <div id="home-activity-content" className="home-panel__title">
+                        <span>Actividad</span>
+                    </div>
                 </aside>
             </section>
 
@@ -313,6 +284,7 @@ function Home() {
                 <span>FishStack: Forever Fish</span>
                 <span>DevPlay Studio</span>
             </footer>
+            {mostrarRedes && <NetworksModal onClose={() => setMostrarRedes(false)} />}
         </main>
     )
 }

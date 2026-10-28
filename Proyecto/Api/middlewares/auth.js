@@ -24,9 +24,9 @@ const isAuth = async (req, res, next) => {
 
         const user = await User.findByPk(decoded.id);
 
-        if (!user) {
-            return res.status(404).json({
-                message: "Usuario no encontrado"
+        if (!user || !user.isActive || decoded.version !== user.authVersion) {
+            return res.status(401).json({
+                message: "La cuenta no esta disponible."
             });
         }
 

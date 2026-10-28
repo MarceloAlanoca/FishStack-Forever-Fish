@@ -24,13 +24,7 @@ export default function CrudModal({ title, busy, error, onClose, children }) {
             className="crud-modal"
             aria-labelledby="crud-modal-title"
             aria-busy={busy}
-            onCancel={(event) => {
-                event.preventDefault()
-                closeModal()
-            }}
-            onClick={(event) => {
-                if (event.target === event.currentTarget) closeModal()
-            }}
+            onCancel={(event) => event.preventDefault()}
         >
             <div className="crud-modal-header">
                 <h3 id="crud-modal-title">{title}</h3>

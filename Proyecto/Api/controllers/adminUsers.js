@@ -1,19 +1,24 @@
 const bcrypt = require("bcrypt");
-const { Op } = require("sequelize");
 const User = require("../models/userModel");
-const { removeProfilePhoto } = require("../middlewares/profilePhoto");
+const { validText, validEmail, validPassword, validAmount } = require("../validations");
 
 const publicAttributes = { exclude: ["Contraseña"] };
 
 function validateUser(body, creating) {
+    if (body.isActive !== undefined && typeof body.isActive !== "boolean") {
+        return "El estado debe ser activo o inactivo.";
+    }
+    if (body.Doblones !== undefined && !validAmount(body.Doblones)) {
+        return "Los doblones deben ser un entero entre 0 y 2.147.483.647.";
+    }
     const fields = ["Nombre", "Apellido", "Correo", "Usuario"];
     for (let i = 0; i < fields.length; i++) {
         const value = body[fields[i]];
-        if (typeof value !== "string" || !value.trim() || value.trim().length > 255) {
+        if (!validText(value)) {
             return "Completa nombre, apellido, correo y usuario (hasta 255 caracteres).";
         }
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.Correo.trim())) {
+    if (!validEmail(body.Correo)) {
         return "Ingresa un correo válido.";
     }
     if (body.Usuario.trim().length < 3) {
@@ -24,10 +29,8 @@ function validateUser(body, creating) {
     }
     // En edición, dejar la contraseña vacía conserva la que ya tiene la cuenta.
     const password = body.Contraseña;
-    if (creating || (password !== undefined && password !== "")) {
-        if (typeof password !== "string" || password.length < 6 || Buffer.byteLength(password, "utf8") > 72) {
-            return "La contraseña debe tener al menos 6 caracteres y como máximo 72 bytes.";
-        }
+    if ((creating || (password !== undefined && password !== "")) && !validPassword(password, 6)) {
+        return "La contraseña debe tener al menos 6 caracteres y como máximo 72 bytes.";
     }
     return "";
 }
@@ -35,9 +38,6 @@ function validateUser(body, creating) {
 function sendError(res, error) {
     if (error.name === "SequelizeUniqueConstraintError") {
         return res.status(409).json({ message: "El usuario o correo ya está registrado." });
-    }
-    if (error.name === "SequelizeForeignKeyConstraintError") {
-        return res.status(409).json({ message: "No se puede eliminar esta cuenta porque tiene registros relacionados." });
     }
     if (error.name === "SequelizeValidationError") {
         return res.status(400).json({ message: "Revisa los datos ingresados." });
@@ -71,8 +71,8 @@ async function saveUser(req, res) {
     const message = validateUser(body, creating);
     if (message) return res.status(400).json({ message });
 
-    if (!creating && Number(req.params.id) === req.user.id && body.Rol !== "Administrador") {
-        return res.status(400).json({ message: "No puedes quitarte tu propio rol de administrador." });
+    if (!creating && Number(req.params.id) === req.user.id && (body.Rol !== "Administrador" || body.isActive === false)) {
+        return res.status(400).json({ message: "No puedes desactivar tu cuenta ni quitarte tu rol desde el panel." });
     }
 
     try {
@@ -89,13 +89,20 @@ async function saveUser(req, res) {
             Usuario: body.Usuario.trim(),
             Rol: body.Rol
         };
-        const where = { [Op.or]: [{ Usuario: data.Usuario }, { Correo: data.Correo }] };
-        if (!creating) where.ID_Usuario = { [Op.ne]: req.params.id };
-        if (await User.findOne({ where })) {
-            return res.status(409).json({ message: "El usuario o correo ya está registrado." });
-        }
+        if (body.Doblones !== undefined) data.Doblones = body.Doblones;
+        if (body.isActive !== undefined) data.isActive = body.isActive;
+        // Las columnas unique y sendError se encargan de los usuarios o correos repetidos.
 
-        if (body.Contraseña) data.Contraseña = await bcrypt.hash(body.Contraseña, 12);
+        if (body.Contraseña) {
+            data.Contraseña = await bcrypt.hash(body.Contraseña, 12);
+            data.resetTokenHash = null;
+            data.resetExpiresAt = null;
+        }
+        if (body.isActive === false) {
+            data.resetTokenHash = null;
+            data.resetExpiresAt = null;
+            if (!creating) data.authVersion = User.sequelize.literal("authVersion + 1");
+        }
         if (creating) {
             user = await User.create(data);
         } else {
@@ -115,9 +122,9 @@ async function deleteUser(req, res) {
     try {
         const user = await User.findByPk(req.params.id);
         if (!user) return res.status(404).json({ message: "Usuario no encontrado." });
-        await user.destroy();
-        await removeProfilePhoto(user.Foto_Perfil);
-        res.json({ message: "Usuario eliminado." });
+        await user.update({ isActive: false, resetTokenHash: null, resetExpiresAt: null,
+            authVersion: User.sequelize.literal("authVersion + 1") });
+        res.json({ message: "Cuenta desactivada." });
     } catch (error) {
         sendError(res, error);
     }

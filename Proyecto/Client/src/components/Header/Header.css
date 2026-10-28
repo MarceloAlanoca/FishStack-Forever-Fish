@@ -73,6 +73,22 @@
     flex-wrap: wrap;
 }
 
+.site-header__balance {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #f5cf69;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.site-header__balance img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    image-rendering: pixelated;
+}
+
 .site-header__profile {
     max-width: 100%;
     display: flex;

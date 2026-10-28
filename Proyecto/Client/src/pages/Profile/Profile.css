@@ -182,6 +182,17 @@
     margin: 20px 0;
 }
 
+.profile-account-actions {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 6px;
+}
+
+.profile-account-actions button {
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
 .profile-modal {
     position: fixed;
     inset: 0;
@@ -273,3 +284,16 @@
         gap: 4px;
     }
 }
+.profile-account-actions .profile-deactivate,
+.profile-modal-actions .profile-deactivate {
+    color: #fff1f2;
+    border-color: #f87171;
+    background: #991b1b;
+}
+
+.profile-account-actions .profile-deactivate:hover:not(:disabled),
+.profile-modal-actions .profile-deactivate:hover:not(:disabled) {
+    background: #b91c1c;
+    border-color: #fca5a5;
+}
+
