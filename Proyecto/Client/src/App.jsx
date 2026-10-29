@@ -18,7 +18,6 @@ import Footer from "./components/Footer/Footer";
 function App() {
     const location = useLocation();
 
-    // Páginas donde no queremos mostrar el footer
     const paginasSinFooter = ["/login", "/register", "/game"];
 
     const mostrarFooter = !paginasSinFooter.includes(location.pathname);
@@ -77,13 +76,14 @@ function App() {
                 </Routes>
             </div>
 
-            {!["/login", "/register"].includes(location.pathname) && (
-    <div className="footer-wrapper">
-        <Footer />
-    </div>
-)}
+            {mostrarFooter && (
+                <div className="footer-wrapper">
+                    <Footer />
+                </div>
+            )}
         </div>
     );
 }
 
 export default App;
+
