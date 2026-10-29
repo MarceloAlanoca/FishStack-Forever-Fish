@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 🎣 FishStack: Forever Fish
 
 **FishStack: Forever Fish** es el remake de **FishStack**, desarrollado por **DevPlay Studio**. Esta nueva entrega conserva la estética 2D característica de su predecesor, incorporando un desarrollo más amplio, nuevas mecánicas y mejoras en la ambientación y la experiencia de juego.
@@ -103,4 +102,4 @@ Algunas funcionalidades, mecánicas y elementos visuales pueden sufrir modificac
 *FishStack: Forever Fish — Una nueva aventura bajo el mismo océano.*
 
 **Desarrollado por DevPlay Studio.**
-Marcelo  traidorrrr
+Marcelo  traidorrrrgit
