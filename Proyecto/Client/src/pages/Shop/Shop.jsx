@@ -155,7 +155,6 @@ export default function Shop() {
                     ))}
                 </section>
             </main>
-            <footer className="shop-footer">FishStack: Forever Fish · DevPlay Studio</footer>
             {selected && <ArticleDetail article={selected} onClose={() => setSelected(null)} />}
         </div>
     )

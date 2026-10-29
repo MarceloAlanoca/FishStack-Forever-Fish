@@ -182,3 +182,22 @@
     border-right-color: var(--border);
   }
 }
+
+
+/* Layout general y footer compartido */
+.app-layout { display: flex; flex-direction: column; min-height: 100vh; width: 100%; }
+.app-content { flex: 1; min-width: 0; width: 100%; }
+.app-layout > .site-footer { flex-shrink: 0; }
+
+.app-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.app-content {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+}

@@ -93,7 +93,6 @@ export default function Crud() {
                     </div>
                 </>}
             </main>
-            <footer className="crud-footer"><span>FishStack: Forever Fish</span><span>DevPlay Studio</span></footer>
         </div>
     )
 }

@@ -96,7 +96,6 @@ export default function Logs() {
                     </article>)}
                 </section>
             </main>
-            <footer className="logs-footer">FishStack: Forever Fish · DevPlay Studio</footer>
             {selected !== null && <UpdateDetail key={selected} id={selected} onClose={() => setSelected(null)} />}
         </div>
     )

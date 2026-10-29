@@ -279,11 +279,6 @@ function Home() {
                     </div>
                 </aside>
             </section>
-
-            <footer className="home-footer">
-                <span>FishStack: Forever Fish</span>
-                <span>DevPlay Studio</span>
-            </footer>
             {mostrarRedes && <NetworksModal onClose={() => setMostrarRedes(false)} />}
         </main>
     )

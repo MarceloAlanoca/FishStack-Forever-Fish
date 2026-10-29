@@ -1,63 +1,85 @@
-import { Routes, Route } from "react-router-dom"
 
-import Principal from "./pages/Principal/Principal"
-import Credits from "./pages/Credits/Credits"
-import Login from "./pages/Login/Login"
-import Register from "./pages/Register/Register"
-import Home from "./pages/Home/Home"
-import Profile from "./pages/Profile/Profile"
-import Game from "./pages/Game/Game"
-import Crud from "./pages/Crud/Crud"
-import Logs from "./pages/Logs/Logs"
-import Shop from "./pages/Shop/Shop"
+import { Routes, Route, useLocation } from "react-router-dom";
 
-import ProtectedRoute from "./components/ProtectedRoute"
+import Principal from "./pages/Principal/Principal";
+import Credits from "./pages/Credits/Credits";
+import Login from "./pages/Login/Login";
+import Register from "./pages/Register/Register";
+import Home from "./pages/Home/Home";
+import Profile from "./pages/Profile/Profile";
+import Game from "./pages/Game/Game";
+import Crud from "./pages/Crud/Crud";
+import Logs from "./pages/Logs/Logs";
+import Shop from "./pages/Shop/Shop";
+
+import ProtectedRoute from "./components/ProtectedRoute";
+import Footer from "./components/Footer/Footer";
 
 function App() {
+    const location = useLocation();
+
+    // Páginas donde no queremos mostrar el footer
+    const paginasSinFooter = ["/login", "/register", "/game"];
+
+    const mostrarFooter = !paginasSinFooter.includes(location.pathname);
+
     return (
-        <Routes>
+        <div className="app-layout">
+            <main className="app-content">
+                <Routes>
+                    <Route path="/" element={<Principal />} />
 
-            <Route
-                path="/"
-                element={<Principal />}
-            />
+                    <Route path="/credits" element={<Credits />} />
 
-            <Route
-                path="/credits"
-                element={<Credits />}
-            />
+                    <Route path="/login" element={<Login />} />
 
-            <Route
-                path="/login"
-                element={<Login />}
-            />
+                    <Route path="/register" element={<Register />} />
 
-            <Route
-                path="/register"
-                element={<Register />}
-            />
+                    <Route
+                        path="/home"
+                        element={
+                            <ProtectedRoute>
+                                <Home />
+                            </ProtectedRoute>
+                        }
+                    />
 
-            <Route
-                path="/home"
-                element={
-                    <ProtectedRoute>
-                        <Home />
-                    </ProtectedRoute>
-                }
-            />
+                    <Route path="/game" element={<Game />} />
 
-            <Route
-                path="/game"
-                element={<Game />}
-            />
+                    <Route
+                        path="/profile"
+                        element={
+                            <ProtectedRoute>
+                                <Profile />
+                            </ProtectedRoute>
+                        }
+                    />
 
-            <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-            <Route path="/shop" element={<ProtectedRoute><Shop /></ProtectedRoute>} />
-            <Route path="/logs" element={<Logs />} />
-            <Route path="/crud" element={<ProtectedRoute><Crud /></ProtectedRoute>} />
+                    <Route
+                        path="/shop"
+                        element={
+                            <ProtectedRoute>
+                                <Shop />
+                            </ProtectedRoute>
+                        }
+                    />
 
-        </Routes>
-    )
+                    <Route path="/logs" element={<Logs />} />
+
+                    <Route
+                        path="/crud"
+                        element={
+                            <ProtectedRoute>
+                                <Crud />
+                            </ProtectedRoute>
+                        }
+                    />
+                </Routes>
+            </main>
+
+            {mostrarFooter && <Footer />}
+        </div>
+    );
 }
 
-export default App
+export default App;
