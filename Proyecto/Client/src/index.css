@@ -138,11 +138,14 @@ code {
 /* Contenedor del footer */
 .footer-wrapper {
     position: relative;
-    z-index: 9999;
     width: 100%;
     flex-shrink: 0;
 }
 
+.footer-wrapper .site-footer {
+    width: 100%;
+    box-sizing: border-box;
+}
 /* Asegura que el footer ocupe todo el ancho */
 .footer-wrapper .site-footer {
     width: 100%;

@@ -77,9 +77,11 @@ function App() {
                 </Routes>
             </div>
 
-            <div className="footer-wrapper">
-    <Footer />
-</div>
+            {!["/login", "/register"].includes(location.pathname) && (
+    <div className="footer-wrapper">
+        <Footer />
+    </div>
+)}
         </div>
     );
 }
