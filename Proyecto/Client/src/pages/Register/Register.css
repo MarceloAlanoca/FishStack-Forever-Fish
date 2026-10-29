@@ -19,7 +19,8 @@
 
     min-height: 100svh;
     padding: clamp(1.25rem, 4vw, 4.5rem);
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     box-sizing: border-box;
 
     color: #fff8df;
@@ -111,7 +112,8 @@
     width: 100%;
     margin: 0;
     padding: clamp(1.35rem, 2.2vw, 2.15rem);
-    overflow: visible;
+    max-height: calc(100dvh - 110px);
+    overflow-y: auto;
     box-sizing: border-box;
 
     border: 1px solid rgba(255, 201, 118, 0.28);
@@ -332,21 +334,6 @@
     text-decoration: underline;
 }
 
-.register-bubbles span {
-    position: absolute;
-    bottom: -20px;
-    left: var(--bubble-left);
-
-    width: var(--bubble-size);
-    height: var(--bubble-size);
-    border: 1px solid rgba(255, 235, 203, 0.55);
-    border-radius: 50%;
-    box-shadow: inset 1px 1px rgba(255, 255, 255, 0.45);
-
-    animation: register-bubble 9s linear infinite;
-    animation-delay: var(--bubble-delay);
-}
-
 @keyframes register-background {
     0% {
         background-position: 0% 50%;
@@ -389,22 +376,6 @@
     to {
         opacity: 1;
         transform: translateY(0);
-    }
-}
-
-@keyframes register-bubble {
-    0% {
-        opacity: 0;
-        transform: translate(0, 0) scale(0.6);
-    }
-
-    12% {
-        opacity: 0.7;
-    }
-
-    100% {
-        opacity: 0;
-        transform: translate(28px, -105vh) scale(1.25);
     }
 }
 
@@ -478,7 +449,6 @@
 @media (prefers-reduced-motion: reduce) {
     .register-card,
     .register-intro,
-    .register-bubbles span,
     .register-page__glow {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;

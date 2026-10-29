@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { Op } = require("sequelize");
+const { validText, validEmail, validPassword } = require("../validations");
 
 const User = require("../models/userModel");
 
@@ -16,43 +16,21 @@ const register = async (req, res) => {
             Correo,
             Usuario,
             Contraseña
-        } = req.body;
+        } = req.body || {};
 
-        if (!Nombre || !Apellido || !Correo || !Usuario || !Contraseña) {
+        if (!validText(Nombre) || !validText(Apellido) || !validText(Usuario) || !validPassword(Contraseña, 6)) {
             return res.status(400).json({
-                message: "Todos los campos son obligatorios"
+                message: "Completa nombre, apellido y usuario. La contraseña debe tener al menos 6 caracteres y hasta 72 bytes."
             });
         }
 
-        const correoNormalizado = Correo.trim().toLowerCase();
-        // comprueba la estructura basica del correo, sin espacios y con un dominio despues del arroba.
-        const formatoCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        if (!formatoCorreo.test(correoNormalizado)) {
+        if (!validEmail(Correo)) {
             return res.status(400).json({
                 message: "El correo electrónico no es válido"
             });
         }
 
-        const usuarioExistente = await User.findOne({
-            where: {
-                // basta con que coincida el nombre o el correo, para detectar una cuenta duplicada.
-                [Op.or]: [
-                    { Usuario: Usuario.trim() },
-                    { Correo: correoNormalizado }
-                ]
-            }
-        });
-
-        if (usuarioExistente) {
-            const campoDuplicado = usuarioExistente.Correo === correoNormalizado
-                ? "El correo electrónico ya está registrado"
-                : "El usuario ya existe";
-
-            return res.status(400).json({
-                message: campoDuplicado
-            });
-        }
+        const correoNormalizado = Correo.trim().toLowerCase();
 
         // guarda un hash de la contrasena, el 12 define el costo del calculo.
         const hashedPassword = await bcrypt.hash(Contraseña, 12);
@@ -78,7 +56,13 @@ const register = async (req, res) => {
         });
 
     } catch (error) {
-
+        // Sequelize verifica las columnas unique al guardar.
+        if (error.name === "SequelizeUniqueConstraintError") {
+            return res.status(409).json({ message: "El usuario o correo ya esta registrado." });
+        }
+        if (error.name === "SequelizeValidationError") {
+            return res.status(400).json({ message: "Revisa los datos ingresados." });
+        }
         console.log(error);
 
         res.status(500).json({
@@ -96,9 +80,9 @@ const login = async (req, res) => {
         const {
             Usuario,
             Contraseña
-        } = req.body;
+        } = req.body || {};
 
-        if (!Usuario || !Contraseña) {
+        if (!validText(Usuario) || !validPassword(Contraseña, 1)) {
             return res.status(400).json({
                 message: "Usuario y contraseña requeridos"
             });
@@ -111,13 +95,14 @@ const login = async (req, res) => {
         });
 
         // si no existe la cuenta, el segundo lado no se evalua y no intenta leer su contrasena.
-        if (!user || !await bcrypt.compare(Contraseña, user.Contraseña)) {
+        if (!user || !user.isActive || !await bcrypt.compare(Contraseña, user.Contraseña)) {
             return res.status(400).json({
                 message: "Credenciales incorrectas"
             });
         }
 
         const payload = {
+            version: user.authVersion,
             id: user.ID_Usuario,
             usuario: user.Usuario,
             rol: user.Rol

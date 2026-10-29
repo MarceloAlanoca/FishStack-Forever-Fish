@@ -100,6 +100,11 @@ CREATE TABLE `usuarios` (
   `Correo` varchar(255) DEFAULT NULL,
   `Usuario` varchar(255) DEFAULT NULL,
   `Contraseña` varchar(255) DEFAULT NULL,
+  `Doblones` int NOT NULL DEFAULT 0,
+  `isActive` tinyint(1) NOT NULL DEFAULT 1,
+  `resetTokenHash` varchar(64) DEFAULT NULL,
+  `resetExpiresAt` datetime DEFAULT NULL,
+  `authVersion` int NOT NULL DEFAULT 0,
   `Rol` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -135,7 +140,8 @@ ALTER TABLE `compra`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`ID_Usuario`),
-  ADD UNIQUE KEY `uq_usuarios_correo` (`Correo`);
+  ADD UNIQUE KEY `uq_usuarios_correo` (`Correo`),
+  ADD UNIQUE KEY `uq_usuarios_reset_token` (`resetTokenHash`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas

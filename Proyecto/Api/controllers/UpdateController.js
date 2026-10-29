@@ -1,4 +1,5 @@
 const { Updates } = require("../models/UpdateModel");
+const { validText } = require("../validations");
 const { saveUpdateImage, removeUpdateImage } = require("../middlewares/updateImage");
 
 function validateUpdate(body) {
@@ -6,7 +7,7 @@ function validateUpdate(body) {
     const limits = [100, 40, 40, 200, 15000];
     for (let i = 0; i < fields.length; i++) {
         const value = body[fields[i]];
-        if (typeof value !== "string" || !value.trim() || value.length > limits[i]) {
+        if (!validText(value, limits[i])) {
             return "Completa los textos y respeta el máximo de caracteres de cada campo.";
         }
     }

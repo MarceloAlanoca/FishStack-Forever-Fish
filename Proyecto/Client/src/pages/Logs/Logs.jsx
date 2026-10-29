@@ -76,9 +76,7 @@ export default function Logs() {
             <Header />
             <main className="logs-content">
                 <section className="logs-intro">
-                    <span className="logs-eyebrow">FISHSTACK: FOREVER FISH</span>
                     <h1>Actualizaciones</h1>
-                    <p>Las novedades del juego y de nuestra página, en un solo lugar.</p>
                 </section>
                 <section className="logs-list" aria-label="Registro de actualizaciones" aria-busy={estado === "loading"}>
                     {estado === "loading" && <p className="logs-state" role="status">Cargando actualizaciones...</p>}

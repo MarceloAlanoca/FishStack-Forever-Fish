@@ -140,6 +140,7 @@ export default function Profile() {
                         <button type="button" disabled={saving} onClick={() => setModal("username")}>Cambiar usuario</button>
                         <button type="button" disabled={saving} onClick={() => setModal("surname")}>Cambiar apellido</button>
                         <button type="button" disabled={saving} onClick={() => setModal("password")}>Cambiar contraseña</button>
+                        <button className="profile-deactivate" type="button" disabled={saving} onClick={() => setModal("delete")}>Eliminar mi cuenta</button>
                     </div>
                     {modal && <AccountModal type={modal} usuario={usuario}
                         onClose={() => setModal(null)}
@@ -149,7 +150,7 @@ export default function Profile() {
                             setMessage(successMessage)
                             setModal(null)
                         }} />}
-                    <aside className="profile-future"><strong>Doblones · Próximamente</strong><p>Tu saldo estará disponible cuando conectemos el juego.</p></aside>
+                    <aside className="profile-future"><strong>Mis doblones</strong><p>{new Intl.NumberFormat("es-AR").format(usuario.Doblones ?? 0)} doblones disponibles.</p></aside>
                 </>}
             </section>
         </main>

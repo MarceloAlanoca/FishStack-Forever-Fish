@@ -6,6 +6,7 @@ export default function AccountModal({ type, usuario, onClose, onSaved, onInvali
     const dialogRef = useRef(null)
     const isName = type === "username"
     const isSurname = type === "surname"
+    const isDelete = type === "delete"
     const isText = isName || isSurname
     const [name, setName] = useState(isSurname ? usuario.Apellido : usuario.Usuario)
     const [currentPassword, setCurrentPassword] = useState("")
@@ -25,7 +26,7 @@ export default function AccountModal({ type, usuario, onClose, onSaved, onInvali
         if (saving) return
         setError("")
         if (isText && !name.trim()) { setError(isSurname ? "Ingresa un apellido." : "Ingresa un usuario."); return }
-        if (!isText && newPassword !== confirmPassword) {
+        if (!isText && !isDelete && newPassword !== confirmPassword) {
             setError("Las contraseñas nuevas no coinciden.")
             return
         }
@@ -33,6 +34,15 @@ export default function AccountModal({ type, usuario, onClose, onSaved, onInvali
         try {
             const body = isSurname ? { Apellido: name.trim() }
                 : isName ? { Usuario: name.trim() } : { currentPassword, newPassword, confirmPassword }
+            if (isDelete) {
+                await axios.delete(API_URL + "/me", {
+                    headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+                    data: { currentPassword }
+                })
+                localStorage.removeItem("token")
+                onInvalidSession()
+                return
+            }
             const { data } = await axios.patch(`${API_URL}/me/${type}`, body, {
                 headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
             })
@@ -45,11 +55,11 @@ export default function AccountModal({ type, usuario, onClose, onSaved, onInvali
     }
 
     return (
-        <dialog ref={dialogRef} className="profile-modal" aria-labelledby="account-modal-title"
+        <dialog ref={dialogRef} className="profile-modal" aria-labelledby="account-modal-title" aria-describedby="account-modal-help"
             onCancel={(event) => { event.preventDefault(); if (!saving) onClose() }}>
             <form onSubmit={submit} aria-busy={saving}>
-                <h2 id="account-modal-title">{isSurname ? "Cambiar apellido" : isName ? "Cambiar usuario" : "Cambiar contraseña"}</h2>
-                <p className="profile-help">{isSurname ? "Actualiza el apellido que aparece en los datos de tu cuenta." : isName
+                <h2 id="account-modal-title">{isDelete ? "Eliminar mi cuenta" : isSurname ? "Cambiar apellido" : isName ? "Cambiar usuario" : "Cambiar contraseña"}</h2>
+                <p id="account-modal-help" className="profile-help">{isDelete ? "Para eliminar tu cuenta, ingresa tu contraseña actual. Se cerrará tu sesión y no podrás volver a ingresar. Tus datos y doblones se conservarán." : isSurname ? "Actualiza el apellido que aparece en los datos de tu cuenta." : isName
                     ? "Usarás este nombre para iniciar sesión y aparecerá en tu perfil."
                     : "Confirma tu contraseña actual para guardar una nueva."}</p>
                 <fieldset disabled={saving}>
@@ -61,7 +71,7 @@ export default function AccountModal({ type, usuario, onClose, onSaved, onInvali
                             <input autoFocus type="password" name="currentPassword" autoComplete="current-password"
                                 required value={currentPassword} onChange={(event) => setCurrentPassword(event.target.value)} />
                         </label>
-                        <label>Nueva contraseña
+                        {!isDelete && <><label>Nueva contraseña
                             <input type="password" name="newPassword" autoComplete="new-password" required minLength={8} maxLength={72}
                                 value={newPassword} onChange={(event) => setNewPassword(event.target.value)} aria-describedby="password-help" />
                         </label>
@@ -69,13 +79,13 @@ export default function AccountModal({ type, usuario, onClose, onSaved, onInvali
                         <label>Repetir nueva contraseña
                             <input type="password" name="confirmPassword" autoComplete="new-password" required minLength={8} maxLength={72}
                                 value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} />
-                        </label>
+                        </label></>}
                     </>}
                 </fieldset>
                 <p className="profile-modal-error" role="alert">{error}</p>
                 <div className="profile-modal-actions">
                     <button type="button" disabled={saving} onClick={onClose}>Cancelar</button>
-                    <button type="submit" disabled={saving}>{saving ? "Guardando…" : "Guardar cambios"}</button>
+                    <button className={isDelete ? "profile-deactivate" : undefined} type="submit" disabled={saving}>{saving ? "Guardando…" : isDelete ? "Eliminar cuenta" : "Guardar cambios"}</button>
                 </div>
             </form>
         </dialog>

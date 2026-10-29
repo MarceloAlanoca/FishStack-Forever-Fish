@@ -6,12 +6,14 @@ import { API_URL } from "../../config/api"
 import UserManager from "./UserManager"
 import ArticleManager from "./ArticleManager"
 import UpdateManager from "./UpdateManager"
+import CreditManager from "./CreditManager"
 import "./Crud.css"
 
 export default function Crud() {
     const [estado, setEstado] = useState("loading")
     const [usuario, setUsuario] = useState(null)
     const [section, setSection] = useState("users")
+    const [creditsOpen, setCreditsOpen] = useState(false)
     useEffect(() => {
         const controller = new AbortController()
         axios.get(API_URL + "/admin", {
@@ -43,8 +45,7 @@ export default function Crud() {
                 </section>}
                 {estado === "ready" && <>
                     <section className="crud-intro">
-                        <span className="crud-eyebrow">FISHSTACK / ADMINISTRACIÓN</span>
-                        <h1>CRUD</h1><p>Un espacio para administrar FishStack: Forever Fish.</p>
+                        <h1>CRUD</h1>
                         <div className="crud-session"><span className="crud-session__dot" />{usuario.Usuario}<span>Administrador</span></div>
                     </section>
                     <div className="crud-workspace">
@@ -74,11 +75,21 @@ export default function Crud() {
                             >
                                 Actualizaciones
                             </button>
-                            <button type="button" disabled>Créditos</button>
+                            <button type="button" aria-expanded={creditsOpen} aria-controls="crud-credits-menu"
+                                onClick={() => setCreditsOpen(!creditsOpen)}>
+                                Créditos <span aria-hidden="true">{creditsOpen ? "▴" : "▾"}</span>
+                            </button>
+                            {creditsOpen && <div id="crud-credits-menu" className="crud-sidebar-submenu">
+                                <button type="button" className={section === "integrantes" ? "crud-sidebar-active" : ""}
+                                    aria-current={section === "integrantes" ? "page" : undefined} onClick={() => setSection("integrantes")}>Integrantes</button>
+                                <button type="button" className={section === "inspiraciones" ? "crud-sidebar-active" : ""}
+                                    aria-current={section === "inspiraciones" ? "page" : undefined} onClick={() => setSection("inspiraciones")}>Inspiraciones</button>
+                            </div>}
                         </nav>
                         {section === "users" && <UserManager currentUser={usuario} onCurrentUserChange={setUsuario} />}
                         {section === "articles" && <ArticleManager />}
                         {section === "updates" && <UpdateManager />}
+                        {(section === "integrantes" || section === "inspiraciones") && <CreditManager key={section} type={section} />}
                     </div>
                 </>}
             </main>

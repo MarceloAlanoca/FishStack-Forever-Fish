@@ -366,7 +366,7 @@ function Credits() {
                     {inspiraciones.map((juego, index) => (
 
                         <button
-                            key={juego.nombre}
+                            key={juego.id}
                             aria-label={`Ir a ${juego.nombre}`}
                             className={
                                 index === inspiracionActual

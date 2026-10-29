@@ -1,11 +1,23 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import RecoveryModal from "./RecoveryModal";
 import axios from "axios";
 import { API_URL } from "../../config/api";
 import "./Login.css";
 
 function Login() {
     const navigate = useNavigate();
+    const [params, setParams] = useSearchParams();
+    const resetToken = params.get("token");
+    const [recoverOpen, setRecoverOpen] = useState(false);
+    const closeRecovery = () => {
+        setRecoverOpen(false);
+        if (params.has("token")) {
+            const next = new URLSearchParams(params);
+            next.delete("token");
+            setParams(next, { replace: true });
+        }
+    };
 
     const [Usuario, setUsuario] = useState("");
     const [Contraseña, setContraseña] = useState("");
@@ -122,12 +134,26 @@ function Login() {
                 </form>
 
                 <p className="login-card__register">
+                    <button type="button" onClick={() => setRecoverOpen(true)}>Olvidé mi contraseña</button>
+                </p>
+                <p className="login-card__register">
                     ¿Todavía no tienes una cuenta?{" "}
                     <button type="button" onClick={() => navigate("/register")}>
                         Regístrate
                     </button>
                 </p>
             </section>
+            {(recoverOpen || resetToken !== null) && <RecoveryModal
+                key={resetToken === null ? "forgot" : "reset"}
+                reset={resetToken !== null}
+                token={resetToken || ""}
+                onClose={closeRecovery}
+                onSuccess={(message) => {
+                    setContraseña("");
+                    setMensaje(message);
+                    closeRecovery();
+                }}
+            />}
         </main>
     );
 }

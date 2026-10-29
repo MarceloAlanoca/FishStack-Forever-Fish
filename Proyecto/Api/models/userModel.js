@@ -45,6 +45,23 @@ const User = sequelize.define(
             allowNull: true
         },
 
+        Doblones: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 0,
+            validate: { min: 0, max: 2147483647, isInt: true }
+        },
+
+        isActive: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: true
+        },
+
+        resetTokenHash: { type: DataTypes.STRING(64), allowNull: true, unique: true },
+        resetExpiresAt: { type: DataTypes.DATE, allowNull: true },
+        authVersion: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
+
         Rol: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -53,6 +70,7 @@ const User = sequelize.define(
     },
     {
         tableName: "usuarios",
+        defaultScope: { attributes: { exclude: ["resetTokenHash", "resetExpiresAt"] } },
         timestamps: false
     }
 );
