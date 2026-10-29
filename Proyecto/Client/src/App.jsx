@@ -77,7 +77,9 @@ function App() {
                 </Routes>
             </div>
 
-            {mostrarFooter && <Footer />}
+            <div className="footer-wrapper">
+    <Footer />
+</div>
         </div>
     );
 }
