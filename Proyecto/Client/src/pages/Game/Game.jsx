@@ -69,8 +69,7 @@ function Game() {
             <section className="game-stage" aria-label="Juego FishStack">
                 {disponible === false && (
                     <div className="game-loading" role="status">
-                        <p>El juego todavía no está disponible.</p>
-                        <small>La demo volverá cuando incorporemos la nueva exportación.</small>
+                        <p>No se pudo cargar el juego.</p>
                     </div>
                 )}
                 {disponible !== false && cargando && (

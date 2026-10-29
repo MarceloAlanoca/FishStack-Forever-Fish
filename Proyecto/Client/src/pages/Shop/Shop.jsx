@@ -54,9 +54,8 @@ function ArticleDetail({ article, onClose }) {
                     <p>{article.Descripcion}</p>
                     <p className="shop-price">{formatPrice(article.Precio)} ARS</p>
                     <button type="button" className="shop-buy" disabled>
-                        Comprar · Próximamente
+                        Comprar
                     </button>
-                    <p className="shop-help">Las compras todavía no están habilitadas.</p>
                 </div>
             </div>
         </dialog>
@@ -103,7 +102,7 @@ export default function Shop() {
                 <section className="shop-welcome">
                     <h1>Tienda de FishStack</h1>
                     <p>Encuentra paquetes de doblones para tu aventura en FishStack: Forever Fish.</p>
-                    <p className="shop-help">Precios en pesos argentinos. Tienda en preparación.</p>
+                    <p className="shop-help">Precios en pesos argentinos.</p>
                 </section>
 
                 <div className="shop-filters">

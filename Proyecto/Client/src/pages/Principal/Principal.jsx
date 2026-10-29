@@ -209,14 +209,8 @@ function Principal() {
           </p>
 
           <h3>
-            v0.0.1 - Desarrollo inicial
+            v0.0.1
           </h3>
-
-          <p className="detalles-update">
-            Estamos trabajando en la primera version de FishStack: Forever Fish.
-            Actualmente se encuentra en desarrollo el sistema de pesca,
-            los modos Historia y Forever Fish, y la pagina web oficial.
-          </p>
 
           <img
             src="/images/PLACEHOLDER-3.png"

@@ -25,7 +25,7 @@ function App() {
 
     return (
         <div className="app-layout">
-            <main className="app-content">
+            <div className="app-content">
                 <Routes>
                     <Route path="/" element={<Principal />} />
 
@@ -75,7 +75,7 @@ function App() {
                         }
                     />
                 </Routes>
-            </main>
+            </div>
 
             {mostrarFooter && <Footer />}
         </div>

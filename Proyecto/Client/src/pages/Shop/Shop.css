@@ -188,9 +188,12 @@
 }
 
 .shop-detail {
-    width: 100%;
-    max-width: 1040px;
-    max-height: calc(100svh - 48px);
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    width: min(1040px, calc(100vw - 32px));
+    height: fit-content;
+    max-height: calc(100dvh - 48px);
     box-sizing: border-box;
     padding: 28px;
     border: 0;

@@ -109,14 +109,6 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `usuarios`
---
-
-INSERT INTO `usuarios` (`ID_Usuario`, `Nombre`, `Apellido`, `Correo`, `Usuario`, `Contraseña`, `Rol`) VALUES
-(1, 'Thiago', 'Loaiza', NULL, 'Test', '$2b$12$Trg6pfE0CjuG/my36FERi.Ot9U5B5XYWX3LggGbmjf3to00hpbxsq', 'Usuario'),
-(2, 'Thiago', 'e', NULL, 'Yo', '$2b$12$R5GxUwwSgsmB6jFei7xDnOlTzr7OOWJNzSkeZYJ1KtuktcvlB3SzW', 'Usuario');
-
---
 -- Índices para tablas volcadas
 --
 
@@ -164,7 +156,7 @@ ALTER TABLE `compra`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `ID_Usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID_Usuario` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
