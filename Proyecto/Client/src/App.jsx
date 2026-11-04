@@ -11,6 +11,8 @@ import Game from "./pages/Game/Game";
 import Crud from "./pages/Crud/Crud";
 import Logs from "./pages/Logs/Logs";
 import Shop from "./pages/Shop/Shop";
+import Checkout from "./pages/Shop/Checkout";
+import Missions from "./pages/Missions/Missions";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import Footer from "./components/Footer/Footer";
@@ -64,6 +66,8 @@ function App() {
                     />
 
                     <Route path="/logs" element={<Logs />} />
+                    <Route path="/missions" element={<ProtectedRoute><Missions /></ProtectedRoute>} />
+                    <Route path="/shop/checkout/:id" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
 
                     <Route
                         path="/crud"

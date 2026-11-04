@@ -7,6 +7,7 @@ import UserManager from "./UserManager"
 import ArticleManager from "./ArticleManager"
 import UpdateManager from "./UpdateManager"
 import CreditManager from "./CreditManager"
+import MissionManager from "./MissionManager"
 import "./Crud.css"
 
 export default function Crud() {
@@ -51,6 +52,7 @@ export default function Crud() {
                     <div className="crud-workspace">
                         <nav className="crud-sidebar" aria-label="Secciones de administración">
                             <h2>Administrar</h2>
+                            <button type="button" className={section === "missions" ? "crud-sidebar-active" : ""} aria-current={section === "missions" ? "page" : undefined} onClick={() => setSection("missions")}>Misiones</button>
                             <button
                                 type="button"
                                 className={section === "users" ? "crud-sidebar-active" : ""}
@@ -87,6 +89,7 @@ export default function Crud() {
                             </div>}
                         </nav>
                         {section === "users" && <UserManager currentUser={usuario} onCurrentUserChange={setUsuario} />}
+                        {section === "missions" && <MissionManager />}
                         {section === "articles" && <ArticleManager />}
                         {section === "updates" && <UpdateManager />}
                         {(section === "integrantes" || section === "inspiraciones") && <CreditManager key={section} type={section} />}

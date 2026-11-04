@@ -289,6 +289,8 @@
     gap: 12px;
 }
 
+.home-action--missions { grid-column: 1 / -1; grid-row: 4; border-color: #caa657; background: linear-gradient(120deg, #154451, #235665); }
+
 .home-action {
     min-height: 91px;
     padding: 12px;

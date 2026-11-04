@@ -19,6 +19,9 @@ const { isAuth, isAdmin } = require("./middlewares/auth");
 const { updateUsername, updatePassword, updateSurname, deactivateAccount } = require("./controllers/profileAccount");
 const { requestPasswordReset, resetPassword } = require("./controllers/passwordRecovery");
 const { recoveryLimit } = require("./middlewares/recoveryLimit");
+const { simulatePurchase } = require("./controllers/purchases");
+const { ensureSchema } = require("./config/schema");
+const { seedMissions } = require("./scripts/seedMissions");
 
 const server = express();
 
@@ -35,6 +38,7 @@ server.use(express.static(path.join(__dirname, "public")));
 server.get('/', sayHello);
 server.get('/updates', getUpdates);
 server.get('/articles', getArticles);
+server.post('/purchases/simulate', isAuth, simulatePurchase);
 server.get('/credits', getCredits);
 server.get('/updates/:id', getUpdatesByID);
 server.get('/users/:id', isAuth, isAdmin, getUserById);
@@ -44,6 +48,8 @@ server.use("/admin/users", require("./routes/adminUsers"));
 server.use("/admin/articles", require("./routes/adminArticles"));
 server.use("/admin/updates", require("./routes/adminUpdates"));
 server.use("/admin/credits", require("./routes/adminCredits"));
+server.use("/missions", require("./routes/missions"));
+server.use("/admin/missions", require("./routes/adminMissions"));
 server.get('/admin', isAuth, isAdmin, (req, res) => {
     res.json({ usuario: { ID_Usuario: req.account.ID_Usuario, Usuario: req.account.Usuario, Rol: req.account.Rol, Doblones: req.account.Doblones, Foto_Perfil: req.account.Foto_Perfil } });
 });
@@ -77,12 +83,14 @@ const iniciarServidor = async () => {
             }
         }
 
-        // Borra y recrea las tablas en cada arranque, incluidos los usuarios.
-        await sequelize.sync({ force: true });
+        // Crea las tablas faltantes sin borrar los datos existentes.
+        await sequelize.sync();
+        await ensureSchema();
         await seedAdmin();
         await seedUpdates();
         await seedArticles();
         await seedCredits();
+        await seedMissions();
 
         const puerto = Number(process.env.PORT) || 3000;
 

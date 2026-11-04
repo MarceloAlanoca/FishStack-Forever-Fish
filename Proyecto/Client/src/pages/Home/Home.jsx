@@ -223,6 +223,10 @@ function Home() {
                     <blockquote>“{frase}”</blockquote>
 
                     <div className="home-actions">
+                        <Link className="home-action home-action--missions" to="/missions">
+                            <span className="home-action__icon">⚓</span>
+                            <span><strong>Bitácora del puerto</strong><small>Misión diaria · Gana doblones</small></span>
+                        </Link>
                         <Link className="home-action home-action--play" to="/game">
                             <strong>Jugar</strong>
                         </Link>

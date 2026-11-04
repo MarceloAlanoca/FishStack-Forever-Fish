@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import axios from "axios"
+import { useNavigate } from "react-router-dom"
 import Header from "../../components/Header/Header"
 import { API_URL } from "../../config/api"
 import "./Shop.css"
@@ -14,6 +15,7 @@ function formatPrice(price) {
 
 function ArticleDetail({ article, onClose }) {
     const dialog = useRef(null)
+    const navigate = useNavigate()
 
     useEffect(() => {
         const element = dialog.current
@@ -53,8 +55,8 @@ function ArticleDetail({ article, onClose }) {
                     <span className="shop-type">{article.Tipo}</span>
                     <p>{article.Descripcion}</p>
                     <p className="shop-price">{formatPrice(article.Precio)} ARS</p>
-                    <button type="button" className="shop-buy" disabled>
-                        Comprar
+                    <button type="button" className="shop-buy" onClick={() => navigate(`/shop/checkout/${article.ID_Pass}`)}>
+                        Comprar (simulación)
                     </button>
                 </div>
             </div>

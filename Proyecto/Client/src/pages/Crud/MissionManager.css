@@ -1,0 +1,15 @@
+.mission-manager > p { line-height: 1.7; color: #b7c8db; }
+.mission-manager__list { display: grid; gap: 12px; margin-top: 24px; }
+.mission-manager__list article { display: flex; justify-content: space-between; align-items: center; gap: 18px; padding: 18px; border: 1px solid #566c81; background: #202e3e; border-radius: 10px; }
+.mission-manager__list h3 { margin: 0 0 8px; color: #f1f6fc; overflow-wrap: anywhere; }
+.mission-manager__list p { margin: 0; font-size: .85rem; }
+.mission-manager__form { margin-top: 28px; padding: 24px; background: #172332; border: 1px solid #698098; border-radius: 12px; }
+.mission-manager__form fieldset { margin: 0; border: 0; padding: 0; min-width: 0; display: grid; gap: 18px; }
+.mission-manager__form label { display: grid; gap: 8px; font-size: .85rem; }
+.mission-manager__form :is(input, textarea, select) { width: 100%; min-width: 0; box-sizing: border-box; padding: 11px; color: #eef4fa; background: #243449; border: 1px solid #8295a6; border-radius: 6px; font: inherit; }
+.mission-manager__form textarea { min-height: 85px; resize: vertical; }
+.mission-manager__question { display: grid; gap: 14px; padding: 20px; background: #202f40; border: 1px solid #4d657a; border-radius: 10px; }
+.mission-manager__question h4 { margin: 0 0 6px; color: #f1d28e; }
+.mission-manager__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.mission-manager :is(button, input, textarea, select):focus-visible { outline: 3px solid #a4d9eb; outline-offset: 3px; }
+@media(max-width: 600px) { .mission-manager__list article { align-items: flex-start; flex-direction: column; } .mission-manager__form, .mission-manager__question { padding: 16px; } }

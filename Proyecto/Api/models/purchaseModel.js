@@ -4,13 +4,11 @@ const { DataTypes } = require('sequelize');
 const Purchase = sequelize.define('Purchase', {
     ID_Usuario: {
         type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
+        allowNull: false
     },
     ID_Pass: {
         type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
+        allowNull: false
     },
     ID_Compra: {
         type: DataTypes.INTEGER,
@@ -28,7 +26,7 @@ const Purchase = sequelize.define('Purchase', {
 
 }, {
     tableName: 'compra',
-    timestamps: true
+    timestamps: false
 });
 
 module.exports = { Purchase };

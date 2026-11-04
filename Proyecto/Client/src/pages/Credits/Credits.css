@@ -56,7 +56,7 @@ al nombre REAL del archivo dentro de cada carpeta.
 }
 @font-face {
     font-family: "StardewValley";
-    src: url("/fonts/deltarune.tff") format("truetype");
+    src: url("/fonts/deltarune.ttf") format("truetype");
 }
 
 

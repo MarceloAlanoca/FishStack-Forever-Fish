@@ -24,4 +24,4 @@ const UpdatesComentarios = sequelize.define('UpdatesComentarios', {
     timestamps: true
 });
 
-module.exports = { updatescomentarios };
+module.exports = { UpdatesComentarios };

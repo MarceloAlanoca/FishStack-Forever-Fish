@@ -46,6 +46,7 @@ function Header({ usuario: suppliedUser, theme = "ocean" }) {
                 )}
                 <Link className={enlaceActivo("/home")} to="/home">Home</Link>
                 <Link className={enlaceActivo("/game")} to="/game">Jugar</Link>
+                {sesionActiva && <Link className={enlaceActivo("/missions")} to="/missions">Misiones</Link>}
                 <Link className={enlaceActivo("/credits")} to="/credits">Creditos</Link>
             </nav>
             {sesionActiva && (

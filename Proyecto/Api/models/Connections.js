@@ -1,4 +1,4 @@
-const { User } = require('./userModel');
+const User = require('./userModel');
 const { Article } = require('./articlesModel');
 const { CreditIntegrante } = require('./creditsIntegrantesModel');
 const { CreditInspiracion } = require('./creditsInspiracionesModel');
