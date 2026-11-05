@@ -2,12 +2,35 @@ const { DataTypes } = require("sequelize");
 const { sequelize } = require("../config/db");
 const User = require("./userModel");
 
+function questionsColumn() {
+    return {
+        type: DataTypes.JSON,
+        allowNull: false,
+        get() {
+            let questions = this.getDataValue("questions");
+            // Algunas versiones/esquemas de MariaDB exponen JSON como LONGTEXT.
+            // Acepta también copias antiguas serializadas dos veces por el driver.
+            for (let depth = 0; typeof questions === "string" && depth < 3; depth += 1) {
+                try {
+                    questions = JSON.parse(questions);
+                } catch {
+                    throw new TypeError("Las preguntas guardadas de la misión no contienen JSON válido.");
+                }
+            }
+            if (!Array.isArray(questions)) {
+                throw new TypeError("Las preguntas guardadas de la misión deben ser una lista.");
+            }
+            return questions;
+        }
+    };
+}
+
 const Mission = sequelize.define("Mission", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     title: { type: DataTypes.STRING(100), allowNull: false },
     description: { type: DataTypes.STRING(500), allowNull: false },
     reward: { type: DataTypes.INTEGER, allowNull: false },
-    questions: { type: DataTypes.JSON, allowNull: false },
+    questions: questionsColumn(),
     active: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true }
 }, { tableName: "misiones", timestamps: true });
 
@@ -18,7 +41,7 @@ const DailyMission = sequelize.define("DailyMission", {
     title: { type: DataTypes.STRING(100), allowNull: false },
     description: { type: DataTypes.STRING(500), allowNull: false },
     reward: { type: DataTypes.INTEGER, allowNull: false },
-    questions: { type: DataTypes.JSON, allowNull: false }
+    questions: questionsColumn()
 }, { tableName: "misiones_diarias", timestamps: false });
 
 const MissionProgress = sequelize.define("MissionProgress", {

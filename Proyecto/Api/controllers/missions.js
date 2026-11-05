@@ -5,7 +5,7 @@ const { Mission, DailyMission, MissionProgress } = require("../models/missionMod
 const { missionDay, getDailyMission, publicMission, validateMission, sanitizeMission } = require("../services/missions");
 
 function fail(res, error) {
-    console.error("Error en misiones", error.name);
+    console.error("Error en misiones", error.name, error.message);
     return res.status(500).json({ message: "No se pudo completar la operación. Inténtalo nuevamente." });
 }
 
