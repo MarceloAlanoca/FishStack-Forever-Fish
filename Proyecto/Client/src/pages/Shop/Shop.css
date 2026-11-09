@@ -118,17 +118,60 @@
 }
 
 .shop-coin {
-    display: flex;
-    justify-content: center;
+    display: block;
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    flex-shrink: 0;
+}
+
+.shop-doblons {
+    display: inline-flex;
     align-items: center;
-    width: 72px;
-    height: 72px;
-    border: 5px solid #d99d24;
-    border-radius: 50%;
-    background: #ffdc76;
-    color: #825208;
-    font: 2.6rem "Header Pixel", monospace;
-    box-shadow: 3px 4px 0 #c18925;
+    gap: 8px;
+    vertical-align: middle;
+}
+
+.shop-doblons--large {
+    flex-direction: column;
+    gap: 12px;
+    font: 2.4rem/1.2 "Header Pixel", monospace;
+    margin: 12px 0;
+}
+
+.shop-doblons--large .shop-coin {
+    width: 80px;
+    height: 80px;
+    filter: drop-shadow(0 3px 3px #85540940);
+}
+
+.shop-doblon-number,
+.shop-page .site-header__balance > span {
+    display: inline-block;
+    color: #ffc832;
+    font-weight: 900;
+    -webkit-text-stroke: 1px #161006;
+    paint-order: stroke fill;
+    filter: drop-shadow(0 1px 2px #a665004d);
+}
+
+@supports ((background-clip: text) or (-webkit-background-clip: text)) {
+    .shop-doblon-number,
+    .shop-page .site-header__balance > span {
+        background: linear-gradient(110deg, #bd780c 0%, #ffd44f 26%, #fff2a0 41%, #fff 48%, #fff2a0 55%, #ffd44f 70%, #bd780c 100%);
+        background-size: 250% 100%;
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+        animation: shop-doblon-shine 4s linear infinite;
+    }
+}
+
+@keyframes shop-doblon-shine {
+    from { background-position: 180% 50%; }
+    to { background-position: -80% 50%; }
 }
 
 .shop-item-info {
@@ -275,6 +318,75 @@
 .checkout-receipt { margin-top: 24px; line-height: 1.8; }
 .checkout-receipt button { display: block; margin-top: 20px; }
 .checkout-reference { overflow-wrap: anywhere; }
+.checkout-examples { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+.checkout-examples button:disabled { opacity: .6; cursor: not-allowed; }
+.checkout-page .checkout-return {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #fff;
+    text-decoration: none;
+    font-family: Georgia, "Times New Roman", serif;
+    transition: background-color .2s ease;
+}
+.checkout-page .checkout-return:hover { color: #fff; }
+.checkout-field-error { color: #a23216; font-size: .8rem; line-height: 1.5; }
+.checkout-form input[aria-invalid="true"] { border-color: #a23216; background: #fff8f5; }
+.checkout-form input:disabled { opacity: .7; cursor: not-allowed; }
+.checkout-pending { padding: 12px; border: 1px solid #bf8d23; border-radius: 6px; background: #fff8df; color: #654a0a; }
+
+.checkout-page .shop-content {
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+.checkout-frame {
+    margin-top: 20px;
+    padding: 26px;
+    border: 2px solid #15100c;
+    border-radius: 14px;
+    background: linear-gradient(140deg, #a94b20 0%, #7c3014 48%, #43190d 100%);
+    box-shadow: 0 12px 28px #26100640;
+}
+
+.checkout-frame .checkout-intro {
+    margin: 0 0 24px;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    color: #fff2df;
+}
+
+.checkout-page .shop-content h1,
+.checkout-page .shop-content h2,
+.checkout-page .shop-content h3,
+.checkout-page .shop-doblons--large {
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+.checkout-frame .checkout-intro h1 { color: #fff2df; }
+.checkout-frame .shop-catalog { background: #fffaf2; border: 1px solid #21140b; }
+.checkout-frame .shop-catalog > h2 { font-size: 1.6rem; }
+.checkout-frame .checkout-summary {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-width: 0;
+}
+.checkout-summary h3 { margin: 14px 0 8px; }
+.checkout-summary p { margin: 8px 0; }
+.checkout-summary .shop-doblons { flex-shrink: 0; }
+.checkout-form .shop-buy { width: min(100%, 360px); justify-self: center; }
+.checkout-frame .checkout-receipt { text-align: center; }
+.checkout-frame .checkout-receipt button { margin: 20px auto 0; }
+
+@media (max-width: 650px) {
+    .checkout-frame { padding: 14px; }
+    .checkout-frame .checkout-intro h1 { font-size: 2rem; }
+    .checkout-summary { padding-block: 32px; }
+}
 @media (max-width: 650px) { .checkout-grid { grid-template-columns: 1fr; } }
 
 .shop-footer {
@@ -323,6 +435,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+    .shop-doblon-number,
+    .shop-page .site-header__balance > span {
+        animation: none;
+    }
+
     .shop-item {
         transition: none;
     }

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import Header from "../../components/Header/Header"
+import DoblonAmount from './DoblonAmount'
 import { API_URL } from "../../config/api"
 import "./Shop.css"
 
@@ -45,9 +46,8 @@ function ArticleDetail({ article, onClose }) {
                 Volver
             </button>
             <div className="shop-detail-content">
-                <div className="shop-detail-picture" aria-hidden="true">
-                    <span className="shop-coin">D</span>
-                    <strong>{article.Doblones}</strong>
+                <div className="shop-detail-picture">
+                    <DoblonAmount amount={article.Doblones} large />
                     <span>doblones</span>
                 </div>
                 <div className="shop-detail-info">
@@ -56,7 +56,7 @@ function ArticleDetail({ article, onClose }) {
                     <p>{article.Descripcion}</p>
                     <p className="shop-price">{formatPrice(article.Precio)} ARS</p>
                     <button type="button" className="shop-buy" onClick={() => navigate(`/shop/checkout/${article.ID_Pass}`)}>
-                        Comprar (simulación)
+                        Comprar
                     </button>
                 </div>
             </div>
@@ -140,9 +140,8 @@ export default function Shop() {
                     {status === "ready" && visibleArticles.length === 0 && <p>No hay artículos disponibles.</p>}
                     {status === "ready" && visibleArticles.map((article) => (
                         <article key={article.ID_Pass} className="shop-item">
-                            <div className="shop-item-picture" aria-hidden="true">
-                                <span className="shop-coin">D</span>
-                                <strong>{article.Doblones}</strong>
+                            <div className="shop-item-picture">
+                                <DoblonAmount amount={article.Doblones} large />
                             </div>
                             <div className="shop-item-info">
                                 <h3>{article.Nombre}</h3>
