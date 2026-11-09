@@ -20,7 +20,7 @@ const { updateUsername, updatePassword, updateSurname, deactivateAccount } = req
 const { requestPasswordReset, resetPassword } = require("./controllers/passwordRecovery");
 const { recoveryLimit } = require("./middlewares/recoveryLimit");
 const { simulatePurchase } = require("./controllers/purchases");
-const { ensureSchema } = require("./config/schema");
+const { ensureSchema, ensureCommentsSchema } = require("./config/schema");
 const { seedMissions } = require("./scripts/seedMissions");
 
 const server = express();
@@ -41,6 +41,7 @@ server.get('/articles', getArticles);
 server.post('/purchases/simulate', isAuth, simulatePurchase);
 server.get('/credits', getCredits);
 server.get('/updates/:id', getUpdatesByID);
+server.use('/updates', require('./routes/updateInteractions'));
 server.get('/users/:id', isAuth, isAdmin, getUserById);
 server.get('/users', isAuth, isAdmin, getUsers);
 server.get('/me', isAuth, me);
@@ -84,6 +85,7 @@ const iniciarServidor = async () => {
         }
 
         // Crea las tablas faltantes sin borrar los datos existentes.
+        await ensureCommentsSchema();
         await sequelize.sync();
         await ensureSchema();
         await seedAdmin();

@@ -2,6 +2,24 @@ const { DataTypes } = require("sequelize");
 const { sequelize } = require("./db");
 
 // Migración aditiva para bases creadas con el SQL original.
+async function ensureCommentsSchema() {
+    const query = sequelize.getQueryInterface();
+    if (!await query.tableExists('updatescomentarios')) return;
+    const comments = await query.describeTable("updatescomentarios");
+    if (!comments.ID_Comentario) {
+        // El modelo anterior usaba (publicación, usuario) como clave primaria.
+        // Agrega un ID por comentario sin borrar las filas que ya existan.
+        await sequelize.query(`ALTER TABLE updatescomentarios
+            DROP PRIMARY KEY,
+            ADD COLUMN ID_Comentario INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST`);
+    }
+    if (!comments.Editado) {
+        await query.addColumn('updatescomentarios', 'Editado', {
+            type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false
+        });
+    }
+}
+
 async function ensureSchema() {
     const query = sequelize.getQueryInterface();
     const columns = await query.describeTable("usuarios");
@@ -16,4 +34,4 @@ async function ensureSchema() {
     }
 }
 
-module.exports = { ensureSchema };
+module.exports = { ensureSchema, ensureCommentsSchema };

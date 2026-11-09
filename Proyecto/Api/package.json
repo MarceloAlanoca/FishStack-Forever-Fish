@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node Index.js",
-    "dev": "node --watch Index.js"
+    "dev": "node --watch Index.js",
+    "test:logs": "node --test tests/updateInteractions*.test.js"
   },
   "repository": {
     "type": "git",

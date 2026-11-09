@@ -1,4 +1,8 @@
 const { Updates } = require("../models/UpdateModel");
+const { sequelize } = require('../config/db');
+const { Op } = require('sequelize');
+const { UpdatesComentarios } = require('../models/UpdateComentariosModel');
+const { UpdateLike } = require('../models/UpdateLikeModel');
 const { validText } = require("../validations");
 const { saveUpdateImage, removeUpdateImage } = require("../middlewares/updateImage");
 
@@ -36,7 +40,18 @@ async function getUpdates(req, res) {
             attributes: ["ID_Update", "Nombre", "Version", "Tipo", "Descripcion_Inicial", "Imagen", "Fecha"],
             order: [["Fecha", "DESC"], ["ID_Update", "DESC"]]
         });
-        res.json(updates);
+        // Agrupa los contadores para toda la lista, sin consultar cada tarjeta por separado.
+        const where = { ID_Update: { [Op.in]: updates.map(update => update.ID_Update) } };
+        const [comments, likes] = updates.length ? await Promise.all([
+            UpdatesComentarios.count({ where, group: ['ID_Update'] }),
+            UpdateLike.count({ where, group: ['ID_Update'] })
+        ]) : [[], []];
+        const commentCounts = new Map(comments.map(row => [row.ID_Update, Number(row.count)]));
+        const likeCounts = new Map(likes.map(row => [row.ID_Update, Number(row.count)]));
+        res.json(updates.map(update => ({ ...update.toJSON(),
+            commentCount: commentCounts.get(update.ID_Update) || 0,
+            likeCount: likeCounts.get(update.ID_Update) || 0
+        })));
     } catch (error) {
         sendError(res, error);
     }
@@ -104,9 +119,16 @@ async function saveUpdate(req, res) {
 
 async function deleteUpdate(req, res) {
     try {
-        const update = await Updates.findByPk(req.params.id);
+        const update = await sequelize.transaction(async transaction => {
+            const publication = await Updates.findByPk(req.params.id, { transaction, lock: transaction.LOCK.UPDATE });
+            if (!publication) return null;
+            const where = { ID_Update: publication.ID_Update };
+            await UpdatesComentarios.destroy({ where, transaction });
+            await UpdateLike.destroy({ where, transaction });
+            await publication.destroy({ transaction });
+            return publication;
+        });
         if (!update) return res.status(404).json({ message: "Actualización no encontrada." });
-        await update.destroy();
         await removeUpdateImage(update.Imagen);
         res.json({ message: "Actualización eliminada." });
     } catch (error) {
