@@ -1,6 +1,7 @@
 node_modules/
 .env
-/Juego/
+/Juego/*
+!/Juego/FishStackFFWeb.zip
 /Proyecto/Api/public/images/users/*
 !/Proyecto/Api/public/images/users/.gitkeep
 /Proyecto/Api/public/images/updates/*
