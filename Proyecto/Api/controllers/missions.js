@@ -2,6 +2,7 @@ const { Op } = require("sequelize");
 const { sequelize } = require("../config/db");
 const User = require("../models/userModel");
 const { Mission, DailyMission, MissionProgress } = require("../models/missionModel");
+const { changeWallet } = require('../services/Game/wallet');
 const { missionDay, getDailyMission, publicMission, validateMission, sanitizeMission } = require("../services/missions");
 
 function fail(res, error) {
@@ -43,7 +44,8 @@ async function act(req, res, claim) {
                 if (!progress?.completedAt) return { code: 409, message: "Completa la misión antes de reclamar la recompensa." };
                 if (progress.claimedAt) return { balance: user.Doblones, alreadyClaimed: true, progress };
                 if (user.Doblones + daily.reward > 2147483647) return { code: 409, message: "La recompensa supera el límite de saldo de la cuenta." };
-                await user.update({ Doblones: user.Doblones + daily.reward }, { transaction });
+                await changeWallet({ user, balance: user.Doblones + daily.reward, kind: 'mission',
+                    reason: `Recompensa de la misión del ${day}`, operationKey: `mission:${day}`, transaction });
                 await progress.update({ claimedAt: new Date(), earnedCoins: daily.reward }, { transaction });
                 return { balance: user.Doblones, alreadyClaimed: false, progress };
             }

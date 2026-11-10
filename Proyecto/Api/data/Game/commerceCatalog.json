@@ -1,0 +1,606 @@
+{
+  "items": {
+    "algas_jade": {
+      "ownedField": "amuletos_obtenidos",
+      "owner": "",
+      "price": 9000,
+      "stackable": false,
+      "worlds": [
+        "aguas_corales"
+      ]
+    },
+    "barco_calabaza": {
+      "ownedField": "barcos_obtenidos",
+      "owner": "",
+      "price": 1500,
+      "stackable": false,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "bayas_silvestres": {
+      "ownedField": "",
+      "owner": "",
+      "price": 30,
+      "stackable": true,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "berenjena": {
+      "ownedField": "",
+      "owner": "",
+      "price": 25,
+      "stackable": true,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "bizcochuelo": {
+      "ownedField": "",
+      "owner": "",
+      "price": 200,
+      "stackable": true,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "bowl_pochoclos": {
+      "ownedField": "",
+      "owner": "",
+      "price": 35,
+      "stackable": true,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "caballito": {
+      "ownedField": "amuletos_obtenidos",
+      "owner": "",
+      "price": 2200,
+      "stackable": false,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "camaron": {
+      "ownedField": "",
+      "owner": "",
+      "price": 350,
+      "stackable": true,
+      "worlds": [
+        "aguas_corales"
+      ]
+    },
+    "campana": {
+      "ownedField": "amuletos_obtenidos",
+      "owner": "",
+      "price": 600,
+      "stackable": false,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "cana_alga_marina": {
+      "ownedField": "cañas_obtenidas",
+      "owner": "",
+      "price": 4500,
+      "stackable": false,
+      "worlds": [
+        "aguas_corales"
+      ]
+    },
+    "cana_coral_precioso": {
+      "ownedField": "cañas_obtenidas",
+      "owner": "",
+      "price": 8500,
+      "stackable": false,
+      "worlds": [
+        "aguas_corales"
+      ]
+    },
+    "cana_cuarzo": {
+      "ownedField": "cañas_obtenidas",
+      "owner": "",
+      "price": 2000,
+      "stackable": false,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "cana_estrella": {
+      "ownedField": "cañas_obtenidas",
+      "owner": "",
+      "price": 6500,
+      "stackable": false,
+      "worlds": [
+        "aguas_corales"
+      ]
+    },
+    "cana_madera_reforzada": {
+      "ownedField": "cañas_obtenidas",
+      "owner": "",
+      "price": 500,
+      "stackable": false,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "cana_nilon": {
+      "ownedField": "cañas_obtenidas",
+      "owner": "",
+      "price": 1000,
+      "stackable": false,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "cana_piedra_coral": {
+      "ownedField": "cañas_obtenidas",
+      "owner": "",
+      "price": 3000,
+      "stackable": false,
+      "worlds": [
+        "aguas_corales"
+      ]
+    },
+    "cana_tortuga": {
+      "ownedField": "cañas_obtenidas",
+      "owner": "",
+      "price": 11000,
+      "stackable": false,
+      "worlds": [
+        "aguas_corales"
+      ]
+    },
+    "cebolla": {
+      "ownedField": "",
+      "owner": "",
+      "price": 100,
+      "stackable": true,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "cereza": {
+      "ownedField": "",
+      "owner": "",
+      "price": 150,
+      "stackable": true,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "cerezas": {
+      "ownedField": "",
+      "owner": "",
+      "price": 55,
+      "stackable": true,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "dona_coral": {
+      "ownedField": "",
+      "owner": "",
+      "price": 80,
+      "stackable": true,
+      "worlds": [
+        "aguas_corales"
+      ]
+    },
+    "escama_pulida": {
+      "ownedField": "amuletos_obtenidos",
+      "owner": "",
+      "price": 2850,
+      "stackable": false,
+      "worlds": [
+        "aguas_corales"
+      ]
+    },
+    "fisura_azul": {
+      "ownedField": "amuletos_obtenidos",
+      "owner": "",
+      "price": 2000,
+      "stackable": false,
+      "worlds": [
+        "aguas_corales"
+      ]
+    },
+    "fragmento_mar": {
+      "ownedField": "amuletos_obtenidos",
+      "owner": "",
+      "price": 8500,
+      "stackable": false,
+      "worlds": [
+        "aguas_corales"
+      ]
+    },
+    "fresa": {
+      "ownedField": "",
+      "owner": "",
+      "price": 40,
+      "stackable": true,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "galleta_casera": {
+      "ownedField": "",
+      "owner": "",
+      "price": 25,
+      "stackable": true,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "gelatina_marina": {
+      "ownedField": "",
+      "owner": "",
+      "price": 70,
+      "stackable": true,
+      "worlds": [
+        "aguas_corales"
+      ]
+    },
+    "george_gnomo": {
+      "ownedField": "skines_obtenidos",
+      "owner": "george",
+      "price": 1000,
+      "stackable": false,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "george_jungla": {
+      "ownedField": "skines_obtenidos",
+      "owner": "george",
+      "price": 1000,
+      "stackable": false,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "gusano": {
+      "ownedField": "",
+      "owner": "",
+      "price": 45,
+      "stackable": true,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "lancha_aratel": {
+      "ownedField": "barcos_obtenidos",
+      "owner": "",
+      "price": 2500,
+      "stackable": false,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "lombriz": {
+      "ownedField": "",
+      "owner": "",
+      "price": 100,
+      "stackable": true,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "manzana_roja": {
+      "ownedField": "",
+      "owner": "",
+      "price": 10,
+      "stackable": true,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "medio_mango": {
+      "ownedField": "",
+      "owner": "",
+      "price": 175,
+      "stackable": true,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "miel": {
+      "ownedField": "",
+      "owner": "",
+      "price": 200,
+      "stackable": true,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "nazar": {
+      "ownedField": "amuletos_obtenidos",
+      "owner": "",
+      "price": 5500,
+      "stackable": false,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "omelet": {
+      "ownedField": "",
+      "owner": "",
+      "price": 55,
+      "stackable": true,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "palta": {
+      "ownedField": "",
+      "owner": "",
+      "price": 230,
+      "stackable": true,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "pan": {
+      "ownedField": "",
+      "owner": "",
+      "price": 15,
+      "stackable": true,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "panqueques_micaela": {
+      "ownedField": "",
+      "owner": "",
+      "price": 145,
+      "stackable": true,
+      "worlds": [
+        "aguas_corales"
+      ]
+    },
+    "pastel_chocolate_coral": {
+      "ownedField": "",
+      "owner": "",
+      "price": 285,
+      "stackable": true,
+      "worlds": [
+        "aguas_corales"
+      ]
+    },
+    "pastel_frutas_corales": {
+      "ownedField": "",
+      "owner": "",
+      "price": 240,
+      "stackable": true,
+      "worlds": [
+        "aguas_corales"
+      ]
+    },
+    "pastel_frutilla": {
+      "ownedField": "",
+      "owner": "",
+      "price": 90,
+      "stackable": true,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "pedacito_salmon": {
+      "ownedField": "",
+      "owner": "",
+      "price": 400,
+      "stackable": true,
+      "worlds": [
+        "aguas_corales"
+      ]
+    },
+    "pepino": {
+      "ownedField": "",
+      "owner": "",
+      "price": 130,
+      "stackable": true,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "percy_defensor_aratel": {
+      "ownedField": "skines_obtenidos",
+      "owner": "percy",
+      "price": 1700,
+      "stackable": false,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "perla_aquamarina": {
+      "ownedField": "amuletos_obtenidos",
+      "owner": "",
+      "price": 7890,
+      "stackable": false,
+      "worlds": [
+        "aguas_corales"
+      ]
+    },
+    "pez_decoy": {
+      "ownedField": "",
+      "owner": "",
+      "price": 450,
+      "stackable": true,
+      "worlds": [
+        "aguas_corales"
+      ]
+    },
+    "pie_calabaza": {
+      "ownedField": "",
+      "owner": "",
+      "price": 100,
+      "stackable": true,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "piedra_feliz": {
+      "ownedField": "amuletos_obtenidos",
+      "owner": "",
+      "price": 300,
+      "stackable": false,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "piña": {
+      "ownedField": "",
+      "owner": "",
+      "price": 45,
+      "stackable": true,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "pudin_perlado": {
+      "ownedField": "",
+      "owner": "",
+      "price": 130,
+      "stackable": true,
+      "worlds": [
+        "aguas_corales"
+      ]
+    },
+    "rabano": {
+      "ownedField": "",
+      "owner": "",
+      "price": 30,
+      "stackable": true,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "rebana_mandarina": {
+      "ownedField": "",
+      "owner": "",
+      "price": 225,
+      "stackable": true,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "rebanada_sandia": {
+      "ownedField": "",
+      "owner": "",
+      "price": 40,
+      "stackable": true,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "sushi_alterno": {
+      "ownedField": "",
+      "owner": "",
+      "price": 260,
+      "stackable": true,
+      "worlds": [
+        "aguas_corales"
+      ]
+    },
+    "sushi_coral": {
+      "ownedField": "",
+      "owner": "",
+      "price": 185,
+      "stackable": true,
+      "worlds": [
+        "aguas_corales"
+      ]
+    },
+    "sushi_grande": {
+      "ownedField": "",
+      "owner": "",
+      "price": 420,
+      "stackable": true,
+      "worlds": [
+        "aguas_corales"
+      ]
+    },
+    "tarron_jalea": {
+      "ownedField": "",
+      "owner": "",
+      "price": 110,
+      "stackable": true,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "tarta_calabaza": {
+      "ownedField": "",
+      "owner": "",
+      "price": 95,
+      "stackable": true,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "tarta_huevo": {
+      "ownedField": "",
+      "owner": "",
+      "price": 150,
+      "stackable": true,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "tomate": {
+      "ownedField": "",
+      "owner": "",
+      "price": 20,
+      "stackable": true,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "trasto_bandera": {
+      "ownedField": "amuletos_obtenidos",
+      "owner": "",
+      "price": 1250,
+      "stackable": false,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "velero_de_madera": {
+      "ownedField": "barcos_obtenidos",
+      "owner": "",
+      "price": 600,
+      "stackable": false,
+      "worlds": [
+        "mar_aratel"
+      ]
+    },
+    "zumo_naranja": {
+      "ownedField": "",
+      "owner": "",
+      "price": 60,
+      "stackable": true,
+      "worlds": [
+        "mar_aratel"
+      ]
+    }
+  },
+  "upgrades": {
+    "percy": [
+      500,
+      1000,
+      2500,
+      4500,
+      7500
+    ],
+    "robo_stack": [
+      500,
+      1500,
+      2000,
+      3000,
+      4500
+    ]
+  },
+  "version": 1
+}

@@ -1,0 +1,14 @@
+const express = require('express');
+const { isAuth } = require('../../middlewares/auth');
+const { load, initialize, save, wallet } = require('../../controllers/Game/gameAccount');
+const { sell } = require('../../controllers/Game/fishSales');
+const { execute } = require('../../controllers/Game/commerce');
+const router = express.Router();
+router.use(isAuth);
+router.get('/state', load);
+router.post('/state', initialize);
+router.put('/state', save);
+router.get('/wallet', wallet);
+router.post('/sales', sell);
+router.post('/commerce', execute);
+module.exports = router;

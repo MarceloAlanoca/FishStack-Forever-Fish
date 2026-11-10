@@ -1,10 +1,18 @@
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
+import { Navigate } from 'react-router-dom'
+import useCurrentUser from '../../hooks/useCurrentUser'
+import useGameAccount from './useGameAccount'
 
 import Header from "../../components/Header/Header"
 import "./Game.css"
 
 function Game() {
     const frameRef = useRef(null)
+    const { usuario, setUsuario, estado } = useCurrentUser()
+    const onWallet = useCallback(wallet => {
+        setUsuario(current => current ? { ...current, Doblones: wallet.balance, walletRevision: wallet.revision } : current)
+    }, [setUsuario])
+    const { connection, finish, discardPending, generation } = useGameAccount(frameRef, usuario?.ID_Usuario, onWallet)
     const [cargando, setCargando] = useState(true)
     const [disponible, setDisponible] = useState(null)
 
@@ -39,6 +47,8 @@ function Game() {
         event.currentTarget.style.setProperty("--background-y", "0px")
     }
 
+    if (!localStorage.getItem('token') || estado === 'unauthorized' || connection.status === 'session-ended') return <Navigate to="/login" replace />
+
     return (
         <main
             className="game-page"
@@ -46,7 +56,12 @@ function Game() {
             onMouseLeave={centrarFondo}
         >
             <div className="game-header">
-                <Header />
+                <Header usuario={usuario} onBeforeLogout={finish} />
+            </div>
+
+            <div className={`game-account-status game-account-status--${connection.status}`}>
+                <p role="status">{connection.message}</p>
+                {connection.canDiscard && <button type="button" onClick={discardPending}>Descartar pendientes y cargar la cuenta</button>}
             </div>
 
             <div className="game-toolbar">
@@ -67,12 +82,16 @@ function Game() {
             </div>
 
             <section className="game-stage" aria-label="Juego FishStack">
+                {estado === 'error' && <div className="game-loading" role="alert">
+                    <p>No se pudo cargar tu cuenta.</p>
+                    <button type="button" onClick={() => window.location.reload()}>Reintentar</button>
+                </div>}
                 {disponible === false && (
                     <div className="game-loading" role="status">
                         <p>No se pudo cargar el juego.</p>
                     </div>
                 )}
-                {disponible !== false && cargando && (
+                {estado !== 'error' && disponible !== false && cargando && (
                     <div className="game-loading" role="status">
                         <span className="game-loader" />
                         <p>Cargando la demo…</p>
@@ -80,7 +99,8 @@ function Game() {
                     </div>
                 )}
 
-                {disponible && <iframe
+                {disponible && usuario && <iframe
+                    key={`${usuario.ID_Usuario}-${generation}`}
                     ref={frameRef}
                     className="game-frame"
                     src="/fishstack-alpha/index.html"

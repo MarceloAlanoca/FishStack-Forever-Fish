@@ -23,6 +23,9 @@ async function ensureCommentsSchema() {
 async function ensureSchema() {
     const query = sequelize.getQueryInterface();
     const columns = await query.describeTable("usuarios");
+    if (!columns.walletRevision) {
+        await query.addColumn('usuarios', 'walletRevision', { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 });
+    }
     if (!columns.Foto_Perfil) {
         await query.addColumn("usuarios", "Foto_Perfil", {
             type: DataTypes.STRING(255), allowNull: true

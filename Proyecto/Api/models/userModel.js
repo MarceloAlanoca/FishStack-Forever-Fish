@@ -52,6 +52,8 @@ const User = sequelize.define(
             validate: { min: 0, max: 2147483647, isInt: true }
         },
 
+        walletRevision: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
+
         isActive: {
             type: DataTypes.BOOLEAN,
             allowNull: false,

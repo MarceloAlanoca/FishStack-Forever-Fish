@@ -551,3 +551,5 @@
         padding: 18px;
     }
 }
+.crud-user-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.crud-wallet-balance { padding: 12px; border: 1px solid #4f789c; border-radius: 6px; }

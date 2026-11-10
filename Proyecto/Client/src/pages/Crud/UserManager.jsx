@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 import CrudModal from "./CrudModal"
+import UserWalletModal from './Game/UserWalletModal'
 import { API_URL } from "../../config/api"
 
 const emptyForm = {
@@ -29,6 +30,7 @@ export default function UserManager({ currentUser, onCurrentUserChange }) {
     const [message, setMessage] = useState("")
     const [refresh, setRefresh] = useState(0)
     const [search, setSearch] = useState("")
+    const [walletTarget, setWalletTarget] = useState(null)
 
     useEffect(() => {
         const controller = new AbortController()
@@ -97,6 +99,7 @@ export default function UserManager({ currentUser, onCurrentUserChange }) {
         try {
             let response
             const body = { ...form, Doblones: Number(form.Doblones) }
+            if (selectedId !== null) delete body.Doblones
             if (selectedId === null) {
                 response = await axios.post(API_URL + "/admin/users", body, requestConfig())
                 setUsers([...users, response.data])
@@ -200,7 +203,10 @@ export default function UserManager({ currentUser, onCurrentUserChange }) {
                                         <td>{user.Rol}</td>
                                         <td>{user.isActive ? "Activa" : "Inactiva"}</td>
                                         <td>{user.Doblones ?? 0}</td>
-                                        <td><button type="button" disabled={busy} onClick={() => selectUser(user.ID_Usuario)}>Editar</button></td>
+                                        <td><div className="crud-user-actions">
+                                            <button type="button" disabled={busy} onClick={() => selectUser(user.ID_Usuario)}>Editar</button>
+                                            <button type="button" disabled={busy} onClick={() => setWalletTarget(user)}>Doblones</button>
+                                        </div></td>
                                     </tr>
                                 ))}
                                 {!loading && filteredUsers.length === 0 && <tr><td colSpan="9">No se encontraron usuarios.</td></tr>}
@@ -256,10 +262,10 @@ export default function UserManager({ currentUser, onCurrentUserChange }) {
                                         <option value="false">Inactiva</option>
                                     </select>
                                 </label>
-                                <label>
-                                    Doblones
+                                {selectedId === null ? <label>
+                                    Doblones iniciales
                                     <input name="Doblones" type="number" min="0" max="2147483647" step="1" required value={form.Doblones} onChange={changeField} />
-                                </label>
+                                </label> : <p className="crud-form-help">Saldo: {form.Doblones} doblones. Para modificarlo, usa la acción Doblones en la lista de usuarios.</p>}
                                 <div className="crud-form-actions">
                                     <button type="submit">{busy ? "Guardando..." : selectedId === null ? "Crear usuario" : "Guardar cambios"}</button>
                                     {selectedId !== null && <button className="crud-delete" type="button" onClick={deleteUser} disabled={ownAccount}>Eliminar cuenta</button>}
@@ -270,6 +276,11 @@ export default function UserManager({ currentUser, onCurrentUserChange }) {
                     </CrudModal>
                 )}
             </div>
+            {walletTarget && <UserWalletModal target={walletTarget} onClose={() => setWalletTarget(null)} onSaved={wallet => {
+                const changes = { Doblones: wallet.balance, walletRevision: wallet.revision }
+                setUsers(current => current.map(user => user.ID_Usuario === walletTarget.ID_Usuario ? { ...user, ...changes } : user))
+                if (walletTarget.ID_Usuario === currentUser.ID_Usuario) onCurrentUserChange({ ...currentUser, ...changes })
+            }} />}
         </section>
     )
 }

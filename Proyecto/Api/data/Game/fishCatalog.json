@@ -1,0 +1,537 @@
+{
+  "version": 1,
+  "species": {
+    "mar_aratel_anguilaelectrica": {
+      "name": "Anguila Electrica",
+      "quality": "Epico",
+      "basePrice": 2500,
+      "minWeight": 7.5,
+      "maxWeight": 10.5,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/AnguilaElectrica/AnguilaElectrica.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/AnguilaElectrica/AnguilaElectrica.png"
+      ]
+    },
+    "mar_aratel_atun": {
+      "name": "Atun",
+      "quality": "Raro",
+      "basePrice": 575,
+      "minWeight": 12,
+      "maxWeight": 18,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/Atun/Atun.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/Atun/Atun.png"
+      ]
+    },
+    "mar_aratel_atunaletaroja": {
+      "name": "Atun Aleta Roja",
+      "quality": "Superaro",
+      "basePrice": 1050,
+      "minWeight": 18,
+      "maxWeight": 26,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/AtunAletaRoja/AtunAletaRoja.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/AtunAletaRoja/Atun Aleta Roja.png"
+      ]
+    },
+    "mar_aratel_bacalao": {
+      "name": "Bacalao",
+      "quality": "Comun",
+      "basePrice": 400,
+      "minWeight": 21,
+      "maxWeight": 29,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/Bacalao/Bacalao.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/Bacalao/Bacalao.png"
+      ]
+    },
+    "mar_aratel_bagre": {
+      "name": "Bagre",
+      "quality": "Raro",
+      "basePrice": 650,
+      "minWeight": 11.5,
+      "maxWeight": 16.5,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/Bagre/Bagre.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/Bagre/Bagre.png"
+      ]
+    },
+    "mar_aratel_barracuda": {
+      "name": "Barracuda",
+      "quality": "Epico",
+      "basePrice": 2000,
+      "minWeight": 7.5,
+      "maxWeight": 10.5,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/Barracuda/Barracuda.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/Barracuda/Barracuda.png",
+        "res://Assets/Contenido Del Juego/Efectos/GORE/1_8.png"
+      ]
+    },
+    "mar_aratel_betta": {
+      "name": "Pez Betta",
+      "quality": "Legendario",
+      "basePrice": 4888,
+      "minWeight": 2.2,
+      "maxWeight": 3.8,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/Betta/Betta.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/Betta/Betta.png"
+      ]
+    },
+    "mar_aratel_calamar": {
+      "name": "Calamar",
+      "quality": "Raro",
+      "basePrice": 500,
+      "minWeight": 5.5,
+      "maxWeight": 8.5,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/Calamar/Calamar.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/Calamar/Calamar.png"
+      ]
+    },
+    "mar_aratel_carpakoi": {
+      "name": "Carpa Koi",
+      "quality": "Raro",
+      "basePrice": 620,
+      "minWeight": 12,
+      "maxWeight": 18,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/CarpaKoi/CarpaKoi.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/CarpaKoi/CarpaKoi.png"
+      ]
+    },
+    "mar_aratel_delfinrosado": {
+      "name": "Delfin Rosado",
+      "quality": "Secreto",
+      "basePrice": 8989,
+      "minWeight": 7.5,
+      "maxWeight": 10.5,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/DelfinRosado/DelfinRosado.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/DelfinRosado/DelfinRosado1.png",
+        "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/DelfinRosado/DelfinRosado2.png",
+        "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/DelfinRosado/DelfinRosado3.png",
+        "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/DelfinRosado/DelfinRosado4.png"
+      ]
+    },
+    "mar_aratel_lenguado": {
+      "name": "Lenguado",
+      "quality": "Raro",
+      "basePrice": 450,
+      "minWeight": 2.2,
+      "maxWeight": 3.8,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/Lenguado/Lenguado.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/Lenguado/Lenguado.png"
+      ]
+    },
+    "mar_aratel_mahimahi": {
+      "name": "Mahimahi",
+      "quality": "Superaro",
+      "basePrice": 1200,
+      "minWeight": 17,
+      "maxWeight": 23,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/Mahimahi/Mahimahi.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/Mahimahi/Mahimahi.png"
+      ]
+    },
+    "mar_aratel_medusa": {
+      "name": "Medusa Comun",
+      "quality": "Comun",
+      "basePrice": 220,
+      "minWeight": 1.5,
+      "maxWeight": 2.5,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/Medusa/Medusa.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/Medusa/medusa.png"
+      ]
+    },
+    "mar_aratel_medusarosa": {
+      "name": "Medusa Rosa",
+      "quality": "Comun",
+      "basePrice": 30,
+      "minWeight": 10,
+      "maxWeight": 20,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/MedusaRosa/MedusaRosa.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/MedusaRosa/MedusaRosa.png"
+      ]
+    },
+    "mar_aratel_merluza": {
+      "name": "Merluza",
+      "quality": "Comun",
+      "basePrice": 250,
+      "minWeight": 1.5,
+      "maxWeight": 2.5,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/Merluza/Merluza.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/Merluza/Merluza.png"
+      ]
+    },
+    "mar_aratel_morenaamarilla": {
+      "name": "Morena Amarilla",
+      "quality": "Superaro",
+      "basePrice": 1300,
+      "minWeight": 4,
+      "maxWeight": 6,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/MorenaAmarilla/MorenaAmarilla.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/MorenaAmarilla/MorenaAmarilla.png"
+      ]
+    },
+    "mar_aratel_morenagris": {
+      "name": "Morena Marron",
+      "quality": "Superaro",
+      "basePrice": 1320,
+      "minWeight": 4,
+      "maxWeight": 6,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/MorenaGris/MorenaGris.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/MorenaGris/MorenaGris.png"
+      ]
+    },
+    "mar_aratel_pargo": {
+      "name": "Pargo",
+      "quality": "Raro",
+      "basePrice": 450,
+      "minWeight": 7.5,
+      "maxWeight": 10.5,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/Pargo/Pargo.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/Pargo/Pargo.png"
+      ]
+    },
+    "mar_aratel_pezespada": {
+      "name": "Pez Vela",
+      "quality": "Epico",
+      "basePrice": 2400,
+      "minWeight": 9,
+      "maxWeight": 13,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/PezEspada/PezEspada.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/PezEspada/PezEspada.png"
+      ]
+    },
+    "mar_aratel_pezglobo": {
+      "name": "Pez Globo",
+      "quality": "Raro",
+      "basePrice": 420,
+      "minWeight": 25,
+      "maxWeight": 33,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/PezGlobo/PezGlobo.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/PezGlobo/PezGlobo.png",
+        "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/PezGlobo/PezGlobo2.png"
+      ]
+    },
+    "mar_aratel_pezveladorado": {
+      "name": "Pez Vela Dorado",
+      "quality": "Legendario",
+      "basePrice": 4200,
+      "minWeight": 11,
+      "maxWeight": 15,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/PezVelaDorado/PezVelaDorado.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/PezVelaDorado/VelaDorado1.png"
+      ]
+    },
+    "mar_aratel_salmon": {
+      "name": "Salmon",
+      "quality": "Comun",
+      "basePrice": 300,
+      "minWeight": 17,
+      "maxWeight": 23,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/Salmon/Salmon.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/Salmon/Salmon.png",
+        "res://Assets/Contenido Del Juego/Efectos/GORE/1_8.png"
+      ]
+    },
+    "mar_aratel_trucha": {
+      "name": "Trucha",
+      "quality": "Comun",
+      "basePrice": 200,
+      "minWeight": 5.5,
+      "maxWeight": 8.5,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/Trucha/Trucha.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Mar Aratel/Peces/Trucha/Trucha.png"
+      ]
+    },
+    "aguas_corales_balistapusundulatus": {
+      "name": "Balistapus undulatus",
+      "quality": "Raro",
+      "basePrice": 1000,
+      "minWeight": 14,
+      "maxWeight": 14,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/BalistapusUndulatus/BalistapusUndulatus.tscn",
+      "icons": [
+        "res://icon.svg"
+      ]
+    },
+    "aguas_corales_beluga": {
+      "name": "Beluga",
+      "quality": "Mitico",
+      "basePrice": 6500,
+      "minWeight": 34,
+      "maxWeight": 34,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/Beluga/Beluga.tscn",
+      "icons": [
+        "res://icon.svg"
+      ]
+    },
+    "aguas_corales_cardenaldebanggai": {
+      "name": "Pez Cardenal de Banggai",
+      "quality": "Mitico",
+      "basePrice": 5780,
+      "minWeight": 19,
+      "maxWeight": 19,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/CardenalDeBarggai/CardenalDeBanggai.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/CardenalDeBarggai/CardenalBarggai.png",
+        "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/CardenalDeBarggai/CardenalBarggai1.png",
+        "res://Assets/Contenido Del Juego/Efectos/GORE/1_8.png"
+      ]
+    },
+    "aguas_corales_cirujanoamarillo": {
+      "name": "Cirujano Amarillo",
+      "quality": "Comun",
+      "basePrice": 600,
+      "minWeight": 5,
+      "maxWeight": 5,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/CirujanoAmarillo/CirujanoAmarillo.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/CirujanoAmarillo/CirujanoAmarillo.png"
+      ]
+    },
+    "aguas_corales_cirujanopayasoazul": {
+      "name": "Cirujano payaso azul",
+      "quality": "Superaro",
+      "basePrice": 2000,
+      "minWeight": 9,
+      "maxWeight": 9,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/CirujanoPayasoAzul/CirujanoPayasoAzul.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/CirujanoPayasoAzul/CirujanoPayasoAzul1.png"
+      ]
+    },
+    "aguas_corales_cuchillofantasmaoscuro": {
+      "name": "Cuchillo fantasma oscuro",
+      "quality": "Mitico",
+      "basePrice": 5500,
+      "minWeight": 12,
+      "maxWeight": 12,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/CuchilloFantasmaOscuro/CuchilloFantasmaOscuro.tscn",
+      "icons": [
+        "res://icon.svg"
+      ]
+    },
+    "aguas_corales_pezdelgado": {
+      "name": "Pez delgado",
+      "quality": "Secreto",
+      "basePrice": 15555.5,
+      "minWeight": 44,
+      "maxWeight": 44,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/Delgado/PezDelgado.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/Delgado/PezDelgado.png"
+      ]
+    },
+    "aguas_corales_dragonmarinofrondoso": {
+      "name": "Dragon marino frondoso",
+      "quality": "Legendario",
+      "basePrice": 10001,
+      "minWeight": 2,
+      "maxWeight": 2,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/DragonMarinoFrondoso/DragonMarinoFrondoso.tscn",
+      "icons": [
+        "res://icon.svg"
+      ]
+    },
+    "aguas_corales_killis": {
+      "name": "Killis",
+      "quality": "Comun",
+      "basePrice": 700,
+      "minWeight": 9,
+      "maxWeight": 9,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/Killis/Killis.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/Killis/Killis.png"
+      ]
+    },
+    "aguas_corales_nautilo": {
+      "name": "Nautilo",
+      "quality": "Secreto",
+      "basePrice": 11111,
+      "minWeight": 33,
+      "maxWeight": 33,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/Nautilo/Nautilo.tscn",
+      "icons": [
+        "res://icon.svg"
+      ]
+    },
+    "aguas_corales_ortigajaponesa": {
+      "name": "Ortiga Japonesa",
+      "quality": "Raro",
+      "basePrice": 1000,
+      "minWeight": 2,
+      "maxWeight": 2,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/OrtigaJaponesa/OrtigaJaponesa.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/OrtigaJaponesa/OrtigaJaponesa.png",
+        "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/OrtigaJaponesa/OrtigaJaponesa2.png"
+      ]
+    },
+    "aguas_corales_pezdelparaiso": {
+      "name": "Pez del paraiso",
+      "quality": "Superaro",
+      "basePrice": 1850,
+      "minWeight": 14,
+      "maxWeight": 14,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/PezDelParaiso/PezDelParaiso.tscn",
+      "icons": [
+        "res://icon.svg"
+      ]
+    },
+    "aguas_corales_pezdisco": {
+      "name": "Pez Disco",
+      "quality": "Raro",
+      "basePrice": 1282,
+      "minWeight": 5,
+      "maxWeight": 5,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/PezDisco/PezDisco.tscn",
+      "icons": [
+        "res://icon.svg"
+      ]
+    },
+    "aguas_corales_pezloro": {
+      "name": "Pez Loro",
+      "quality": "Raro",
+      "basePrice": 1400,
+      "minWeight": 11,
+      "maxWeight": 11,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/PezLoro/PezLoro.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/PezLoro/Loro1.png",
+        "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/PezLoro/Loro2.png",
+        "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/PezLoro/Loro3.png"
+      ]
+    },
+    "aguas_corales_pezmariposa": {
+      "name": "Pez Mariposa",
+      "quality": "Raro",
+      "basePrice": 1100,
+      "minWeight": 4,
+      "maxWeight": 4,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/PezMariposa/PezMariposa.tscn",
+      "icons": [
+        "res://icon.svg"
+      ]
+    },
+    "aguas_corales_pezpayasodoradodebandas": {
+      "name": "Pez payaso dorado de bandas",
+      "quality": "Legendario",
+      "basePrice": 9800,
+      "minWeight": 5,
+      "maxWeight": 5,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/PezPayasoDoradoDeBandas/PezPayasoDoradoDeBandas.tscn",
+      "icons": [
+        "res://icon.svg"
+      ]
+    },
+    "aguas_corales_pezsapito": {
+      "name": "Pez sapito",
+      "quality": "Superaro",
+      "basePrice": 2400,
+      "minWeight": 18,
+      "maxWeight": 18,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/PezSapito/PezSapito.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/PezSapito/PezSapito1.png",
+        "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/PezSapito/PezSapito2.png",
+        "res://Assets/Contenido Del Juego/Efectos/GORE/1_8.png"
+      ]
+    },
+    "aguas_corales_pezvacadecuernos": {
+      "name": "Pez vaca de cuernos",
+      "quality": "Epico",
+      "basePrice": 3740,
+      "minWeight": 3,
+      "maxWeight": 3,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/PezVacaDeCuernos/PezVacaDeCuernos.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/PezVacaDeCuernos/PezVacaDeCuenos.png"
+      ]
+    },
+    "aguas_corales_tiburonballena": {
+      "name": "Tiburon ballena",
+      "quality": "Legendario",
+      "basePrice": 9500,
+      "minWeight": 49,
+      "maxWeight": 49,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/TiburonBallena/TiburonBallena.tscn",
+      "icons": [
+        "res://icon.svg",
+        "res://Assets/Contenido Del Juego/Efectos/GORE/1_8.png"
+      ]
+    },
+    "aguas_corales_tiburongatocoral": {
+      "name": "Tiburon gato coral",
+      "quality": "Epico",
+      "basePrice": 4250,
+      "minWeight": 17,
+      "maxWeight": 17,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/TiburonGatoCoral/TiburonGatoCoral.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Aguas Corales/Peces/TiburonGatoCoral/TiburonGatoCoral.png",
+        "res://Assets/Contenido Del Juego/Efectos/GORE/1_8.png"
+      ]
+    },
+    "paramos_deserticos_ballenapicudadebaird": {
+      "name": "Ballena picuda de Baird",
+      "quality": "Superaro",
+      "basePrice": 3900,
+      "minWeight": 38,
+      "maxWeight": 38,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Paramos Deserticos/Peces/BallenaPicudaDeBaird/BallenaPicudaDeBaird.tscn",
+      "icons": [
+        "res://icon.svg"
+      ]
+    },
+    "paramos_deserticos_dunkleosteus": {
+      "name": "Dunkleosteus",
+      "quality": "Secreto",
+      "basePrice": 22240,
+      "minWeight": 128,
+      "maxWeight": 128,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Paramos Deserticos/Peces/Dunkleosteus/Dunkleosteus.tscn",
+      "icons": [
+        "res://icon.svg"
+      ]
+    },
+    "paramos_deserticos_lampreagiganteoscura": {
+      "name": "Lamprea gigante oscura",
+      "quality": "Legendario",
+      "basePrice": 18300,
+      "minWeight": 105,
+      "maxWeight": 105,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Paramos Deserticos/Peces/LampreaGiganteOscura/LampreaGiganteOscura.tscn",
+      "icons": [
+        "res://Assets/Contenido Del Juego/Mundos/Paramos Deserticos/Peces/LampreaGiganteOscura.png"
+      ]
+    },
+    "paramos_deserticos_megalodon": {
+      "name": "Megalodon",
+      "quality": "BOSS",
+      "basePrice": 20000,
+      "minWeight": 140,
+      "maxWeight": 140,
+      "scene": "res://Assets/Contenido Del Juego/Mundos/Paramos Deserticos/Peces/Megalodon/Megalodon.tscn",
+      "icons": [
+        "res://icon.svg"
+      ]
+    }
+  }
+}

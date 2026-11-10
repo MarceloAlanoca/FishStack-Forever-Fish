@@ -1,6 +1,7 @@
 const express = require("express");
 const { isAuth, isAdmin } = require("../middlewares/auth");
 const { listUsers, selectUser, saveUser, deleteUser } = require("../controllers/adminUsers");
+const { updateBalance, movements } = require('../controllers/Game/adminWallet');
 
 const router = express.Router();
 router.use(isAuth, isAdmin);
@@ -14,6 +15,8 @@ router.param("id", (req, res, next, id) => {
 
 router.get("/", listUsers);
 router.get("/:id", selectUser);
+router.patch('/:id/balance', updateBalance);
+router.get('/:id/balance/movements', movements);
 router.post("/", saveUser);
 router.put("/:id", saveUser);
 router.delete("/:id", deleteUser);

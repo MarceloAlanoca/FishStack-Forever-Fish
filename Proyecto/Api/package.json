@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node Index.js",
+    "test": "node --test tests/Game/*.test.js",
+    "test:account": "node --test tests/Game/*account*.test.js",
     "dev": "node --watch Index.js",
     "test:logs": "node --test tests/updateInteractions*.test.js",
     "test:purchases": "node --test tests/purchases.test.js"

@@ -45,6 +45,7 @@ server.use('/updates', require('./routes/updateInteractions'));
 server.get('/users/:id', isAuth, isAdmin, getUserById);
 server.get('/users', isAuth, isAdmin, getUsers);
 server.get('/me', isAuth, me);
+server.use('/game', require('./routes/Game/gameAccount'));
 server.use("/admin/users", require("./routes/adminUsers"));
 server.use("/admin/articles", require("./routes/adminArticles"));
 server.use("/admin/updates", require("./routes/adminUpdates"));

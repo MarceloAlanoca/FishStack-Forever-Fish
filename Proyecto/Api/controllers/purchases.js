@@ -3,6 +3,7 @@ const User = require("../models/userModel");
 const { Article } = require("../models/articlesModel");
 const { SimulatedPurchase } = require("../models/simulatedPurchaseModel");
 const { validateTestPayment } = require('../services/testPayment');
+const { changeWallet } = require('../services/Game/wallet');
 
 async function simulatePurchase(req, res) {
     const { requestId, articleId, expectedPrice, expectedCoins, payment } = req.body || {};
@@ -49,7 +50,8 @@ async function simulatePurchase(req, res) {
             }
             const purchase = await SimulatedPurchase.create({ id: requestId, userId: user.ID_Usuario,
                 articleId, price: article.Precio, coins: article.Doblones, status: outcome }, { transaction });
-            if (outcome === "approved") await user.update({ Doblones: user.Doblones + article.Doblones }, { transaction });
+            if (outcome === "approved") await changeWallet({ user, balance: user.Doblones + article.Doblones,
+                kind: 'shop', reason: `Compra del paquete #${articleId}`, operationKey: `shop:${requestId}`, transaction });
             return { purchase, balance: user.Doblones };
         });
         if (result.code) return res.status(result.code).json({ message: result.message });

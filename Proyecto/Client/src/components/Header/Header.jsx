@@ -6,7 +6,7 @@ import LogoutModal from "./LogoutModal"
 
 import "./Header.css"
 
-function Header({ usuario: suppliedUser, theme = "ocean" }) {
+function Header({ usuario: suppliedUser, theme = "ocean", onBeforeLogout }) {
     const location = useLocation()
     const navigate = useNavigate()
     const { usuario: loadedUser } = useCurrentUser(suppliedUser === undefined)
@@ -14,7 +14,8 @@ function Header({ usuario: suppliedUser, theme = "ocean" }) {
     const [confirmarSalida, setConfirmarSalida] = useState(false)
     const sesionActiva = Boolean(localStorage.getItem("token"))
 
-    const cerrarSesion = () => {
+    const cerrarSesion = async () => {
+        if (onBeforeLogout) await onBeforeLogout()
         localStorage.removeItem("token")
         setConfirmarSalida(false)
         navigate("/login", { replace: true })

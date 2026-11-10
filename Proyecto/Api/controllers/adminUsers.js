@@ -1,10 +1,15 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/userModel");
+const { sequelize } = require('../config/db');
+const { randomUUID } = require('node:crypto');
+const { changeWallet } = require('../services/Game/wallet');
+const { AccountError, sendAccountError } = require('../services/Game/accountErrors');
 const { validText, validEmail, validPassword, validAmount } = require("../validations");
 
 const publicAttributes = { exclude: ["Contraseña"] };
 
 function validateUser(body, creating) {
+    if (!creating && body.Doblones !== undefined) return 'Modifica el saldo desde la acción Doblones para comprobar su revisión.';
     if (body.isActive !== undefined && typeof body.isActive !== "boolean") {
         return "El estado debe ser activo o inactivo.";
     }
@@ -36,6 +41,7 @@ function validateUser(body, creating) {
 }
 
 function sendError(res, error) {
+    if (error instanceof AccountError) return sendAccountError(res, error);
     if (error.name === "SequelizeUniqueConstraintError") {
         return res.status(409).json({ message: "El usuario o correo ya está registrado." });
     }
@@ -76,10 +82,11 @@ async function saveUser(req, res) {
     }
 
     try {
+        const userId = await sequelize.transaction(async transaction => {
         let user;
         if (!creating) {
-            user = await User.findByPk(req.params.id);
-            if (!user) return res.status(404).json({ message: "Usuario no encontrado." });
+            user = await User.findByPk(req.params.id, { transaction, lock: transaction.LOCK.UPDATE });
+            if (!user) throw new AccountError(404, 'NOT_FOUND', 'Usuario no encontrado.');
         }
 
         const data = {
@@ -89,7 +96,7 @@ async function saveUser(req, res) {
             Usuario: body.Usuario.trim(),
             Rol: body.Rol
         };
-        if (body.Doblones !== undefined) data.Doblones = body.Doblones;
+        if (creating) data.Doblones = 0;
         if (body.isActive !== undefined) data.isActive = body.isActive;
         // Las columnas unique y sendError se encargan de los usuarios o correos repetidos.
 
@@ -104,11 +111,17 @@ async function saveUser(req, res) {
             if (!creating) data.authVersion = User.sequelize.literal("authVersion + 1");
         }
         if (creating) {
-            user = await User.create(data);
+            user = await User.create(data, { transaction });
+            if (body.Doblones > 0) await changeWallet({ user, balance: body.Doblones, kind: 'admin_initial',
+                reason: 'Saldo inicial asignado al crear la cuenta', actorId: req.user.id,
+                operationKey: `user-create:${randomUUID()}`, transaction });
         } else {
-            await user.update(data);
+            if (user.Rol?.toLowerCase() !== body.Rol.toLowerCase()) data.authVersion = User.sequelize.literal('authVersion + 1');
+            await user.update(data, { transaction });
         }
-        const publicUser = await User.findByPk(user.ID_Usuario, { attributes: publicAttributes });
+        return user.ID_Usuario;
+        });
+        const publicUser = await User.findByPk(userId, { attributes: publicAttributes });
         res.status(creating ? 201 : 200).json(publicUser);
     } catch (error) {
         sendError(res, error);
