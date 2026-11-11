@@ -306,6 +306,7 @@
     text-align: center;
 }
 
+.login-form__method,
 .login-card__register button {
     padding: 0;
     border: 0;
@@ -317,6 +318,12 @@
     cursor: pointer;
 }
 
+.login-form__method {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+}
+
+.login-form__method:hover:not(:disabled),
 .login-card__register button:hover {
     text-decoration: underline;
 }

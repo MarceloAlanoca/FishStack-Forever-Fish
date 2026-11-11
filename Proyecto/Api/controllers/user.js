@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const { Activity } = require("../models/activityModel");
 const { register: registerUser, login } = require("./authController");
 const { removeProfilePhoto, photosUrl } = require("../middlewares/profilePhoto");
 
@@ -33,10 +34,13 @@ const updateProfilePhoto = async (req, res) => {
     let saved = false;
 
     try {
-        const user = req.account;
-        const previousPhoto = user.Foto_Perfil;
-
-        await user.update({ Foto_Perfil: photo });
+        const previousPhoto = await User.sequelize.transaction(async transaction => {
+            const user = await User.findByPk(req.user.id, { transaction, lock: transaction.LOCK.UPDATE });
+            const previous = user.Foto_Perfil;
+            await user.update({ Foto_Perfil: photo }, { transaction });
+            await Activity.create({ userId: req.user.id, message: "Cambiaste tu foto de perfil." }, { transaction });
+            return previous;
+        });
         saved = true;
         // elimina la foto anterior despues de guardar la nueva ruta en la base de datos.
         await removeProfilePhoto(previousPhoto);

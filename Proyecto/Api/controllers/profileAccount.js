@@ -1,22 +1,30 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/userModel");
+const { Activity } = require("../models/activityModel");
 const { validText, validPassword } = require("../validations");
 
-const updateUsername = async (req, res) => {
-    const name = req.body?.Usuario;
+const updateName = async (req, res) => {
+    const name = req.body?.Nombre;
 
     if (!validText(name)) {
         return res.status(400).json({ message: "El nombre debe tener entre 1 y 255 caracteres." });
     }
 
     try {
-        const user = req.account;
-        await user.update({ Usuario: name.trim() });
-        res.json(await User.findByPk(req.user.id, { attributes: { exclude: ["Contraseña"] } }));
-    } catch (error) {
-        if (error.name === "SequelizeUniqueConstraintError") {
-            return res.status(409).json({ message: "Ese usuario ya está en uso." });
-        }
+        const updatedUser = await User.sequelize.transaction(async transaction => {
+            const user = await User.findByPk(req.user.id, { transaction, lock: transaction.LOCK.UPDATE });
+            if (!user || !user.isActive) return null;
+
+            const trimmedName = name.trim();
+            if (user.Nombre !== trimmedName) {
+                await user.update({ Nombre: trimmedName }, { transaction });
+                await Activity.create({ userId: req.user.id, message: "Cambiaste tu nombre." }, { transaction });
+            }
+            return User.findByPk(req.user.id, { attributes: { exclude: ["Contraseña"] }, transaction });
+        });
+        if (!updatedUser) return res.status(404).json({ message: "Usuario no encontrado." });
+        res.json(updatedUser);
+    } catch {
         res.status(500).json({ message: "No se pudo cambiar el nombre. Inténtalo de nuevo." });
     }
 };
@@ -38,8 +46,15 @@ const updatePassword = async (req, res) => {
 
         const hash = await bcrypt.hash(next, 12);
         // actualiza solo si el hash sigue siendo el mismo, para evitar dos cambios simultaneos.
-        const [updated] = await User.update({ Contraseña: hash, resetTokenHash: null, resetExpiresAt: null }, {
-            where: { ID_Usuario: req.user.id, Contraseña: user.Contraseña }
+        const updated = await User.sequelize.transaction(async transaction => {
+            const [count] = await User.update({ Contraseña: hash, resetTokenHash: null, resetExpiresAt: null }, {
+                where: { ID_Usuario: req.user.id, Contraseña: user.Contraseña },
+                transaction
+            });
+            if (count) {
+                await Activity.create({ userId: req.user.id, message: "Actualizaste tu contraseña." }, { transaction });
+            }
+            return count;
         });
         // updated indica cuantas filas se modificaron, cero significa que otra solicitud ya la cambio.
         if (!updated) return res.status(409).json({ message: "La contraseña cambió. Vuelve a intentarlo con la contraseña actual." });
@@ -80,4 +95,4 @@ const deactivateAccount = async (req, res) => {
     }
 };
 
-module.exports = { updateUsername, updatePassword, updateSurname, deactivateAccount };
+module.exports = { updateName, updatePassword, updateSurname, deactivateAccount };

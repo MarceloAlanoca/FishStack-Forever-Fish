@@ -16,10 +16,11 @@ const { seedAdmin } = require("./scripts/seedAdmin");
 const { getUsers, getUserById, me, updateProfilePhoto, deleteProfilePhoto, registerUser, login } = require("./controllers/user");
 const { uploadProfilePhoto } = require("./middlewares/profilePhoto");
 const { isAuth, isAdmin } = require("./middlewares/auth");
-const { updateUsername, updatePassword, updateSurname, deactivateAccount } = require("./controllers/profileAccount");
+const { updateName, updatePassword, updateSurname, deactivateAccount } = require("./controllers/profileAccount");
 const { requestPasswordReset, resetPassword } = require("./controllers/passwordRecovery");
 const { recoveryLimit } = require("./middlewares/recoveryLimit");
 const { simulatePurchase } = require("./controllers/purchases");
+const { getActivity } = require("./controllers/activity");
 const { ensureSchema, ensureCommentsSchema } = require("./config/schema");
 const { seedMissions } = require("./scripts/seedMissions");
 
@@ -45,6 +46,7 @@ server.use('/updates', require('./routes/updateInteractions'));
 server.get('/users/:id', isAuth, isAdmin, getUserById);
 server.get('/users', isAuth, isAdmin, getUsers);
 server.get('/me', isAuth, me);
+server.get('/me/activity', isAuth, getActivity);
 server.use('/game', require('./routes/Game/gameAccount'));
 server.use("/admin/users", require("./routes/adminUsers"));
 server.use("/admin/articles", require("./routes/adminArticles"));
@@ -58,7 +60,7 @@ server.get('/admin', isAuth, isAdmin, (req, res) => {
 // primero verifica la sesion, despues recibe el archivo y finalmente guarda su ruta.
 server.patch('/me/photo', isAuth, uploadProfilePhoto, updateProfilePhoto);
 server.delete('/me/photo', isAuth, deleteProfilePhoto);
-server.patch('/me/username', isAuth, updateUsername);
+server.patch('/me/name', isAuth, updateName);
 server.patch('/me/surname', isAuth, updateSurname);
 server.patch('/me/password', isAuth, updatePassword);
 server.delete('/me', isAuth, deactivateAccount);

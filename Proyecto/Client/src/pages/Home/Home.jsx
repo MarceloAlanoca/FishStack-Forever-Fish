@@ -5,6 +5,7 @@ import axios from "axios"
 import { API_URL } from "../../config/api"
 import Header from "../../components/Header/Header"
 import NetworksModal from "./NetworksModal"
+import ActivityFeed from "./ActivityFeed"
 import "./Home.css"
 
 const anuncios = [
@@ -154,7 +155,7 @@ function Home() {
 
             <Header usuario={usuario} />
 
-<section className="home-dashboard">
+            <section className="home-dashboard">
                 <article className="home-panel home-ad">
                     <div className="home-panel__title">
                         <span>Anuncios</span>
@@ -278,8 +279,9 @@ function Home() {
                         }}>
                         {mostrarActividad ? "›" : "‹"}
                     </button>
-                    <div id="home-activity-content" className="home-panel__title">
-                        <span>Actividad</span>
+                    <div id="home-activity-content">
+                        <div className="home-panel__title"><span>Actividad</span></div>
+                        {mostrarActividad && usuario && <ActivityFeed key={usuario.ID_Usuario} />}
                     </div>
                 </aside>
             </section>

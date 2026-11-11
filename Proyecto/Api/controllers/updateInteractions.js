@@ -3,6 +3,7 @@ const { sequelize } = require('../config/db');
 const { Updates } = require('../models/UpdateModel');
 const { UpdatesComentarios } = require('../models/UpdateComentariosModel');
 const { UpdateLike } = require('../models/UpdateLikeModel');
+const { Activity } = require('../models/activityModel');
 
 const author = { association: 'Autor', attributes: ['Usuario', 'Foto_Perfil', 'isActive'] };
 
@@ -71,7 +72,7 @@ async function mutate(req, res, action) {
         const result = await sequelize.transaction(async transaction => {
             const update = await Updates.findByPk(req.params.id, { transaction, lock: transaction.LOCK.UPDATE });
             if (!update) return { status: 404, body: { message: 'Actualización no encontrada.' } };
-            return action(transaction);
+            return action(transaction, update);
         });
         res.status(result.status || 200).json(result.body);
     } catch (error) { fail(res, error); }
@@ -79,12 +80,14 @@ async function mutate(req, res, action) {
 
 async function createComment(req, res) {
     if (!validText(req.body?.Texto)) return res.status(400).json({ message: 'Escribe un comentario de entre 1 y 1000 caracteres.' });
-    return mutate(req, res, async transaction => {
+    return mutate(req, res, async (transaction, update) => {
         const comment = await UpdatesComentarios.create({
             ID_Update: req.params.id, ID_Usuario: req.user.id,
             Texto: req.body.Texto.trim(), Fecha: new Date().toISOString()
         }, { transaction });
         await comment.reload({ include: [author], transaction });
+        await Activity.create({ userId: req.user.id,
+            message: `Comentaste en «${update.Nombre}».` }, { transaction });
         const commentCount = await UpdatesComentarios.count({ where: { ID_Update: req.params.id }, transaction });
         return { status: 201, body: { comment: serializeComment(comment), commentCount } };
     });
@@ -92,20 +95,26 @@ async function createComment(req, res) {
 
 async function editComment(req, res) {
     if (!validText(req.body?.Texto)) return res.status(400).json({ message: 'Escribe un comentario de entre 1 y 1000 caracteres.' });
-    return mutate(req, res, async transaction => {
+    return mutate(req, res, async (transaction, update) => {
         const comment = await UpdatesComentarios.findOne({
             where: { ID_Comentario: req.params.commentId, ID_Update: req.params.id }, transaction
         });
         if (!comment) return { status: 404, body: { message: 'Comentario no encontrado.' } };
         if (comment.ID_Usuario !== req.user.id) return { status: 403, body: { message: 'Solo puedes editar tus propios comentarios.' } };
-        await comment.update({ Texto: req.body.Texto.trim(), Editado: true }, { transaction });
+        const text = req.body.Texto.trim();
+        const changed = comment.Texto !== text;
+        await comment.update({ Texto: text, Editado: true }, { transaction });
+        if (changed) {
+            await Activity.create({ userId: req.user.id,
+                message: `Editaste tu comentario en «${update.Nombre}».` }, { transaction });
+        }
         await comment.reload({ include: [author], transaction });
         return { body: { comment: serializeComment(comment) } };
     });
 }
 
 async function deleteComment(req, res) {
-    return mutate(req, res, async transaction => {
+    return mutate(req, res, async (transaction, update) => {
         const comment = await UpdatesComentarios.findOne({
             where: { ID_Comentario: req.params.commentId, ID_Update: req.params.id }, transaction
         });
@@ -114,18 +123,27 @@ async function deleteComment(req, res) {
             return { status: 403, body: { message: 'No tienes permiso para eliminar este comentario.' } };
         }
         await comment.destroy({ transaction });
+        const message = comment.ID_Usuario === req.user.id
+            ? `Eliminaste tu comentario en «${update.Nombre}».`
+            : `Eliminaste un comentario en «${update.Nombre}».`;
+        await Activity.create({ userId: req.user.id, message }, { transaction });
         const commentCount = await UpdatesComentarios.count({ where: { ID_Update: req.params.id }, transaction });
         return { body: { commentCount } };
     });
 }
 
 async function setLike(req, res) {
-    return mutate(req, res, async transaction => {
+    return mutate(req, res, async (transaction, update) => {
         const where = { ID_Update: req.params.id, ID_Usuario: req.user.id };
         const liked = req.method === 'PUT';
         // PUT y DELETE son idempotentes: repetir una solicitud no invierte el resultado.
-        if (liked) await UpdateLike.findOrCreate({ where, transaction });
-        else await UpdateLike.destroy({ where, transaction });
+        if (liked) {
+            const [, created] = await UpdateLike.findOrCreate({ where, transaction });
+            if (created) {
+                await Activity.create({ userId: req.user.id,
+                    message: `Le diste Me gusta a «${update.Nombre}».` }, { transaction });
+            }
+        } else await UpdateLike.destroy({ where, transaction });
         const likeCount = await UpdateLike.count({ where: { ID_Update: req.params.id }, transaction });
         return { body: { liked, likeCount } };
     });

@@ -76,23 +76,18 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
     try {
+        const { Usuario, Correo, Contraseña } = req.body || {};
+        const byEmail = Correo !== undefined;
+        const validIdentifier = byEmail ? validEmail(Correo) : validText(Usuario);
 
-        const {
-            Usuario,
-            Contraseña
-        } = req.body || {};
-
-        if (!validText(Usuario) || !validPassword(Contraseña, 1)) {
+        if (!validIdentifier || !validPassword(Contraseña, 1)) {
             return res.status(400).json({
-                message: "Usuario y contraseña requeridos"
+                message: "Ingresa tu usuario o correo y tu contraseña."
             });
         }
 
-        const user = await User.findOne({
-            where: {
-                Usuario: Usuario
-            }
-        });
+        const where = byEmail ? { Correo: Correo.trim().toLowerCase() } : { Usuario: Usuario.trim() };
+        const user = await User.findOne({ where });
 
         // si no existe la cuenta, el segundo lado no se evalua y no intenta leer su contrasena.
         if (!user || !user.isActive || !await bcrypt.compare(Contraseña, user.Contraseña)) {

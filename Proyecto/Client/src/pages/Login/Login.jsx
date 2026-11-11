@@ -19,7 +19,8 @@ function Login() {
         }
     };
 
-    const [Usuario, setUsuario] = useState("");
+    const [identificador, setIdentificador] = useState("");
+    const [usarCorreo, setUsarCorreo] = useState(false);
     const [Contraseña, setContraseña] = useState("");
     const [mensaje, setMensaje] = useState("");
     const [cargando, setCargando] = useState(false);
@@ -32,7 +33,7 @@ function Login() {
 
         try {
             const respuesta = await axios.post(`${API_URL}/login`, {
-                Usuario,
+                [usarCorreo ? "Correo" : "Usuario"]: identificador.trim(),
                 Contraseña
             });
 
@@ -79,20 +80,30 @@ function Login() {
                 </header>
 
                 <form className="login-form" onSubmit={iniciarSesion}>
-                    <label>
-                        <span>Usuario</span>
-                        <input
-                            type="text"
-                            placeholder="Tu usuario"
-                            value={Usuario}
-                            onChange={(event) => {
-                                setUsuario(event.target.value);
-                                if (mensaje) setMensaje("");
-                            }}
-                            autoComplete="username"
-                            required
-                        />
-                    </label>
+                    <div>
+                        <label>
+                            <span>{usarCorreo ? "Correo electrónico" : "Usuario"}</span>
+                            <input
+                                type={usarCorreo ? "email" : "text"}
+                                placeholder={usarCorreo ? "nombre@ejemplo.com" : "Tu usuario"}
+                                value={identificador}
+                                onChange={(event) => {
+                                    setIdentificador(event.target.value);
+                                    if (mensaje) setMensaje("");
+                                }}
+                                autoComplete="username"
+                                maxLength={255}
+                                required
+                            />
+                        </label>
+                        <button className="login-form__method" type="button" disabled={cargando} onClick={() => {
+                            setUsarCorreo((valor) => !valor);
+                            setIdentificador("");
+                            setMensaje("");
+                        }}>
+                            {usarCorreo ? "Usar nombre de usuario" : "Usar correo electrónico"}
+                        </button>
+                    </div>
 
                     <label>
                         <span>Contraseña</span>

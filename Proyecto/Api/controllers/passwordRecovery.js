@@ -2,6 +2,7 @@ const { randomBytes, createHash } = require("node:crypto");
 const bcrypt = require("bcrypt");
 const { Op } = require("sequelize");
 const User = require("../models/userModel");
+const { Activity } = require("../models/activityModel");
 const mail = require("../services/recoveryMail");
 const { validEmail, validPassword, validToken } = require("../validations");
 
@@ -54,13 +55,27 @@ async function resetPassword(req, res) {
     }
     try {
         // Una sola actualizacion consume el token; dos solicitudes no pueden reutilizarlo.
-        const [updated] = await User.update({
-            Contraseña: await bcrypt.hash(newPassword, 12),
-            resetTokenHash: null,
-            resetExpiresAt: null,
-            authVersion: User.sequelize.literal("authVersion + 1")
-        }, {
-            where: { resetTokenHash: tokenHash(token), resetExpiresAt: { [Op.gt]: new Date() }, isActive: true }
+        const hash = await bcrypt.hash(newPassword, 12);
+        const resetTokenHash = tokenHash(token);
+        const updated = await User.sequelize.transaction(async transaction => {
+            const user = await User.findOne({
+                where: { resetTokenHash, resetExpiresAt: { [Op.gt]: new Date() }, isActive: true },
+                attributes: ["ID_Usuario"], transaction, lock: transaction.LOCK.UPDATE
+            });
+            if (!user) return 0;
+            const [count] = await User.update({
+                Contraseña: hash,
+                resetTokenHash: null,
+                resetExpiresAt: null,
+                authVersion: User.sequelize.literal("authVersion + 1")
+            }, {
+                where: { ID_Usuario: user.ID_Usuario, resetTokenHash, resetExpiresAt: { [Op.gt]: new Date() }, isActive: true },
+                transaction
+            });
+            if (count) {
+                await Activity.create({ userId: user.ID_Usuario, message: "Actualizaste tu contraseña." }, { transaction });
+            }
+            return count;
         });
         if (!updated) return res.status(400).json({ message: "El enlace no es valido o ya vencio. Solicita uno nuevo." });
         res.json({ message: "Contraseña actualizada. Ya puedes iniciar sesion." });

@@ -1,6 +1,7 @@
 const { Op } = require("sequelize");
 const { sequelize } = require("../config/db");
 const User = require("../models/userModel");
+const { Activity } = require("../models/activityModel");
 const { Mission, DailyMission, MissionProgress } = require("../models/missionModel");
 const { changeWallet } = require('../services/Game/wallet');
 const { missionDay, getDailyMission, publicMission, validateMission, sanitizeMission } = require("../services/missions");
@@ -47,6 +48,8 @@ async function act(req, res, claim) {
                 await changeWallet({ user, balance: user.Doblones + daily.reward, kind: 'mission',
                     reason: `Recompensa de la misión del ${day}`, operationKey: `mission:${day}`, transaction });
                 await progress.update({ claimedAt: new Date(), earnedCoins: daily.reward }, { transaction });
+                await Activity.create({ userId: user.ID_Usuario,
+                    message: `Recibiste ${daily.reward} doblones por la misión diaria.` }, { transaction });
                 return { balance: user.Doblones, alreadyClaimed: false, progress };
             }
             if (progress?.completedAt) return { progress, mission: publicMission(daily, true), score: 3 };
@@ -54,6 +57,9 @@ async function act(req, res, claim) {
             const score = daily.questions.reduce((total, question, index) => total + Number(question.correct === answers[index]), 0);
             await progress.update({ attempts: progress.attempts + 1, bestScore: Math.max(progress.bestScore, score),
                 completedAt: score === 3 ? new Date() : null }, { transaction });
+            if (score === 3) {
+                await Activity.create({ userId: user.ID_Usuario, message: "Completaste la misión diaria." }, { transaction });
+            }
             return { progress, score, mission: publicMission(daily, score === 3) };
         });
         if (result.code) return res.status(result.code).json({ message: result.message });

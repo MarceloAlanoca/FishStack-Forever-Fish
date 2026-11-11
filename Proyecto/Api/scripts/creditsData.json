@@ -24,9 +24,9 @@
             "orden": 2,
             "nombre": "Marcelo",
             "rol": "Progamacion - Camino",
-            "descripcion": "Trabajó en cosas agregadas dentro del juego y cosas de diseño de la pagina. El scrum master del proyecto",
-            "detalle": ".",
-            "aporte": "",
+            "descripcion": "Colaboró en la programación del juego y en el diseño de la página web. Fue el Scrum Master del equipo.",
+            "detalle": "Participó en la implementación de funciones del juego y en el diseño de la interfaz de la página.",
+            "aporte": "Como Scrum Master, ayudó a organizar las tareas del equipo y a dar seguimiento a los avances del proyecto.",
             "imagen": "/images/Integrantes/Marcelo.jpg",
             "video": "/videos/Integrantes/Fondo3.mp4"
         },

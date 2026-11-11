@@ -4,6 +4,19 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../../config/api";
 
+const capturas = [
+  [
+    { imagen: "Muestra1.png", texto: "Minijuego de pesca en aguas nocturnas" },
+    { imagen: "Muestra2.png", texto: "Barco en el océano del modo Forever Fish" },
+    { imagen: "Muestra3.png", texto: "Tienda de amuletos del modo Historia" },
+  ],
+  [
+    { imagen: "Muestra4.png", texto: "Exploración de la costa junto al muelle" },
+    { imagen: "Muestra5.png", texto: "Menú de selección de Historia y Forever Fish" },
+    { imagen: "Muestra6.png", texto: "Pantalla de preparación del modo Forever Fish" },
+  ],
+];
+
 function Principal() {
   const navigate = useNavigate()
   const [comprobandoSesion, setComprobandoSesion] = useState(false)
@@ -143,32 +156,14 @@ function Principal() {
         <h2>Capturas del juego</h2>
 
         <div className="carrusel-wrapper">
-
-          <div className="carrusel">
-
-            <img src="/images/PLACEHOLDER.png" alt="Captura" />
-            <img src="/images/PLACEHOLDER-2.png" alt="Captura" />
-            <img src="/images/PLACEHOLDER.png" alt="Captura" />
-
-            <img src="/images/PLACEHOLDER.png" alt="Captura" />
-            <img src="/images/PLACEHOLDER-2.png" alt="Captura" />
-            <img src="/images/PLACEHOLDER.png" alt="Captura" />
-
-          </div>
-
-
-          <div className="carrusel reverso">
-
-            <img src="/images/PLACEHOLDER-2.png" alt="Captura" />
-            <img src="/images/PLACEHOLDER.png" alt="Captura" />
-            <img src="/images/PLACEHOLDER-2.png" alt="Captura" />
-
-            <img src="/images/PLACEHOLDER-2.png" alt="Captura" />
-            <img src="/images/PLACEHOLDER.png" alt="Captura" />
-            <img src="/images/PLACEHOLDER-2.png" alt="Captura" />
-
-          </div>
-
+          {capturas.map((fila, filaIndex) => (
+            <div className={filaIndex === 0 ? "carrusel" : "carrusel reverso"} key={fila[0].imagen}>
+              {[...fila, ...fila].map(({ imagen, texto }, index) => (
+                <img key={`${imagen}-${index}`} src={`/images/Gameplay/${imagen}`}
+                  alt={index < fila.length ? texto : ""} loading="lazy" />
+              ))}
+            </div>
+          ))}
         </div>
 
       </section>
@@ -202,19 +197,18 @@ function Principal() {
       <section className="ultima-actualizacion">
         <div className="update-box">
 
-          <h2>Ultima Actualizacion</h2>
-
-          <p className="fecha-update">
-            22 de Agosto de 2026
+          <h2>Lanzamiento v1</h2>
+          <p className="detalles-update">
+            La primera versión de la página de FishStack: Forever Fish incluye la demo jugable desde el navegador.
+            Al conectar tu cuenta, podés guardar el progreso y retomarlo en otra sesión.
           </p>
 
-          <h3>
-            v0.0.1
-          </h3>
-
           <img
-            src="/images/PLACEHOLDER-3.png"
-            alt="Ultima actualizacion de FishStack"
+            src="/images/FishStackFFLogo.png"
+            alt="Logo de FishStack: Forever Fish"
+            width="1280"
+            height="1280"
+            loading="lazy"
           />
 
         </div>

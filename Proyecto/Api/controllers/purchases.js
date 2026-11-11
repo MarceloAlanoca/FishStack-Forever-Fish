@@ -2,6 +2,7 @@ const { sequelize } = require("../config/db");
 const User = require("../models/userModel");
 const { Article } = require("../models/articlesModel");
 const { SimulatedPurchase } = require("../models/simulatedPurchaseModel");
+const { Activity } = require("../models/activityModel");
 const { validateTestPayment } = require('../services/testPayment');
 const { changeWallet } = require('../services/Game/wallet');
 
@@ -50,8 +51,12 @@ async function simulatePurchase(req, res) {
             }
             const purchase = await SimulatedPurchase.create({ id: requestId, userId: user.ID_Usuario,
                 articleId, price: article.Precio, coins: article.Doblones, status: outcome }, { transaction });
-            if (outcome === "approved") await changeWallet({ user, balance: user.Doblones + article.Doblones,
-                kind: 'shop', reason: `Compra del paquete #${articleId}`, operationKey: `shop:${requestId}`, transaction });
+            if (outcome === "approved") {
+                await changeWallet({ user, balance: user.Doblones + article.Doblones,
+                    kind: 'shop', reason: `Compra del paquete #${articleId}`, operationKey: `shop:${requestId}`, transaction });
+                await Activity.create({ userId: user.ID_Usuario,
+                    message: `Compraste el paquete de ${article.Doblones} doblones.` }, { transaction });
+            }
             return { purchase, balance: user.Doblones };
         });
         if (result.code) return res.status(result.code).json({ message: result.message });

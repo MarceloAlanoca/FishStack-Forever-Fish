@@ -4,11 +4,11 @@ import { API_URL } from "../../config/api"
 
 export default function AccountModal({ type, usuario, onClose, onSaved, onInvalidSession }) {
     const dialogRef = useRef(null)
-    const isName = type === "username"
+    const isName = type === "name"
     const isSurname = type === "surname"
     const isDelete = type === "delete"
     const isText = isName || isSurname
-    const [name, setName] = useState(isSurname ? usuario.Apellido : usuario.Usuario)
+    const [name, setName] = useState(isSurname ? usuario.Apellido : usuario.Nombre)
     const [currentPassword, setCurrentPassword] = useState("")
     const [newPassword, setNewPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
@@ -25,7 +25,7 @@ export default function AccountModal({ type, usuario, onClose, onSaved, onInvali
         event.preventDefault()
         if (saving) return
         setError("")
-        if (isText && !name.trim()) { setError(isSurname ? "Ingresa un apellido." : "Ingresa un usuario."); return }
+        if (isText && !name.trim()) { setError(isSurname ? "Ingresa un apellido." : "Ingresa un nombre."); return }
         if (!isText && !isDelete && newPassword !== confirmPassword) {
             setError("Las contraseñas nuevas no coinciden.")
             return
@@ -33,7 +33,7 @@ export default function AccountModal({ type, usuario, onClose, onSaved, onInvali
         setSaving(true)
         try {
             const body = isSurname ? { Apellido: name.trim() }
-                : isName ? { Usuario: name.trim() } : { currentPassword, newPassword, confirmPassword }
+                : isName ? { Nombre: name.trim() } : { currentPassword, newPassword, confirmPassword }
             if (isDelete) {
                 await axios.delete(API_URL + "/me", {
                     headers: { Authorization: "Bearer " + localStorage.getItem("token") },
@@ -46,7 +46,7 @@ export default function AccountModal({ type, usuario, onClose, onSaved, onInvali
             const { data } = await axios.patch(`${API_URL}/me/${type}`, body, {
                 headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
             })
-            onSaved(isText ? data : null, isSurname ? "Apellido actualizado." : isName ? "Usuario actualizado." : "Contraseña actualizada.")
+            onSaved(isText ? data : null, isSurname ? "Apellido actualizado." : isName ? "Nombre actualizado." : "Contraseña actualizada.")
         } catch (failure) {
             if ([401, 403, 404].includes(failure.response?.status)) onInvalidSession()
             setError(failure.response?.data?.message || "No se pudo guardar el cambio. Inténtalo de nuevo.")
@@ -58,13 +58,13 @@ export default function AccountModal({ type, usuario, onClose, onSaved, onInvali
         <dialog ref={dialogRef} className="profile-modal" aria-labelledby="account-modal-title" aria-describedby="account-modal-help"
             onCancel={(event) => { event.preventDefault(); if (!saving) onClose() }}>
             <form onSubmit={submit} aria-busy={saving}>
-                <h2 id="account-modal-title">{isDelete ? "Eliminar mi cuenta" : isSurname ? "Cambiar apellido" : isName ? "Cambiar usuario" : "Cambiar contraseña"}</h2>
+                <h2 id="account-modal-title">{isDelete ? "Eliminar mi cuenta" : isSurname ? "Cambiar apellido" : isName ? "Cambiar nombre" : "Cambiar contraseña"}</h2>
                 <p id="account-modal-help" className="profile-help">{isDelete ? "Para eliminar tu cuenta, ingresa tu contraseña actual. Se cerrará tu sesión y no podrás volver a ingresar. Tus datos y doblones se conservarán." : isSurname ? "Actualiza el apellido que aparece en los datos de tu cuenta." : isName
-                    ? "Usarás este nombre para iniciar sesión y aparecerá en tu perfil."
+                    ? "Actualiza el nombre que aparece en los datos de tu cuenta."
                     : "Confirma tu contraseña actual para guardar una nueva."}</p>
                 <fieldset disabled={saving}>
-                    {isText ? <label>{isSurname ? "Nuevo apellido" : "Nuevo usuario"}
-                        <input autoFocus name={isSurname ? "surname" : "username"} autoComplete={isSurname ? "family-name" : "username"} required maxLength={255}
+                    {isText ? <label>{isSurname ? "Nuevo apellido" : "Nuevo nombre"}
+                        <input autoFocus name={isSurname ? "surname" : "name"} autoComplete={isSurname ? "family-name" : "given-name"} required maxLength={255}
                             value={name} onChange={(event) => setName(event.target.value)} />
                     </label> : <>
                         <label>Contraseña actual

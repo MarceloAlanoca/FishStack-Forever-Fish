@@ -116,7 +116,7 @@
     grid-template-columns: minmax(230px, 0.85fr) minmax(320px, 1.25fr) minmax(230px, 0.9fr);
     gap: 18px;
     max-width: 1400px;
-    margin: 54px auto 0;
+    margin: clamp(68px, 7vw, 104px) auto 0;
 }
 
 .home-panel {
@@ -450,6 +450,21 @@
     margin: 0;
     padding: 10px 16px;
     list-style: none;
+}
+
+.home-activity__entries {
+    max-height: 340px;
+    overflow-y: auto;
+    overflow-wrap: anywhere;
+}
+
+.home-activity .home-activity__status {
+    margin: 16px;
+}
+
+.home-activity__entries small {
+    display: block;
+    margin-top: 6px;
 }
 
 .home-activity li {

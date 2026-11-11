@@ -137,7 +137,7 @@ export default function Profile() {
                         <div><dt>Correo</dt><dd>{usuario.Correo}</dd></div>
                     </dl>
                     <div className="profile-account-actions">
-                        <button type="button" disabled={saving} onClick={() => setModal("username")}>Cambiar usuario</button>
+                        <button type="button" disabled={saving} onClick={() => setModal("name")}>Cambiar nombre</button>
                         <button type="button" disabled={saving} onClick={() => setModal("surname")}>Cambiar apellido</button>
                         <button type="button" disabled={saving} onClick={() => setModal("password")}>Cambiar contraseña</button>
                         <button className="profile-deactivate" type="button" disabled={saving} onClick={() => setModal("delete")}>Eliminar mi cuenta</button>
